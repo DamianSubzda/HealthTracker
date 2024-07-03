@@ -7,9 +7,11 @@ interface IProfile {
   lastName: string;
   userName: string;
   email: string;
+  about: string;
   phoneNumber: string;
   dateOfBirth: string;
   dateOfCreate: string;
+  profilePicture: string;
 }
 
 async function getProfileById(userId: string) {

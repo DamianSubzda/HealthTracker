@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace HealthTracker.Server.Core.Controllers
 {
@@ -32,6 +33,11 @@ namespace HealthTracker.Server.Core.Controllers
             try
             {
                 var result = await _userRepository.GetUser(id);
+                if (result.ProfilePicture == null)
+                {
+                    return Ok(result);
+                }
+                result.ProfilePicture = $"{Request.Scheme}://{Request.Host}/{result.ProfilePicture}";
                 return Ok(result);
             }
             catch (UserNotFoundException ex)
