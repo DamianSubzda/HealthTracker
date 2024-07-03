@@ -51,6 +51,21 @@ namespace HealthTracker.Server.Core.Controllers
             }
         }
 
+        [HttpGet("users/{id}/search")]
+        public async Task<ActionResult<List<UserSerachDTO>>> GetUsers(int id, [FromQuery] string query)
+        {
+            try
+            {
+                var result = await _userRepository.GetUsers(id, query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during the register process for user {id}.", id);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpPost("users/{id}/photo")]
         public async Task<ActionResult> SetUserPhoto(int id, IFormFile photo)
         {

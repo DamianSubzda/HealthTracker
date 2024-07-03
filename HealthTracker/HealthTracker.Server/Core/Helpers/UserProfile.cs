@@ -14,6 +14,7 @@ namespace HealthTracker.Server.Modules.Community.Helpers
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<User, UserDTO>();
+            CreateMap<User, UserSerachDTO>();
         }
     }
 }

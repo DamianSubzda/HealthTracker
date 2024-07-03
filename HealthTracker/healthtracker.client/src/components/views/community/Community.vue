@@ -3,9 +3,7 @@
 
     <div class="wall" :class="`${isMobileExpanded && 'is_mobile_expanded'}`">
       <div class="wall-header">
-        <div class="search">
-          <input placeholder="Search..." class="search-input">
-        </div>
+        <SearchBar />
         <div class="friends-button">
           <button class="menu-toggle" @click="toggleMobile">
             <span class="material-icons">
@@ -38,8 +36,9 @@ import FriendsList from './friends/FriendsList.vue'
 import ChatItem from './chat/ChatItem.vue'
 import ChatBox from './chat/ChatBox.vue';
 import Post from './post/Post.vue'
+import SearchBar from './SearchBar.vue'
 import { currentPosts } from '@/data/models/postModels';
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import { getPostOnWall } from '@/service/api/community/postController';
 import { getFriendList } from '@/service/api/community/friendshipController';
 import { useUserStore } from '@/store/account/auth';
@@ -135,38 +134,6 @@ async function getPosts() {
       background-color: inherit;
       z-index: 10;
       align-content: center;
-
-      .search {
-        display: flex;
-        grid-row: 1;
-        grid-column: 1;
-        padding: 0.5rem;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        width: 100%;
-
-        .search-input {
-          height: 100%;
-          width: 35%;
-          box-sizing: border-box;
-          border: 2px solid #ccc;
-          border-radius: 8px;
-          font-size: 16px;
-          background-color: white;
-          background-image: url('/src/assets/search.svg');
-          background-position: center left 10px;
-          background-repeat: no-repeat;
-          justify-content: center;
-          text-align: center;
-          padding: 12px 20px 12px 40px;
-          transition: width 0.4s ease-in-out;
-
-          &:focus {
-            width: 90%;
-          }
-        }
-      }
 
       .friends-button {
         display: none;

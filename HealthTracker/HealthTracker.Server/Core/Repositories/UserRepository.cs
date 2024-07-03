@@ -13,6 +13,7 @@ namespace HealthTracker.Server.Core.Repositories
     public interface IUserRepository
     {
         Task<UserDTO> GetUser(int id);
+        Task<List<UserSerachDTO>> GetUsers(int id, string input);
         Task<string> SetPhotoUser(int id, IFormFile photo);
     }
     public class UserRepository : IUserRepository
@@ -63,5 +64,17 @@ namespace HealthTracker.Server.Core.Repositories
 
             return folderPath;
         }
+
+        public async Task<List<UserSerachDTO>> GetUsers(int id, string input) //Zdjęcia !!!
+        {
+            var userDTO = await _context.User
+                .Where(u => u.Id != id && (u.FirstName.ToLower().Contains(input.ToLower()) || u.LastName.ToLower().Contains(input.ToLower())))
+                .Take(10)
+                .ProjectTo<UserSerachDTO>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return userDTO;
+        }
+
     }
 }
