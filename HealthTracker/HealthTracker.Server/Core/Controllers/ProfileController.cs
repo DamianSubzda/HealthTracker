@@ -45,6 +45,26 @@ namespace HealthTracker.Server.Core.Controllers
             }
         }
 
-        
+        [HttpPost("users/{id}/photo")]
+        public async Task<ActionResult> SetUserPhoto(int id, IFormFile photo)
+        {
+            try
+            {
+                var folderPath = await _userRepository.SetPhotoUser(id, photo);
+                var url = $"{Request.Scheme}://{Request.Host}/{folderPath}";
+                return Ok(url);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during the set photo process for user {id}.", id);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
     }
 }

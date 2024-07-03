@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -169,7 +170,9 @@ void ConfigureMiddleware(WebApplication app)
 
     app.UseHsts();
     app.UseHttpsRedirection();
-    app.UseStaticFiles();
+
+    UseStaticFiles(app);
+
     app.UseCors("AllowSpecificOrigin");
     app.UseAuthentication();
     app.UseAuthorization();
@@ -204,4 +207,23 @@ void AddAutoMapperProfiles(WebApplicationBuilder builder)
     builder.Services.AddAutoMapper(typeof(GoalProfile));
     builder.Services.AddAutoMapper(typeof(ExerciseProfile));
     builder.Services.AddAutoMapper(typeof(WorkoutProfile));
+}
+
+void UseStaticFiles(WebApplication app)
+{
+    app.UseStaticFiles();
+
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(
+            Path.Combine(app.Environment.ContentRootPath, "Core/Assets/ProfilePictures")),
+        RequestPath = "/Core/Assets/ProfilePictures"
+    });
+
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(
+            Path.Combine(app.Environment.ContentRootPath, "Modules/Community/Assets/PostAttachments")),
+        RequestPath = "/Modules/Community/Assets/PostAttachments"
+    });
 }
