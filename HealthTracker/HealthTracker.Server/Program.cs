@@ -1,7 +1,8 @@
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Core.Repositories;
 using HealthTracker.Server.Infrastructure.Hubs;
-using HealthTracker.Server.Infrastrucure.Data;
+using HealthTracker.Server.Infrastructure.Services;
+using HealthTracker.Server.Infrastructure.Data;
 using HealthTracker.Server.Modules.Community.Controllers;
 using HealthTracker.Server.Modules.Community.Helpers;
 using HealthTracker.Server.Modules.Community.Repositories;
@@ -105,6 +106,8 @@ void ConfigureServices(WebApplicationBuilder builder)
         options.SignIn.RequireConfirmedPhoneNumber = false;
     });
 
+    builder.Services.AddHttpContextAccessor();
+
     // Dependency Injection for Repositories and AutoMapper
     AddRepositoryServices(builder);
     AddAutoMapperProfiles(builder);
@@ -170,6 +173,7 @@ void ConfigureMiddleware(WebApplication app)
 
     app.UseHsts();
     app.UseHttpsRedirection();
+    app.UseHttpContext();
 
     UseStaticFiles(app);
 

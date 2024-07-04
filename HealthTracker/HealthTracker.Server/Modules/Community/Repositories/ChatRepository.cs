@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using HealthTracker.Server.Core.Exceptions;
 using HealthTracker.Server.Core.Exceptions.Community;
-using HealthTracker.Server.Infrastrucure.Data;
+using HealthTracker.Server.Infrastructure.Data;
 using HealthTracker.Server.Modules.Community.DTOs;
 using HealthTracker.Server.Modules.Community.Models;
 using Microsoft.EntityFrameworkCore;

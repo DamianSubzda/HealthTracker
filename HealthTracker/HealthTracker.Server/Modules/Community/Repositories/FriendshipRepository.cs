@@ -1,7 +1,7 @@
 ﻿using HealthTracker.Server.Modules.Community.DTOs;
 using HealthTracker.Server.Modules.Community.Models;
 using Microsoft.EntityFrameworkCore;
-using HealthTracker.Server.Infrastrucure.Data;
+using HealthTracker.Server.Infrastructure.Data;
 using HealthTracker.Server.Core.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Linq;

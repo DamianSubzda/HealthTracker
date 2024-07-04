@@ -3,7 +3,8 @@ using AutoMapper.QueryableExtensions;
 using HealthTracker.Server.Core.DTOs;
 using HealthTracker.Server.Core.Exceptions;
 using HealthTracker.Server.Core.Models;
-using HealthTracker.Server.Infrastrucure.Data;
+using HealthTracker.Server.Infrastructure.Data;
+using HealthTracker.Server.Infrastructure.Services;
 using HealthTracker.Server.Modules.Community.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,7 @@ namespace HealthTracker.Server.Core.Repositories
             {
                 await photo.CopyToAsync(fileStream);
             }
+            var appBaseUrl = MyHttpContext.AppBaseUrl; //Zwracać przy pobraniu użytkownika
 
             user.ProfilePicture = folderPath;
 
