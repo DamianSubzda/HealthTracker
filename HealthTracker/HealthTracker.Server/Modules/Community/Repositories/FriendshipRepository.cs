@@ -22,6 +22,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
         Task<List<FriendDTO>> GetFriendList(int id);
         Task<FriendshipDTO> CreateFriendshipRequest(CreateFriendshipDTO createFriendshipDTO);
         Task<FriendshipDTO> GetFriendship(int friendshipId);
+        Task<FriendshipDTO> GetFriendshipByUsersId(int userId, int friendId);
         Task ChangeFriendshipStatus(int userId, int friendId, bool isAccepted);
         Task DeleteFriendship(int userId, int friendId);
     }
@@ -76,6 +77,30 @@ namespace HealthTracker.Server.Modules.Community.Repositories
                 .FirstOrDefaultAsync();
 
             return friendship ?? throw new FriendshipNotFoundException(friendshipId);
+        }
+
+        public async Task<FriendshipDTO> GetFriendshipByUsersId(int userId, int friendId)
+        {
+            var user = await _context.User.AnyAsync(line => line.Id == userId);
+
+            if (!user)
+            {
+                throw new UserNotFoundException(userId);
+            }
+
+            var friend = await _context.User.AnyAsync(line => line.Id == friendId);
+
+            if (!friend)
+            {
+                throw new UserNotFoundException(friendId);
+            }
+
+            var friendship = await _context.Friendship
+                .Where(f => (f.User1Id == userId && f.User2Id == friendId) || (f.User2Id == userId && f.User1Id == friendId))
+                .ProjectTo<FriendshipDTO>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
+
+            return friendship ?? throw new FriendshipNotFoundException();
         }
 
         public async Task<List<FriendDTO>> GetFriendList(int id)

@@ -7,7 +7,11 @@
                    :class="{'active-results': searchResults.length}">
             <div class="search-results" v-if="searchResults.length">
                 <ul>
-                    <li v-for="user in searchResults" :key="user.id">{{ user.firstName }} {{ user.lastName }}</li>
+                    <li v-for="user in searchResults" :key="user.id">
+                        <a :href="`profile/${user.id}`" @click="searchQuery=''">
+                            {{ user.firstName }} {{ user.lastName }}
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -16,13 +20,19 @@
 
 <script setup lang="ts">
 import { debounce } from 'lodash-es';
-import apiClient from '@/service/api/axios';
 import { ref, watch } from 'vue';
-import { useUserStore } from '@/store/account/auth';
+import { getSearchedUsers } from '@/service/api/community/profileController'
 
-const userStore = useUserStore();
 const searchQuery = ref('');
-const searchResults = ref([]);
+const searchResults = ref<SearchedUser[]>([]);
+
+type SearchedUser = {
+    id: number,
+    firstName: string,
+    lastName: string,
+    userName: string,
+    profilePicture: string | null
+}
 
 const debouncedSearch = debounce(async (query: string) => {
     if (query.length > 1) {
@@ -37,18 +47,7 @@ watch(searchQuery, (newQuery) => {
 });
 
 async function searchUsers(query: string) {
-    try {
-        const response = await apiClient.get(`/api/users/${userStore.userId}/search?query=${encodeURIComponent(query)}`, {
-            headers: {
-                'Authorization': `Bearer ${userStore.token}`
-            }
-        });
-        searchResults.value = await response.data;
-        console.log(searchResults.value);
-    } catch (error) {
-        console.error('Błąd podczas wyszukiwania użytkowników:', error);
-        searchResults.value = [];
-    }
+    searchResults.value = await getSearchedUsers(query);
 }
 </script>
 

@@ -71,6 +71,26 @@ namespace HealthTracker.Server.Modules.Community.Controllers
             }
         }
 
+        [HttpGet("users/{userId}/friends/{friendId}")]
+        public async Task<ActionResult<FriendshipDTO>> GetFriendshipByUsersId(int userId, int friendId)
+        {
+            try
+            {
+                var friendship = await _friendRepository.GetFriendshipByUsersId(userId, friendId);
+                return Ok(friendship);
+            }
+            catch (Exception ex) when (ex is UserNotFoundException || ex is FriendshipNotFoundException)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during the get friendship by usersId process for {userId} {friendId}.", userId, friendId);
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+
         [HttpGet("users/{userId}/friends")]
         public async Task<ActionResult<List<FriendDTO>>> GetFriendList(int userId)
         {
@@ -85,7 +105,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred during the get friendships list process for {UserId}.", userId);
+                _logger.LogError(ex, "Error occurred during the get friendships list process for {userId}.", userId);
                 return StatusCode(500, "Internal server error.");
             }
         }

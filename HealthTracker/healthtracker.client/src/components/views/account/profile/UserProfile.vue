@@ -4,7 +4,7 @@
   </div>
   <div v-else-if="profile != null">
     <div class="header">
-      <button>Send friend request</button>
+      <button v-if="!isFriendshipRequestSended" @click="sendFriendshipRequest">Send friend request</button>
     </div>
     <div class="personal-info">
       <div class="content-left">
@@ -64,16 +64,18 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"> //Sprawdzenie czy jest taki friendship przy ładowaniu.
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { type IProfile, getProfileById } from '@/service/api/account/profileController';
 import LoadingScreen from '../../../shared/LoadingScreen.vue'
+import { getFriendship, postFriendshipRequest } from '@/service/api/community/friendshipController';
 
 const profile = ref<IProfile | null>(null);
 const isLoading = ref(false);
 const route = useRoute();
 const activeTab = ref('Posts');
+const isFriendshipRequestSended = ref(true);
 
 onMounted(async () => {
   isLoading.value = true;
@@ -82,8 +84,9 @@ onMounted(async () => {
 
   if (fetchedProfile != null) {
     profile.value = fetchedProfile;
+    isFriendshipRequestSended.value = false;
+    await getFriendshipStatus();
   }
-  console.log(profile.value);
   isLoading.value = false;
 });
 
@@ -100,6 +103,24 @@ function formatUtcToLocal(inputDate: string) {
 
   return `${day}-${month}-${year}r.`;
 }
+
+async function getFriendshipStatus() {
+  if (profile.value) {
+    const friendshipData = await getFriendship(profile.value.id);
+    if (friendshipData != null) {
+      isFriendshipRequestSended.value = true;
+    } else {
+      isFriendshipRequestSended.value = false;
+    }
+  }
+}
+
+async function sendFriendshipRequest(){
+  if (profile.value) {
+    isFriendshipRequestSended.value = await postFriendshipRequest(profile.value.id);
+  }
+}
+
 </script>
 <style scoped lang="scss">
 .header{
