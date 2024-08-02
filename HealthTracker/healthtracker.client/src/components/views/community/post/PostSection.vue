@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import Comment from './Comment.vue'
+import Comment from './CommentSection.vue'
 import { ref, computed, onMounted } from 'vue';
 import DOMPurify from 'dompurify';
 import MarkdownIt from 'markdown-it';

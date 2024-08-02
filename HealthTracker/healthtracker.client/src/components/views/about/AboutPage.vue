@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import { authors } from '@/data/models/authorsData'
-import AppAuthor from '../about/AppAuthor.vue'
+import AppAuthor from './AppAuthor.vue'
 </script>
 
 <style lang="scss" scoped>

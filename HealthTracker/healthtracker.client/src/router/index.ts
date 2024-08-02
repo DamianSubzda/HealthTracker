@@ -1,18 +1,19 @@
 import { useUserStore } from './../store/account/auth';
 import {createRouter, createWebHistory} from 'vue-router'
-import Home from '../components/views/home/Home.vue'
-import About from '../components/views/about/About.vue'
-import Diary from '../components/views/diary/Diary.vue'
-import TreningsPlanner from '../components/views/treningsPlanner/TreningsPlanner.vue'
-import Health from '../components/views/health/Health.vue'
-import Goals from '../components/views/goals/Goals.vue'
-import Community from '../components/views/community/Community.vue'
-import Register from '../components/views/account/register/Register.vue'
-import Login from '../components/views/account/login/Login.vue'
-import NewPass from '../components/views/account/new_pass/NewPass.vue'
-import PassReset from '../components/views/account/pass_reset/PassReset.vue'
-import LoginSuccess from '../components/views/account/login/components/LoginSuccess.vue'
-import UserProfile from '../components/views/account/profile/UserProfile.vue'
+
+import Home from '../components/views/home/HomePage.vue'
+import About from '../components/views/about/AboutPage.vue'
+import Diary from '../components/views/diary/DiaryPage.vue'
+import TreningsPlanner from '../components/views/treningsPlanner/TreningsPlannerPage.vue'
+import Health from '../components/views/health/HealthPage.vue'
+import Goals from '../components/views/goals/GoalsPage.vue'
+import Community from '../components/views/community/CommunityPage.vue'
+import Register from '../components/views/account/register/RegisterPage.vue'
+import Login from '../components/views/account/login/LoginPage.vue'
+import NewPass from '../components/views/account/new_pass/NewPassPage.vue'
+import PassReset from '../components/views/account/pass_reset/PassResetPage.vue'
+import LoginSuccess from '../components/views/account/login/SuccessLoginPage.vue'
+import UserProfile from '../components/views/account/profile/ProfilePage.vue'
 
 const router = createRouter({
   history: createWebHistory(),

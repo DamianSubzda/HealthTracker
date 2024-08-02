@@ -15,10 +15,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { FriendModel } from '@/data/models/friendModel'
 
 defineProps<{
-  friend: FriendModel
+  friend: {
+    userId: number;
+    firstName: string;
+    lastName: string;
+    newMessagesCount: number;
+  }
 }>()
 
 </script>

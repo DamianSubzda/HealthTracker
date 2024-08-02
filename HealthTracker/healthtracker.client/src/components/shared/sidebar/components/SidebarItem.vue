@@ -10,10 +10,15 @@
 </template>
 
 <script lang="ts" setup>
-import type { ILinkItem } from '@/data/models/sidebarLinks';
 defineProps<{
-  item: ILinkItem
+  item: {
+    name: string;
+    link: string;
+    icon: string;
+    isHidden: boolean;
+  }
 }>()
+
 </script>
 
 <style lang="scss" scoped>

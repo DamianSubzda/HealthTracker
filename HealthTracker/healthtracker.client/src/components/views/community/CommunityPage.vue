@@ -35,10 +35,10 @@
 import FriendsList from './friends/FriendsList.vue'
 import ChatItem from './chat/ChatItem.vue'
 import ChatBox from './chat/ChatBox.vue';
-import Post from './post/Post.vue'
+import Post from './post/PostSection.vue'
 import SearchBar from './SearchBar.vue'
 import { currentPosts } from '@/data/models/postModels';
-import { ref, onMounted, onUnmounted, computed, watch } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { getPostOnWall } from '@/service/api/community/postController';
 import { getFriendList } from '@/service/api/community/friendshipController';
 import { useUserStore } from '@/store/account/auth';
