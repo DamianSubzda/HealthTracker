@@ -14,7 +14,7 @@ interface IProfile {
   profilePicture: string;
 }
 
-async function getProfileById(userId: string) {
+async function getProfileById(userId: number) {
   const userStore = useUserStore();
   try {
     const response = await apiClient.get(`api/users/${userId}`, {

@@ -90,8 +90,13 @@ const router = createRouter({
       redirect: ''
     },
     {
+      path: '/profile',
+      name: 'Profile',
+      component: UserProfile
+    },
+    {
       path: '/profile/:id',
-      name: 'UserProfile',
+      name: 'UsersProfile',
       component: UserProfile
     }
   ]
