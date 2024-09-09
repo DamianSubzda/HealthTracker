@@ -22,7 +22,7 @@
           <button @click="addComment"><i class='bi bi-send-fill'></i></button>
           <input type="text" v-model="commentToAdd" placeholder="Write comment...">
         </div>
-        <Comment v-for="comment in comments" :key="comment.id" :item="comment" :depth=0 :post-id=comment.postId />
+        <UsersComment v-for="comment in comments" :key="comment.id" :item="comment" :depth=0 :post-id=comment.postId />
         <button v-if="isMoreComments" class="load-comments-button" @click="getComments">Load more comments...</button>
       </div>
     </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import Comment from './CommentSection.vue'
+import UsersComment from './UsersComment.vue'
 import { ref, computed, onMounted } from 'vue';
 import DOMPurify from 'dompurify';
 import MarkdownIt from 'markdown-it';
@@ -112,6 +112,7 @@ async function addComment() {
 </script>
 
 <style lang="scss" scoped>
+
 .post {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -137,7 +138,9 @@ async function addComment() {
       border-radius: 0 0 1rem 1rem;
       text-align: center;
       display: flex;
-      height: 1.5rem;
+      height: 3rem;
+      padding: 0.4rem;
+      gap: 0.2rem;
 
       button {
         background-color: rgb(73, 61, 61);

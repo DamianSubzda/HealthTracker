@@ -1,7 +1,7 @@
 <template>
     <div class="searchbar">
         <div class="search">
-            <input placeholder="Szukaj..." class="search-input" v-model="searchQuery"
+            <input placeholder="Search..." class="search-input" v-model="searchQuery"
                 :class="{ 'active-results': searchResults.length }">
             <div class="search-results" v-if="searchResults.length">
                 <ul>
