@@ -64,6 +64,11 @@
         visibility: visible;
         width: 4rem;
         transition: width 1s ease-out,  opacity 0.5s ease-out;
+
+        p {
+          font-weight: 600;
+          font-size: large;
+        }
       }
     }
 
