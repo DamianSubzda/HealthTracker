@@ -8,9 +8,9 @@
             <div class="search-results" v-if="searchResults.length">
                 <ul>
                     <li v-for="user in searchResults" :key="user.id">
-                        <a :href="`profile/${user.id}`" @click="searchQuery=''">
+                        <router-link :to="`profile/${user.id}`" @click="searchQuery=''">
                             {{ user.firstName }} {{ user.lastName }}
-                        </a>
+                        </router-link>
                     </li>
                 </ul>
             </div>
