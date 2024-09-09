@@ -1,4 +1,4 @@
-﻿using HealthTracker.Server.Infrastrucure.Data;
+﻿using HealthTracker.Server.Infrastructure.Data;
 using HealthTracker.Server.Modules.Community.Models;
 using Microsoft.EntityFrameworkCore;
 

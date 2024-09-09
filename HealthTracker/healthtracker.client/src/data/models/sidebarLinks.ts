@@ -20,6 +20,7 @@ const getLinks = () => {
     trainingPlaner: createLink("Trainings Planner", "/planner", "fitness_center", true),
     health: createLink("Health Check", "/health", "health_and_safety", true),
     goals: createLink("Goals and Progress", "/goals", "emoji_events", true),
+    profile: createLink("Profile", "/profile", "person", true),
     community: createLink("Community", "/community", "groups", true),
     about: createLink("About", "/about", "info", false)
   });

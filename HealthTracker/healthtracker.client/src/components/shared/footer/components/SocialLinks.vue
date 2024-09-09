@@ -1,7 +1,7 @@
 <template>
   <div class="social_links">
     <ul>
-      <li v-for="link in SocialLinks">
+      <li v-for="link in SocialLinks" :key="link.name">
         <a :href="link.link" target="_blank" class="sl" >
           <i :class="link.icon"></i>
           <span class="link_name">{{ link.name }}</span>

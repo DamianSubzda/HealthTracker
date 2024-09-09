@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 using HealthTracker.Server.Core.Exceptions.Community;
 using HealthTracker.Server.Core.Exceptions.PhysicalActivity;
 using HealthTracker.Server.Core.Models;
-using HealthTracker.Server.Infrastrucure.Data;
+using HealthTracker.Server.Infrastructure.Data;
 using HealthTracker.Server.Modules.PhysicalActivity.DTOs;
 using HealthTracker.Server.Modules.PhysicalActivity.Models;
 using Microsoft.AspNetCore.Http.HttpResults;

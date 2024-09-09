@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import Footer from './components/shared/footer/Footer.vue'
-import Sidebar from './components/shared/sidebar/Sidebar.vue'
-import Header from './components/shared/header/Header.vue'
+import Footer from './components/shared/footer/FooterComponent.vue'
+import Sidebar from './components/shared/sidebar/NavigationSidebar.vue'
+import Header from './components/shared/header/HeaderComponent.vue'
 import { onMounted } from 'vue';
 import { useUserStore } from './store/account/auth'
 

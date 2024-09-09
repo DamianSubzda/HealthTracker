@@ -34,8 +34,11 @@ const chatStore = useChatStore();
 
 const notificationLabel = computed(() => {
 	const count = chatStore.friendToChat?.newMessagesCount;
-	return count > 1 ? `${count} new messages` :
+	if (count) {
+		return count > 1 ? `${count} new messages` :
 		count === 1 ? "New message" : "";
+	}
+	return "";
 });
 
 function toggleMenu() {

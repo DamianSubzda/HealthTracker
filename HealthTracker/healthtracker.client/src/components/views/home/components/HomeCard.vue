@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
 import type { IHomeCardModel } from "@/data/models/homeCardModel";
 
 defineProps<{

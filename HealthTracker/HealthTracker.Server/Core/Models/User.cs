@@ -8,13 +8,15 @@ namespace HealthTracker.Server.Core.Models
 {
     public class User : IdentityUser<int>
     {
-        
         [MaxLength(100, ErrorMessage = "Must be 100 characters or less!")]
         public string FirstName { get; set; }
         [MaxLength(100, ErrorMessage = "Must be 100 characters or less!")]
         public string LastName { get; set; }
+        [MaxLength(1000, ErrorMessage = "Must be 100 characters or less!")]
+        public string? About { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime? DateOfCreate { get; set; }
+        public string? ProfilePicture { get; set; }
 
         public virtual ICollection<Goal> Goals { get; } = new List<Goal>();
         public virtual ICollection<Workout> Workouts { get; } = new List<Workout>();
