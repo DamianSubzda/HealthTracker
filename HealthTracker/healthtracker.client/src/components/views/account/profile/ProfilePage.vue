@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isLoading" style="height: 8vh;">
-    <LoadingScreen />
+  <div v-if="isLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
+    <LoadingScreen :cubSize="25"/>
   </div>
   <div v-else-if="profile != null">
     <div class="header">
