@@ -180,6 +180,7 @@ async function getPosts() {
       overflow-y: scroll;
       overflow-x: hidden;
       transition: height 0.5s ease-out;
+      scrollbar-width: thin;
 
       .posts {
         display: flex;

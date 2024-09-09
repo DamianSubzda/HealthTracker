@@ -1,5 +1,4 @@
 .chat {
-  width: inherit;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 6fr;
@@ -9,11 +8,11 @@
     height: 20rem;
     background-color: rgb(168, 124, 124);
     position: fixed;
-    right: calc(-20rem + 4rem);
+    right: calc(-25vw + 4rem);
     bottom: 0;
-    max-width: 20rem;
     transition: right 0.5s ease-out;
     border-radius: 1rem 0 0 0;
+    width: 25vw;
 
     .chat-header {
       height: 4rem;
