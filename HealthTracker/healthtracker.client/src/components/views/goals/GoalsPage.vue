@@ -1,10 +1,11 @@
 <template>
   <main class="goals-page">
-    <p>This is a goals page</p>
+    <WorkInProgress />
   </main>
 </template>
 
 <script lang="ts" setup>
+import WorkInProgress from './../../shared/WorkInProgress.vue'
 </script>
 
 <style lang="scss" scoped>
