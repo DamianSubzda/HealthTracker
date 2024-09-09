@@ -1,7 +1,12 @@
 <template>
     <main class="main-list">
         <div class="friends-list">
-            <FriendItem v-for="friend in friendsStore.friends" :friend="friend" :key="friend.userId" @click="chatStore.setFriendToChat(friend)"/>
+            <FriendItem 
+                v-for="friend in friendsStore.friends" 
+                :friend="friend" 
+                :key="friend.userId" 
+                @click="chatStore.setFriendToChat(friend)"
+            />
         </div>
     </main>
 </template>

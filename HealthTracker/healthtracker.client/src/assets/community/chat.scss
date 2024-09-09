@@ -5,7 +5,7 @@
   border-radius: 15px 0 0 0;
 
   .content {
-    height: 20rem;
+    height: calc(4rem + 35vh);
     background-color: rgb(168, 124, 124);
     position: fixed;
     right: calc(-25vw + 4rem);
@@ -51,7 +51,7 @@
     .chat-content {
       display: grid;
       grid-template-columns: 4rem 1fr;
-      height: 16rem;
+      height: 35vh;
       transition: 0.5s ease-out;
 
       .notification {

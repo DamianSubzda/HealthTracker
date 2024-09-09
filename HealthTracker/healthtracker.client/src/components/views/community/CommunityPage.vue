@@ -209,23 +209,20 @@ async function getPosts() {
   }
 
   .right-content {
-    top: 0;
     width: 25%;
+    height: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    height: 100%;
-    right: 0;
     transition: width 0.3s ease-out;
 
     .list {
-      padding-bottom: 0.5rem;
       flex-grow: 1;
     }
 
     .chat {
       flex-shrink: 0;
-      height: 20rem;
+      height: calc(4rem + 35vh);
     }
   }
 
