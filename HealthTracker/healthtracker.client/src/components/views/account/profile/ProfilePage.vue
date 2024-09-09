@@ -13,12 +13,13 @@
 
   </div>
   <div v-else>
-    <p>404 User not found!</p>
+    <ErrorScreen :code="404" :message="`User not found!`"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import ErrorScreen from "./../../../shared/ErrorScreen.vue"
 import { useRoute } from 'vue-router';
 import { type IProfile, getProfileById } from '@/service/api/account/profileController';
 import LoadingScreen from '../../../shared/LoadingScreen.vue'
