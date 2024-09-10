@@ -2,15 +2,17 @@
   <main class="post">
     <div class="content">
       <div class="header">
-        <p>{{ props.post.userFirstName }} {{ props.post.userLastName }}</p>
+        <p>{{ localPost.userFirstName }} {{ localPost.userLastName }}</p>
       </div>
       <div class="main">
         <div v-html="safeHtml"></div>
-        <div class="attachment"></div>
+        <div class="attachment" v-if="localPost.image">
+          <img :src="localPost.image" alt="Attached image" style="max-width: 100%; border-radius: 0.5rem;" />
+        </div>
       </div>
       <div class="footer">
         <button class="like" @click="presslikePostButton">
-          <i class="bi bi-hand-thumbs-up-fill"></i>&nbsp;{{ props.post.likes.length }}
+          <i class="bi bi-hand-thumbs-up-fill"></i>&nbsp;{{ localPost.likes.length }}
         </button>
         <button class="comment" @click="toggleComments">
           <i class='bi bi-chat-dots-fill'></i>&nbsp;{{ commentsCount }}
@@ -34,7 +36,7 @@ import UsersComment from './UsersComment.vue'
 import { ref, computed, onMounted } from 'vue';
 import DOMPurify from 'dompurify';
 import MarkdownIt from 'markdown-it';
-import { currentPosts, type IPost } from '@/data/models/postModels';
+import { type IPost } from '@/data/models/postModels';
 import type { IComment } from '@/data/models/postModels';
 import { getPostComments, likePostByPostId, deleteLikeByPostId, addCommentToPost } from '@/service/api/community/postController';
 import { useUserStore } from '@/store/account/auth';
@@ -42,9 +44,12 @@ import { useUserStore } from '@/store/account/auth';
 const props = defineProps<{
   post: IPost
 }>();
+
+const localPost = props.post;
+
 const userStore = useUserStore();
 const comments = ref<IComment[]>([]);
-const commentsCount = ref(props.post.amountOfComments)
+const commentsCount = ref(localPost.amountOfComments)
 const isCommentsVisible = ref(false);
 const isMoreComments = ref(false);
 const commentToAdd = ref('');
@@ -53,7 +58,7 @@ const pageSize = 10;
 
 const safeHtml = computed(() => {
   const md = new MarkdownIt();
-  const rawHtml = md.render(props.post.content);
+  const rawHtml = md.render(localPost.content);
   return DOMPurify.sanitize(rawHtml);
 });
 
@@ -63,26 +68,26 @@ onMounted(async () => {
 
 function toggleComments() {
   isCommentsVisible.value = !isCommentsVisible.value;
+  pageNr.value = 0;
 }
 
 async function presslikePostButton() {
-  const postIndex = currentPosts.value.posts.findIndex(post => post.id === props.post.id);
-  const likeIndex = currentPosts.value.posts[postIndex].likes.findIndex((like) => like.userId === userStore.userId);
+  const likeIndex = localPost.likes.findIndex((like) => like.userId === userStore.userId)
 
   if (likeIndex > -1) {
-    const respone = await deleteLikeByPostId(props.post.id);
+    const respone = await deleteLikeByPostId(localPost.id);
     if (respone != null) {
-      currentPosts.value.posts[postIndex].likes.splice(likeIndex, 1);
+      localPost.likes.splice(likeIndex, 1);
     }
   } else {
-    const response = await likePostByPostId(props.post.id);
-    currentPosts.value.posts[postIndex].likes.push(response);
+    const response = await likePostByPostId(localPost.id);
+    localPost.likes.push(response);
   }
 }
 
 async function getComments() {
   pageNr.value += 1;
-  const recivedData = await getPostComments(props.post.id, pageNr.value, pageSize);
+  const recivedData = await getPostComments(localPost.id, pageNr.value, pageSize);
   if (recivedData.comments) {
     recivedData.comments.forEach((element: IComment) => {
       comments.value.push(element);
@@ -97,7 +102,7 @@ async function getComments() {
 
 async function addComment() {
   if (commentToAdd.value) {
-    const response = await addCommentToPost(props.post.id, commentToAdd.value)
+    const response = await addCommentToPost(localPost.id, commentToAdd.value)
     if (response != null) {
       commentsCount.value += 1;
       comments.value.unshift(response);

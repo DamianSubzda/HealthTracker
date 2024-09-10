@@ -8,7 +8,7 @@
     </div>
     <div class="personal-info">
       <ProfileInfo :profile="profile" />
-      <ProfileContent :tabs="['Posts', 'Goals', 'Training plans']" />
+      <ProfileContent :tabs="['Posts', 'Goals', 'Training plans']" :profile="profile" />
     </div>
 
   </div>
@@ -71,6 +71,7 @@ async function sendFriendshipRequest() {
     isFriendshipRequestSended.value = await postFriendshipRequest(profile.value.id);
   }
 }
+
 
 </script>
 <style scoped lang="scss">

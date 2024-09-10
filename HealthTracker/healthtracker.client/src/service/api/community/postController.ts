@@ -25,6 +25,30 @@ const getPostOnWall = async (pageNumber: number, pageSize: number) => {
   return response?.data;
 };
 
+const getUserPosts = async(userId: number | null, pageNumber: number, pageSize: number) => {
+  const userStore = useUserStore();
+  if (!userId || !userStore.userId) {
+    console.log("No user ID provided");
+    return null;
+  }
+  const response = await apiClient
+    .get(`/api/users/${userId}/posts`, {
+      headers: {
+        Authorization: `Bearer ${userStore.token}`,
+      },
+      params: {
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+      },
+    })
+    .catch((error) => {
+      console.log(error);
+      return null;
+    });
+
+  return response?.data;
+}
+
 const getPostComments = async (
   postId: number,
   pageNumber: number,
@@ -158,12 +182,40 @@ const addCommentToParent = async (
 
   return response?.data;
 };
+const createPost = async (userId: number | null, content: String, image: HTMLInputElement | null) => {
+  if (!userId){
+    return null;
+  }
+  const userStore = useUserStore();
+  const response = await apiClient
+    .post(
+      `/api/users/posts`,
+      {
+        userId: userId,
+        content: content,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${userStore.token}`,
+        },
+      }
+    )
+    .catch((error) => {
+      console.log(error);
+      return null;
+    });
+
+  return response?.data;
+}
+
 export {
   getPostOnWall,
+  getUserPosts,
   getPostComments,
   getChildComments,
   likePostByPostId,
   deleteLikeByPostId,
   addCommentToPost,
   addCommentToParent,
+  createPost,
 };

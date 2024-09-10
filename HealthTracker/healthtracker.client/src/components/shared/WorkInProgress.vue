@@ -1,6 +1,7 @@
 <template>
     <div class="development">
-      <h2>🔧 Coming soon! 🔧</h2>
+      <div class="development-icon">🔧</div>
+      <h2>Coming soon!</h2>
       <p>This section is still being developed. We appreciate your understanding.</p>
     </div>
   </template>
@@ -20,5 +21,9 @@
     margin: auto;
     margin-top: 1rem;
   }
+  .development-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
   </style>
   

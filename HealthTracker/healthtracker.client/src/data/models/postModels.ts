@@ -12,6 +12,7 @@ interface IPost {
   userFirstName: string;
   userLastName: string;
   content: string;
+  image: string;
   dateOfCreate: string;
   amountOfComments: number;
   likes: ILike[];
