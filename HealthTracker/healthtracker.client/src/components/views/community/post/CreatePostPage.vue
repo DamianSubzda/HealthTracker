@@ -30,7 +30,7 @@
                     <div class="main">
                         <div v-html="compiledMarkdown" className="text-preview"></div>
                         <div class="attachment" v-if="imageUrl">
-                            <img :src="imageUrl" alt="Attached image" style="max-width: 100%; border-radius: 0.5rem;" />
+                            <img :src="imageUrl" alt="Attached image" style="border-radius: 0.5rem;" />
                         </div>
                     </div>
                     <div class="footer">
@@ -192,9 +192,18 @@ function handleFileSelect(event: Event) {
             .main {
                 border-top: 2px solid rgb(73, 61, 61);
                 padding: 1rem;
+
+                .text-preview {
+                    word-wrap: break-word;
+                    white-space: normal;
+                }
                 
                 .attachment{
                     padding-top: 0.5rem;
+
+                    img {
+                        width: 100%;
+                    }
                 }
             }
 
