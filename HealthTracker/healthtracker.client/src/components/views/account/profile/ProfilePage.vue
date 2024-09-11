@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isLoading" style="height: 8vh;">
-    <LoadingScreen />
+  <div v-if="isLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
+    <LoadingScreen :cubSize="25"/>
   </div>
   <div v-else-if="profile != null">
     <div class="header">
@@ -8,17 +8,18 @@
     </div>
     <div class="personal-info">
       <ProfileInfo :profile="profile" />
-      <ProfileContent :tabs="['Posts', 'Goals', 'Training plans']" />
+      <ProfileContent :tabs="['Posts', 'Goals', 'Training plans']" :profile="profile" />
     </div>
 
   </div>
   <div v-else>
-    <p>404 User not found!</p>
+    <ErrorScreen :code="404" :message="`User not found!`"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import ErrorScreen from "./../../../shared/ErrorScreen.vue"
 import { useRoute } from 'vue-router';
 import { type IProfile, getProfileById } from '@/service/api/account/profileController';
 import LoadingScreen from '../../../shared/LoadingScreen.vue'
@@ -71,6 +72,7 @@ async function sendFriendshipRequest() {
   }
 }
 
+
 </script>
 <style scoped lang="scss">
 .header {
@@ -87,9 +89,11 @@ async function sendFriendshipRequest() {
   grid-template-columns: 1fr 3fr;
   padding: 1rem;
   width: inherit;
+  align-items: start;
+  gap: 1rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
     grid-template-rows: 1fr auto;
   }
 }

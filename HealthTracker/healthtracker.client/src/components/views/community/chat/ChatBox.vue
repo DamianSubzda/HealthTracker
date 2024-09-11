@@ -114,6 +114,7 @@ async function sendMessageToHub() {
 </script>
 
 <style lang="scss" scoped>
+
 .chat-messinput {
   grid-column: 2/3;
   background-color: rgb(199, 167, 167);

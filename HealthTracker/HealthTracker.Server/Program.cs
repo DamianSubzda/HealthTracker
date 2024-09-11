@@ -173,7 +173,6 @@ void ConfigureMiddleware(WebApplication app)
 
     app.UseHsts();
     app.UseHttpsRedirection();
-    app.UseHttpContext();
 
     UseStaticFiles(app);
 

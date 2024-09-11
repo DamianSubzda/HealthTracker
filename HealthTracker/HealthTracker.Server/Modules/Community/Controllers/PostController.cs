@@ -32,7 +32,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
         /// <response code="404">Returns if User not found </response>
         /// <response code="500">Returns if internal server error</response>
         [HttpPost("users/posts")]
-        public async Task<ActionResult<PostDTO>> CreatePost([FromBody] CreatePostDTO postDTO)
+        public async Task<ActionResult<PostDTO>> CreatePost([FromForm] CreatePostDTO postDTO)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
                 return Ok(result);
 
             }
-            catch(NullPageException ex)
+            catch(NullPageException)
             {
                 return Ok();
             }
@@ -99,6 +99,30 @@ namespace HealthTracker.Server.Modules.Community.Controllers
                 return StatusCode(500, "Internal server error.");
             }
 
+        }
+
+        [HttpGet("users/{userId}/posts")]
+        public async Task<ActionResult<List<PostDTO>>> GetUserPosts(int userId, [FromQuery] int pageNumber, [FromQuery] int pageSize = 10)
+        {
+            try
+            {
+                var result = await _postRepository.GetUsersPosts(userId, pageSize, pageNumber);
+                return Ok(result);
+
+            }
+            catch (NullPageException)
+            {
+                return Ok();
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during the get posts process for user {UserId}.", userId);
+                return StatusCode(500, "Internal server error.");
+            }
         }
 
         [HttpDelete("users/posts/{postId}")]

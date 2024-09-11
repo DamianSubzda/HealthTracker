@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using HealthTracker.Server.Core.Exceptions;
 using HealthTracker.Server.Core.Exceptions.Community;
+using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Infrastructure.Data;
 using HealthTracker.Server.Modules.Community.DTOs;
 using HealthTracker.Server.Modules.Community.Models;
@@ -14,7 +15,8 @@ namespace HealthTracker.Server.Modules.Community.Repositories
         Task<PostDTO> CreatePost(CreatePostDTO postDTO);
         Task<PostDTO> GetPost(int postId);
         Task DeletePost(int postId);
-        Task<List<PostDTO>> GetPosts(int UserId, int pageSize, int pageNumber);
+        Task<List<PostDTO>> GetPosts(int userId, int pageSize, int pageNumber);
+        Task<List<PostDTO>> GetUsersPosts(int userId, int pageSize,int pageNumber);
         Task<CommentDTO> CreateComment(int? parentCommentId, CreateCommentDTO commentDTO);
         Task<CommentDTO> GetComment(int commentId);
         Task<CommentFromPostDTO> GetCommentsByPostId(int postId, int pageNr, int pageSize);
@@ -50,6 +52,18 @@ namespace HealthTracker.Server.Modules.Community.Repositories
 
             var post = _mapper.Map<Post>(createPostDTO);
 
+            if (createPostDTO.ImageFile != null)
+            {
+                var fileName = Path.GetFileName(createPostDTO.ImageFile.FileName); //Trzeba będzie zmieniać nazwy plików żeby się nie nadpisywały
+                var filePath = Path.Combine("Modules\\Community\\Assets\\PostAttachments", fileName);
+                var fileFullPath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                using (var stream = new FileStream(fileFullPath, FileMode.Create))
+                {
+                    await createPostDTO.ImageFile.CopyToAsync(stream);
+                }
+                post.ImageURL = filePath;
+            }
+
             await _context.Post.AddAsync(post);
             await _context.SaveChangesAsync();
 
@@ -65,7 +79,6 @@ namespace HealthTracker.Server.Modules.Community.Repositories
         {
             var post = await _context.Post
                 .Include(p => p.User)
-                //.Include(p => p.Comments)
                 .Include(p => p.Likes)
                 .FirstOrDefaultAsync(p => p.Id == postId) ?? throw new PostNotFoundException();
 
@@ -124,6 +137,44 @@ namespace HealthTracker.Server.Modules.Community.Repositories
                     UserLastName = p.User.LastName,
                     Content = p.Content,
                     DateOfCreate = p.DateOfCreate,
+                    ImageURL = p.ImageURL,
+                    AmountOfComments = p.Comments.Count(line => line.ParentCommentId == null),
+                    Likes = p.Likes.Select(l => _mapper.Map<LikeDTO>(l)).ToList()
+                })
+                .ToListAsync();
+
+            if (posts.Count == 0)
+            {
+                throw new NullPageException();
+            }
+
+            return posts;
+        }
+
+        public async Task<List<PostDTO>> GetUsersPosts(int userId, int pageSize, int pageNumber)
+        {
+            if (!await _context.User.AnyAsync(u => u.Id == userId))
+            {
+                throw new UserNotFoundException();
+            }
+
+            var posts = await _context.Post
+                .Where(p => p.UserId == userId)
+                .OrderByDescending(p => p.DateOfCreate)
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                .Include(p => p.Likes)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .Select(p => new PostDTO
+                {
+                    Id = p.Id,
+                    UserId = p.UserId,
+                    UserFirstName = p.User.FirstName,
+                    UserLastName = p.User.LastName,
+                    Content = p.Content,
+                    DateOfCreate = p.DateOfCreate,
+                    ImageURL = p.ImageURL,
                     AmountOfComments = p.Comments.Count(line => line.ParentCommentId == null),
                     Likes = p.Likes.Select(l => _mapper.Map<LikeDTO>(l)).ToList()
                 })
@@ -378,5 +429,6 @@ namespace HealthTracker.Server.Modules.Community.Repositories
                 throw new LikeNotFoundException();
             }
         }
+
     }
 }

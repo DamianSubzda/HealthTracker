@@ -1,14 +1,12 @@
 <template>
     <div class="searchbar">
         <div class="search">
-            <input placeholder="Szukaj..." 
-                   class="search-input" 
-                   v-model="searchQuery"
-                   :class="{'active-results': searchResults.length}">
+            <input placeholder="Search..." class="search-input" v-model="searchQuery"
+                :class="{ 'active-results': searchResults.length }">
             <div class="search-results" v-if="searchResults.length">
                 <ul>
                     <li v-for="user in searchResults" :key="user.id">
-                        <router-link :to="`profile/${user.id}`" @click="searchQuery=''">
+                        <router-link :to="`profile/${user.id}`" @click="searchQuery = ''">
                             {{ user.firstName }} {{ user.lastName }}
                         </router-link>
                     </li>
@@ -40,7 +38,7 @@ const debouncedSearch = debounce(async (query: string) => {
     } else {
         searchResults.value = [];
     }
-}, 400); // Opóźnienie
+}, 400);
 
 watch(searchQuery, (newQuery) => {
     debouncedSearch(newQuery);
@@ -54,19 +52,20 @@ async function searchUsers(query: string) {
 <style scoped lang="scss">
 .searchbar {
     width: 100%;
+
     .search {
         display: flex;
         flex-direction: column;
         padding: 0.5rem;
         align-items: center;
-        height: 100%;
         width: 100%;
+
         .search-input {
             height: 100%;
             width: 95%;
+            background-color: rgb(187, 147, 147);
             box-sizing: border-box;
             border: 2px solid black;
-            
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             border-bottom-left-radius: 8px;
@@ -77,17 +76,26 @@ async function searchUsers(query: string) {
             background-repeat: no-repeat;
             text-align: center;
             padding: 12px 20px 12px 40px;
+
+            &:focus {
+                outline: none;
+                border-color: black;
+            }
         }
+
         .active-results {
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
             border-bottom: 0;
             outline-width: 0;
         }
+
         .search-results {
+            padding-top: .2rem;
+            padding-bottom: 0.5rem;
             width: 95%;
             color: black;
-            background-color: rgb(175, 159, 159);
+            background-color: rgb(187, 147, 147);
             border-left: 2px solid black;
             border-right: 2px solid black;
             border-bottom: 2px solid black;
@@ -95,6 +103,27 @@ async function searchUsers(query: string) {
             border-bottom-right-radius: 8px;
             outline-width: 2px;
             outline-color: white;
+            display: flex;
+            justify-content: center;
+            font-size: large;
+
+            ul {
+                color: black;
+                padding-top: .5rem;
+                width: 90%;
+                border-top: 1px solid rgba(0, 0, 0, 0.5);
+                list-style-type: disclosure-closed;
+
+                a {
+                    color: black;
+                }
+
+                a &:focus,
+                :hover {
+                    background-color: transparent;
+                    color: gold;
+                }
+            }
         }
     }
 }

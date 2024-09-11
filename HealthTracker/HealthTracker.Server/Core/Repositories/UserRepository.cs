@@ -53,12 +53,10 @@ namespace HealthTracker.Server.Core.Repositories
             var folderPath = Path.Combine("Core/Assets/ProfilePictures", fileName);
             var fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), folderPath);
 
-
             using (var fileStream = new FileStream(fullFilePath, FileMode.Create))
             {
                 await photo.CopyToAsync(fileStream);
             }
-            var appBaseUrl = MyHttpContext.AppBaseUrl; //Zwracać przy pobraniu użytkownika
 
             user.ProfilePicture = folderPath;
 
@@ -67,7 +65,7 @@ namespace HealthTracker.Server.Core.Repositories
             return folderPath;
         }
 
-        public async Task<List<UserSerachDTO>> GetUsers(int id, string input) //Zdjęcia !!!
+        public async Task<List<UserSerachDTO>> GetUsers(int id, string input)
         {
             var userDTO = await _context.User
                 .Where(u => u.Id != id && (u.FirstName.ToLower().Contains(input.ToLower()) || u.LastName.ToLower().Contains(input.ToLower())))

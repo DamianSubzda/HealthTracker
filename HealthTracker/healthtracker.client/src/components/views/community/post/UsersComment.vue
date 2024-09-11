@@ -21,7 +21,7 @@
         </div>
         <div v-if="comments.length != 0">
             <div v-if="isMoreCommentsClicked">
-                <Comment v-for="comment in comments" :depth="depth + 1" :key="comment.id" :item="comment"
+                <UsersComment v-for="comment in comments" :depth="depth + 1" :key="comment.id" :item="comment"
                     :post-id=comment.postId />
             </div>
         </div>
@@ -33,7 +33,6 @@ import { ref, onMounted, computed } from 'vue';
 import { type IComment } from '@/data/models/postModels'
 import { addCommentToParent, getChildComments } from '@/service/api/community/postController';
 
-// const pageNumberOfComments = ref(1); //ToDo: gdy API będzie to obsługiwać. 
 const comments = ref<IComment[]>([]);
 const commentToAdd = ref('');
 const isResponseClicked = ref(false)
@@ -104,6 +103,13 @@ async function addComment() {
 </script>
 
 <style lang="scss" scoped>
+
+a:hover {
+  cursor: pointer;
+  color: gold;
+  background-color: transparent;
+}
+
 .comment {
     width: inherit;
     border: 1px 1px 1px 0px solid lightgray;
@@ -147,6 +153,7 @@ async function addComment() {
     }
 
     .add-comment-div {
+        padding-top: 4px;
         display: flex;
         height: 15%;
         gap: 2px;

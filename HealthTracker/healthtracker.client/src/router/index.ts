@@ -14,6 +14,7 @@ import NewPass from '../components/views/account/new_pass/NewPassPage.vue'
 import PassReset from '../components/views/account/pass_reset/PassResetPage.vue'
 import LoginSuccess from '../components/views/account/login/SuccessLoginPage.vue'
 import UserProfile from '../components/views/account/profile/ProfilePage.vue'
+import CreatePostPage from '@/components/views/community/post/CreatePostPage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -98,6 +99,11 @@ const router = createRouter({
       path: '/profile/:id',
       name: 'UsersProfile',
       component: UserProfile
+    },
+    {
+      path: '/post/create',
+      name: 'CreatePost',
+      component: CreatePostPage
     }
   ]
 })

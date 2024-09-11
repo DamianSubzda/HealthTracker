@@ -13,18 +13,27 @@
         </div>
       </div>
       <div class="mobile-expander" v-if="isMobile">
-        <FriendsList class="list-mobile" />
+        <div v-if="areFriendsLoading" style="height: calc(50% - 1rem); justify-content: center; display: flex; margin-top: 1rem;">
+          <LoadingScreen :cubSize="25"/>
+        </div>
+        <FriendsList v-else class="list-mobile" />
         <ChatBox :is_expanded="true" class="chat-mobile" />
       </div>
       <div class="wall-body">
-        <div v-for="post in currentPosts.posts" :key="post.id" class="posts">
+        <div v-if="arePostsLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
+          <LoadingScreen :cubSize="25"/>
+        </div>
+        <div v-else v-for="post in currentPosts.posts" :key="post.id" class="posts">
           <Post :post="post" />
         </div>
       </div>
     </div>
 
     <div class="right-content" v-if="!isMobile">
-      <FriendsList class="list" />
+      <div v-if="areFriendsLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
+          <LoadingScreen :cubSize="25"/>
+      </div>
+      <FriendsList v-else class="list" />
       <ChatItem v-if="chatStore.friendToChat" class="chat" />
     </div>
 
@@ -37,6 +46,7 @@ import ChatItem from './chat/ChatItem.vue'
 import ChatBox from './chat/ChatBox.vue';
 import Post from './post/PostSection.vue'
 import SearchBar from './SearchBar.vue'
+import LoadingScreen from './../../shared/LoadingScreen.vue'
 import { currentPosts } from '@/data/models/postModels';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { getPostOnWall } from '@/service/api/community/postController';
@@ -56,6 +66,9 @@ const isMobileExpanded = computed(() => isMobile.value && isButtonExpandedClicke
 
 const postPageNumber = ref(1)
 const postPageSize = 10
+
+const arePostsLoading = ref(true);
+const areFriendsLoading = ref(true);
 
 onMounted(async () => {
   window.addEventListener('resize', handleResize);
@@ -91,6 +104,7 @@ async function getFriends() {
       const response = await getNumberOfNewMessagesForFriend(friend.userId);
       friend.newMessagesCount = response; 
     });
+    areFriendsLoading.value = false;
   }
 }
 
@@ -98,6 +112,7 @@ async function getPosts() {
   const posts = await getPostOnWall(postPageNumber.value, postPageSize);
   if (posts) {
     currentPosts.value.posts = posts
+    arePostsLoading.value = false;
   } else {
     console.error("Failed to load posts or no posts available");
   }
@@ -180,6 +195,7 @@ async function getPosts() {
       overflow-y: scroll;
       overflow-x: hidden;
       transition: height 0.5s ease-out;
+      scrollbar-width: thin;
 
       .posts {
         display: flex;
@@ -208,23 +224,20 @@ async function getPosts() {
   }
 
   .right-content {
-    top: 0;
     width: 25%;
+    height: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    height: 100%;
-    right: 0;
     transition: width 0.3s ease-out;
 
     .list {
-      padding-bottom: 0.5rem;
       flex-grow: 1;
     }
 
     .chat {
       flex-shrink: 0;
-      height: 20rem;
+      height: calc(4rem + 35vh);
     }
   }
 

@@ -2,15 +2,18 @@
   <main class="post">
     <div class="content">
       <div class="header">
-        <p>{{ props.post.userFirstName }} {{ props.post.userLastName }}</p>
+        <p>{{ localPost.userFirstName }} {{ localPost.userLastName }}</p>
       </div>
       <div class="main">
-        <div v-html="safeHtml"></div>
-        <div class="attachment"></div>
+        <div v-html="safeHtml" className="post-text"></div>
+        <div class="attachment" v-if="localPost.imageURL">
+          <img :src="`${config.serverURL}${localPost.imageURL}`" alt="Attached image"
+            style="width: 100%; border-radius: 0.5rem;" />
+        </div>
       </div>
       <div class="footer">
         <button class="like" @click="presslikePostButton">
-          <i class="bi bi-hand-thumbs-up-fill"></i>&nbsp;{{ props.post.likes.length }}
+          <i class="bi bi-hand-thumbs-up-fill"></i>&nbsp;{{ localPost.likes.length }}
         </button>
         <button class="comment" @click="toggleComments">
           <i class='bi bi-chat-dots-fill'></i>&nbsp;{{ commentsCount }}
@@ -22,7 +25,7 @@
           <button @click="addComment"><i class='bi bi-send-fill'></i></button>
           <input type="text" v-model="commentToAdd" placeholder="Write comment...">
         </div>
-        <Comment v-for="comment in comments" :key="comment.id" :item="comment" :depth=0 :post-id=comment.postId />
+        <UsersComment v-for="comment in comments" :key="comment.id" :item="comment" :depth=0 :post-id=comment.postId />
         <button v-if="isMoreComments" class="load-comments-button" @click="getComments">Load more comments...</button>
       </div>
     </div>
@@ -30,11 +33,12 @@
 </template>
 
 <script lang="ts" setup>
-import Comment from './CommentSection.vue'
+import config from "@/config.json"
+import UsersComment from './UsersComment.vue'
 import { ref, computed, onMounted } from 'vue';
 import DOMPurify from 'dompurify';
 import MarkdownIt from 'markdown-it';
-import { currentPosts, type IPost } from '@/data/models/postModels';
+import { type IPost } from '@/data/models/postModels';
 import type { IComment } from '@/data/models/postModels';
 import { getPostComments, likePostByPostId, deleteLikeByPostId, addCommentToPost } from '@/service/api/community/postController';
 import { useUserStore } from '@/store/account/auth';
@@ -42,9 +46,12 @@ import { useUserStore } from '@/store/account/auth';
 const props = defineProps<{
   post: IPost
 }>();
+
+const localPost = props.post;
+
 const userStore = useUserStore();
 const comments = ref<IComment[]>([]);
-const commentsCount = ref(props.post.amountOfComments)
+const commentsCount = ref(localPost.amountOfComments)
 const isCommentsVisible = ref(false);
 const isMoreComments = ref(false);
 const commentToAdd = ref('');
@@ -53,7 +60,7 @@ const pageSize = 10;
 
 const safeHtml = computed(() => {
   const md = new MarkdownIt();
-  const rawHtml = md.render(props.post.content);
+  const rawHtml = md.render(localPost.content);
   return DOMPurify.sanitize(rawHtml);
 });
 
@@ -63,26 +70,26 @@ onMounted(async () => {
 
 function toggleComments() {
   isCommentsVisible.value = !isCommentsVisible.value;
+  pageNr.value = 0;
 }
 
 async function presslikePostButton() {
-  const postIndex = currentPosts.value.posts.findIndex(post => post.id === props.post.id);
-  const likeIndex = currentPosts.value.posts[postIndex].likes.findIndex((like) => like.userId === userStore.userId);
+  const likeIndex = localPost.likes.findIndex((like) => like.userId === userStore.userId)
 
   if (likeIndex > -1) {
-    const respone = await deleteLikeByPostId(props.post.id);
+    const respone = await deleteLikeByPostId(localPost.id);
     if (respone != null) {
-      currentPosts.value.posts[postIndex].likes.splice(likeIndex, 1);
+      localPost.likes.splice(likeIndex, 1);
     }
   } else {
-    const response = await likePostByPostId(props.post.id);
-    currentPosts.value.posts[postIndex].likes.push(response);
+    const response = await likePostByPostId(localPost.id);
+    localPost.likes.push(response);
   }
 }
 
 async function getComments() {
   pageNr.value += 1;
-  const recivedData = await getPostComments(props.post.id, pageNr.value, pageSize);
+  const recivedData = await getPostComments(localPost.id, pageNr.value, pageSize);
   if (recivedData.comments) {
     recivedData.comments.forEach((element: IComment) => {
       comments.value.push(element);
@@ -97,7 +104,7 @@ async function getComments() {
 
 async function addComment() {
   if (commentToAdd.value) {
-    const response = await addCommentToPost(props.post.id, commentToAdd.value)
+    const response = await addCommentToPost(localPost.id, commentToAdd.value)
     if (response != null) {
       commentsCount.value += 1;
       comments.value.unshift(response);
@@ -131,13 +138,33 @@ async function addComment() {
     .main {
       border-top: 2px solid rgb(73, 61, 61);
       padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .post-text {
+        word-wrap: break-word;
+        white-space: normal;
+        width: 100%;
+      }
+
+      .attachment {
+        padding-top: 0.5rem;
+
+        img {
+          width: 100%;
+        }
+      }
     }
 
     .footer {
       border-radius: 0 0 1rem 1rem;
       text-align: center;
       display: flex;
-      height: 1.5rem;
+      height: 3rem;
+      padding: 0.4rem;
+      gap: 0.2rem;
 
       button {
         background-color: rgb(73, 61, 61);

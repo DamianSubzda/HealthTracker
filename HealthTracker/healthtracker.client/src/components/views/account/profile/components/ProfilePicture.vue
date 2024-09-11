@@ -1,10 +1,11 @@
 <template>
     <div class="profile-picture">
-            <img v-if="picture != null" :src="picture" alt="profile picture">
+            <img v-if="picture != null" :src="`${config.serverURL}${picture}`" alt="profile picture">
             <img v-else src="@/assets/community/pictures/defaultProfilePicture.png" alt="default picture">
     </div>
 </template>
 <script setup lang="ts">
+import config from "@/config.json"
 
 defineProps<{
     picture: string
