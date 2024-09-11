@@ -81,13 +81,18 @@ function setActiveTab(tabName: string) {
     border-radius: 10px;
 
     .content-header {
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
         border-bottom: 1px solid grey;
         margin-bottom: 0.5rem;
 
+        @media (max-width: 328px) {
+        grid-template-columns: 1fr;
+        }
 
         button {
+            word-wrap:break-word;
+            word-spacing: normal;
             color: white;
             font-size: large;
             border-top: 1px solid #ccc;

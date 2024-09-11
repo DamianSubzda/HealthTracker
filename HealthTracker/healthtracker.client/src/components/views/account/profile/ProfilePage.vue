@@ -89,9 +89,11 @@ async function sendFriendshipRequest() {
   grid-template-columns: 1fr 3fr;
   padding: 1rem;
   width: inherit;
+  align-items: start;
+  gap: 1rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
     grid-template-rows: 1fr auto;
   }
 }
