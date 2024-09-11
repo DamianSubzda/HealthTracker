@@ -37,7 +37,6 @@ namespace HealthTracker.Server.Core.Controllers
                 {
                     return Ok(result);
                 }
-                result.ProfilePicture = $"{Request.Scheme}://{Request.Host}/{result.ProfilePicture}";
                 return Ok(result);
             }
             catch (UserNotFoundException ex)

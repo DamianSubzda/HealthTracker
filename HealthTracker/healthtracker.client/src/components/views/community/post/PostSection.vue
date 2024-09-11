@@ -65,7 +65,6 @@ const safeHtml = computed(() => {
 });
 
 onMounted(async () => {
-  console.log(localPost);
   await getComments();
 });
 

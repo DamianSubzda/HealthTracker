@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <Folder Include="Core\Interfaces\" />
+    <Folder Include="Infrastructure\Services\" />
     <Folder Include="Modules\Community\Assets\PostAttachments\" />
     <Folder Include="Modules\Health\Controllers\" />
     <Folder Include="Modules\Health\DTOs\" />
