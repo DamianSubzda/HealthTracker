@@ -5,6 +5,7 @@ using HealthTracker.Server.Core.Exceptions.Community;
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Infrastructure.Data;
 using HealthTracker.Server.Modules.Community.DTOs;
+using HealthTracker.Server.Modules.Community.Helpers;
 using HealthTracker.Server.Modules.Community.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,12 +35,14 @@ namespace HealthTracker.Server.Modules.Community.Repositories
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IStatusRepository _statusRepository;
+        private readonly IFileHelper _fileHelper;
 
-        public PostRepository(ApplicationDbContext context, IMapper mapper, IStatusRepository statusRepository)
+        public PostRepository(ApplicationDbContext context, IMapper mapper, IStatusRepository statusRepository, IFileHelper fileHelper)
         {
             _context = context;
             _mapper = mapper;
             _statusRepository = statusRepository;
+            _fileHelper = fileHelper;
         }
 
         public async Task<PostDTO> CreatePost(CreatePostDTO createPostDTO)
@@ -54,14 +57,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
 
             if (createPostDTO.ImageFile != null)
             {
-                var fileName = Path.GetFileName(createPostDTO.ImageFile.FileName); //Trzeba będzie zmieniać nazwy plików żeby się nie nadpisywały
-                var filePath = Path.Combine("Modules\\Community\\Assets\\PostAttachments", fileName);
-                var fileFullPath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
-                using (var stream = new FileStream(fileFullPath, FileMode.Create))
-                {
-                    await createPostDTO.ImageFile.CopyToAsync(stream);
-                }
-                post.ImageURL = filePath;
+                post.ImageURL = _fileHelper.SaveFile(createPostDTO.ImageFile, "Modules\\Community\\Assets\\PostAttachments");
             }
 
             await _context.Post.AddAsync(post);
@@ -99,6 +95,11 @@ namespace HealthTracker.Server.Modules.Community.Repositories
 
             var likes = await _context.Like.Where(line => line.PostId == postId).ToListAsync();
             var comments = await _context.Comment.Where(line => line.PostId == postId).ToListAsync();
+
+            if (post.ImageURL != null)
+            {
+                _fileHelper.DeleteFile(post.ImageURL);
+            }
 
             _context.Like.RemoveRange(likes);
             _context.Comment.RemoveRange(comments);
