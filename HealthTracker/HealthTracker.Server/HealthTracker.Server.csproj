@@ -52,7 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Assets\ProfilePictures\" />
     <Folder Include="Core\Interfaces\" />
     <Folder Include="Modules\Community\Assets\PostAttachments\" />
     <Folder Include="Modules\Health\Controllers\" />

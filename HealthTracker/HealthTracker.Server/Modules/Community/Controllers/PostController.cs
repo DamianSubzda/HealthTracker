@@ -32,7 +32,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
         /// <response code="404">Returns if User not found </response>
         /// <response code="500">Returns if internal server error</response>
         [HttpPost("users/posts")]
-        public async Task<ActionResult<PostDTO>> CreatePost([FromBody] CreatePostDTO postDTO)
+        public async Task<ActionResult<PostDTO>> CreatePost([FromForm] CreatePostDTO postDTO)
         {
             try
             {

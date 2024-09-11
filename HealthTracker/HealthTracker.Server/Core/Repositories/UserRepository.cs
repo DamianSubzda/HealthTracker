@@ -53,7 +53,6 @@ namespace HealthTracker.Server.Core.Repositories
             var folderPath = Path.Combine("Core/Assets/ProfilePictures", fileName);
             var fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), folderPath);
 
-
             using (var fileStream = new FileStream(fullFilePath, FileMode.Create))
             {
                 await photo.CopyToAsync(fileStream);

@@ -52,6 +52,18 @@ namespace HealthTracker.Server.Modules.Community.Repositories
 
             var post = _mapper.Map<Post>(createPostDTO);
 
+            if (createPostDTO.ImageFile != null)
+            {
+                var fileName = Path.GetFileName(createPostDTO.ImageFile.FileName); //Trzeba będzie zmieniać nazwy plików żeby się nie nadpisywały
+                var filePath = Path.Combine("Modules\\Community\\Assets\\PostAttachments", fileName);
+                var fileFullPath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                using (var stream = new FileStream(fileFullPath, FileMode.Create))
+                {
+                    await createPostDTO.ImageFile.CopyToAsync(stream);
+                }
+                post.ImageURL = filePath;
+            }
+
             await _context.Post.AddAsync(post);
             await _context.SaveChangesAsync();
 
@@ -125,6 +137,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
                     UserLastName = p.User.LastName,
                     Content = p.Content,
                     DateOfCreate = p.DateOfCreate,
+                    ImageURL = p.ImageURL,
                     AmountOfComments = p.Comments.Count(line => line.ParentCommentId == null),
                     Likes = p.Likes.Select(l => _mapper.Map<LikeDTO>(l)).ToList()
                 })
@@ -161,6 +174,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
                     UserLastName = p.User.LastName,
                     Content = p.Content,
                     DateOfCreate = p.DateOfCreate,
+                    ImageURL = p.ImageURL,
                     AmountOfComments = p.Comments.Count(line => line.ParentCommentId == null),
                     Likes = p.Likes.Select(l => _mapper.Map<LikeDTO>(l)).ToList()
                 })

@@ -5,9 +5,10 @@
         <p>{{ localPost.userFirstName }} {{ localPost.userLastName }}</p>
       </div>
       <div class="main">
-        <div v-html="safeHtml"></div>
-        <div class="attachment" v-if="localPost.image">
-          <img :src="localPost.image" alt="Attached image" style="max-width: 100%; border-radius: 0.5rem;" />
+        <div v-html="safeHtml" className="post-text"></div>
+        <div class="attachment" v-if="localPost.imageURL">
+          <img :src="`${config.serverURL}${localPost.imageURL}`" alt="Attached image"
+            style="width: 100%; border-radius: 0.5rem;" />
         </div>
       </div>
       <div class="footer">
@@ -32,6 +33,7 @@
 </template>
 
 <script lang="ts" setup>
+import config from "@/config.json"
 import UsersComment from './UsersComment.vue'
 import { ref, computed, onMounted } from 'vue';
 import DOMPurify from 'dompurify';
@@ -63,6 +65,7 @@ const safeHtml = computed(() => {
 });
 
 onMounted(async () => {
+  console.log(localPost);
   await getComments();
 });
 
@@ -117,7 +120,6 @@ async function addComment() {
 </script>
 
 <style lang="scss" scoped>
-
 .post {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -137,6 +139,24 @@ async function addComment() {
     .main {
       border-top: 2px solid rgb(73, 61, 61);
       padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .post-text {
+        word-wrap: break-word;
+        white-space: normal;
+        width: 100%;
+      }
+
+      .attachment {
+        padding-top: 0.5rem;
+
+        img {
+          width: 100%;
+        }
+      }
     }
 
     .footer {

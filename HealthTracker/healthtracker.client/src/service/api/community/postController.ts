@@ -182,31 +182,35 @@ const addCommentToParent = async (
 
   return response?.data;
 };
-const createPost = async (userId: number | null, content: String, image: HTMLInputElement | null) => {
-  if (!userId){
+
+const createPost = async (userId: Number, content: string, image: HTMLInputElement | null) => {
+  
+  if (!userId) {
     return null;
   }
+  const formData = new FormData();
+  formData.append('userId', userId.toString());
+  formData.append('content', content);
+  if (image && image?.files) {
+    formData.append('imageFile', image.files[0]);
+  }
+  console.log(formData);
   const userStore = useUserStore();
   const response = await apiClient
-    .post(
-      `/api/users/posts`,
-      {
-        userId: userId,
-        content: content,
+    .post(`/api/users/posts`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${userStore.token}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${userStore.token}`,
-        },
-      }
-    )
+    })
     .catch((error) => {
       console.log(error);
       return null;
     });
 
   return response?.data;
-}
+};
+
 
 export {
   getPostOnWall,

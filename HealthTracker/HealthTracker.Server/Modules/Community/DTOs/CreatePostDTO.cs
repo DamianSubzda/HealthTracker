@@ -8,5 +8,6 @@ namespace HealthTracker.Server.Modules.Community.DTOs
         [Required]
         [MaxLength(2500, ErrorMessage = "Must be 2500 characters or less!")]
         public string Content { get; set; }
+        public IFormFile? ImageFile { get; set; }
     }
 }
