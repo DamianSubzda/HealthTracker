@@ -6,6 +6,9 @@
 HealthTracker.Server/appsettings.json
 HealthTracker.Server/appsettings.Development.json
 
+HealthTracker.Server/Core/Assets/ProfilePictures/
+HealthTracker.Server/Modules/Community/Assets/PostAttachments/
+
 # User-specific files
 *.rsuser
 *.suo
