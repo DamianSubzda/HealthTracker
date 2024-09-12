@@ -1,8 +1,8 @@
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Core.Repositories;
 using HealthTracker.Server.Infrastructure.Hubs;
-using HealthTracker.Server.Infrastructure.Services;
 using HealthTracker.Server.Infrastructure.Data;
+using HealthTracker.Server.Infrastructure.Services;
 using HealthTracker.Server.Modules.Community.Controllers;
 using HealthTracker.Server.Modules.Community.Helpers;
 using HealthTracker.Server.Modules.Community.Repositories;
@@ -111,6 +111,7 @@ void ConfigureServices(WebApplicationBuilder builder)
     // Dependency Injection for Repositories and AutoMapper
     AddRepositoryServices(builder);
     AddAutoMapperProfiles(builder);
+    AddHelpers(builder);
 
     builder.Services.AddSignalR();
 }
@@ -210,6 +211,11 @@ void AddAutoMapperProfiles(WebApplicationBuilder builder)
     builder.Services.AddAutoMapper(typeof(GoalProfile));
     builder.Services.AddAutoMapper(typeof(ExerciseProfile));
     builder.Services.AddAutoMapper(typeof(WorkoutProfile));
+}
+
+void AddHelpers(WebApplicationBuilder builder)
+{
+    builder.Services.AddScoped<IFileService, FileService>();
 }
 
 void UseStaticFiles(WebApplication app)

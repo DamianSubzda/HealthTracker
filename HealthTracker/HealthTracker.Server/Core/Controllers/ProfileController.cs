@@ -70,9 +70,8 @@ namespace HealthTracker.Server.Core.Controllers
         {
             try
             {
-                var folderPath = await _userRepository.SetPhotoUser(id, photo);
-                var url = $"{Request.Scheme}://{Request.Host}/{folderPath}";
-                return Ok(url);
+                var result = await _userRepository.SetPhotoUser(id, photo);
+                return Ok(result);
             }
             catch (UserNotFoundException ex)
             {

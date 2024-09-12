@@ -183,7 +183,7 @@ const addCommentToParent = async (
   return response?.data;
 };
 
-const createPost = async (userId: Number, content: string, image: HTMLInputElement | null) => {
+const createPost = async (userId: number | null, content: string, image: HTMLInputElement | null) => {
   
   if (!userId) {
     return null;
@@ -194,7 +194,6 @@ const createPost = async (userId: Number, content: string, image: HTMLInputEleme
   if (image && image?.files) {
     formData.append('imageFile', image.files[0]);
   }
-  console.log(formData);
   const userStore = useUserStore();
   const response = await apiClient
     .post(`/api/users/posts`, formData, {

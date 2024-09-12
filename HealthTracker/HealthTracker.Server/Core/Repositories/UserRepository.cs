@@ -13,62 +13,58 @@ namespace HealthTracker.Server.Core.Repositories
 {
     public interface IUserRepository
     {
-        Task<UserDTO> GetUser(int id);
-        Task<List<UserSerachDTO>> GetUsers(int id, string input);
-        Task<string> SetPhotoUser(int id, IFormFile photo);
+        Task<UserDTO> GetUser(int userId);
+        Task<List<UserSerachDTO>> GetUsers(int userId, string input);
+        Task<string> SetPhotoUser(int userId, IFormFile photo);
     }
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _environment;
-        public UserRepository(ApplicationDbContext context, IMapper mapper, IWebHostEnvironment environment)
+        private readonly IFileService _fileService;
+        public UserRepository(ApplicationDbContext context, IMapper mapper, IFileService fileService)
         {
             _context = context;
             _mapper = mapper;
-            _environment = environment;
+            _fileService = fileService;
         }
 
-        public async Task<UserDTO> GetUser(int id)
+        public async Task<UserDTO> GetUser(int userId)
         {
             var userDTO = await _context.User
-                .Where(u => u.Id == id)
+                .Where(u => u.Id == userId)
                 .ProjectTo<UserDTO>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync() ?? throw new UserNotFoundException(id);
+                .FirstOrDefaultAsync() ?? throw new UserNotFoundException(userId);
 
             return userDTO;
         }
 
-        public async Task<string> SetPhotoUser(int id, IFormFile photo)
+        public async Task<string> SetPhotoUser(int userId, IFormFile photo)
         {
             var user = await _context.User
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
             {
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException(userId);
             }
 
-            var fileName = $"user_{id}.png";
-            var folderPath = Path.Combine("Core/Assets/ProfilePictures", fileName);
-            var fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), folderPath);
-
-            using (var fileStream = new FileStream(fullFilePath, FileMode.Create))
+            if (user.ProfilePicture != null)
             {
-                await photo.CopyToAsync(fileStream);
+                _fileService.DeleteFile(user.ProfilePicture);
             }
 
-            user.ProfilePicture = folderPath;
+            user.ProfilePicture = _fileService.SaveFile(photo, "Core\\Assets\\ProfilePictures");
 
             await _context.SaveChangesAsync();
 
-            return folderPath;
+            return user.ProfilePicture;
         }
 
-        public async Task<List<UserSerachDTO>> GetUsers(int id, string input)
+        public async Task<List<UserSerachDTO>> GetUsers(int userId, string input)
         {
             var userDTO = await _context.User
-                .Where(u => u.Id != id && (u.FirstName.ToLower().Contains(input.ToLower()) || u.LastName.ToLower().Contains(input.ToLower())))
+                .Where(u => u.Id != userId && (u.FirstName.ToLower().Contains(input.ToLower()) || u.LastName.ToLower().Contains(input.ToLower())))
                 .Take(10)
                 .ProjectTo<UserSerachDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync();

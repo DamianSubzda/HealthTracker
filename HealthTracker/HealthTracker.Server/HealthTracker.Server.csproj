@@ -41,6 +41,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
   </ItemGroup>
@@ -53,7 +54,6 @@
 
   <ItemGroup>
     <Folder Include="Core\Interfaces\" />
-    <Folder Include="Infrastructure\Services\" />
     <Folder Include="Modules\Community\Assets\PostAttachments\" />
     <Folder Include="Modules\Health\Controllers\" />
     <Folder Include="Modules\Health\DTOs\" />
