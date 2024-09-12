@@ -49,7 +49,9 @@ async function getFriendship(id: number) {
       },
     })
     .catch((error) => {
-      console.log(error);
+      if (error.status != 404) {
+        console.log(error);
+      }
       return null;
     });
 

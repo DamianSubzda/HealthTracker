@@ -1,9 +1,9 @@
 <template>
   <div class="profile-picture">
-    <img v-if="picture != null" :src="localPicture" alt="profile picture">
+    <img v-if="profile.profilePicture != null" :src="localPicture" alt="profile picture">
     <img v-else src="@/assets/community/pictures/defaultProfilePicture.png" alt="default picture">
-    <div className="change-picture">
-      <button v-if="userStore.userId == profileId" v-on:click="openFileDialog">
+    <div v-if="userStore.userId == profile.id" className="change-picture">
+      <button  v-on:click="openFileDialog">
         <img src="@/assets/icons/change-photo.svg" alt="Insert image" />
         <input ref="fileInput" type="file" @change="handleFileSelect" accept="image/*" style="display: none;">
       </button>
@@ -15,21 +15,20 @@
 import { ref } from "vue"
 import config from "@/config.json"
 import { useUserStore } from "@/store/account/auth";
-import { setUserPhoto } from "@/service/api/account/profileController";
+import { setUserPhoto, type IProfile } from "@/service/api/account/profileController";
 
 const props = defineProps<{
-  picture: string,
-  profileId: number
+    profile: IProfile
 }>();
 
-const localPicture = ref(`${config.serverURL}${props.picture}?v=${new Date().getTime()}`);
+const localPicture = ref(`${config.serverURL}${props.profile.profilePicture}?v=${new Date().getTime()}`);
 const userStore = useUserStore();
 const fileInput = ref<HTMLInputElement | null>(null);
 
 async function handleFileSelect() {
   if (fileInput.value) {
     try {
-      const response = await setUserPhoto(props.profileId, fileInput.value);
+      const response = await setUserPhoto(props.profile.id, fileInput.value);
       if (response) {
         localPicture.value = `${config.serverURL}${response}?v=${new Date().getTime()}`;
         fileInput.value.value = "";

@@ -1,7 +1,7 @@
 <template>
     <div class="content-left">
         <div>
-            <ProfilePicture :picture="profile.profilePicture" :profileId="profile.id" />
+            <ProfilePicture :profile="profile" />
             <div class="profile-name">
                 <h1>{{ profile.firstName }}</h1>
                 <h1>{{ profile.lastName }}</h1>

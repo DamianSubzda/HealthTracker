@@ -38,7 +38,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
             _mapper = mapper;
             _statusRepository = statusRepository;
         }
-        //Jeśli już jest to albo usuwasz poprzedni i tworzysz nowy albo zmieniasz status albo jeszcze inaczej - do przegadania i zaimplementowania
+
         public async Task<FriendshipDTO> CreateFriendshipRequest(CreateFriendshipDTO createFriendshipDTO)
         {
             var user1 = await _context.User.AnyAsync(line => line.Id == createFriendshipDTO.User1Id);

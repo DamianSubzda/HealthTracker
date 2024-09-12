@@ -3,12 +3,12 @@
     <LoadingScreen :cubSize="25"/>
   </div>
   <div v-else-if="profile != null">
-    <div class="header">
-      <button v-if="!isFriendshipRequestSended" @click="sendFriendshipRequest">Send friend request</button>
+    <div v-if="!isFriendshipRequestSended" class="header">
+      <button @click="sendFriendshipRequest">Send friend request</button>
     </div>
     <div class="personal-info">
       <ProfileInfo :profile="profile" />
-      <ProfileContent :tabs="['Posts', 'Goals', 'Training plans']" :profile="profile" />
+      <ProfileContent :tabs="['Posts', 'Goals', 'Training plans', 'Friends']" :profile="profile" />
     </div>
 
   </div>
@@ -42,7 +42,7 @@ onMounted(async () => {
   isOwnProfile.value = !route.params.id;
 
   const fetchedProfile = userId ? await getProfileById(userId) : null;
-
+  
   if (fetchedProfile != null) {
     profile.value = fetchedProfile;
     await getFriendshipStatus();
@@ -79,8 +79,21 @@ async function sendFriendshipRequest() {
   padding: 10px;
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    height: inherit;
     width: 100%;
     padding: 1rem;
+    cursor: pointer;
+    background-color: rgb(153, 144, 144);
+    border: 0;
+    font-size: x-large;
+
+    &:hover {
+      background-color: rgb(95, 95, 95);
+    }
   }
 }
 

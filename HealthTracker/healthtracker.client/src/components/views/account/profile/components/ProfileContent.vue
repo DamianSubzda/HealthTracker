@@ -7,7 +7,7 @@
         </div>
         <!-- Zawartość zakładek -->
         <div v-if="activeTab === 'Posts'" className="post-panel panel">
-            <router-link :to="`post/create`">
+            <router-link :to="`post/create`" v-if="userStore.userId == profile.id">
                 <img src="@/assets/icons/add.svg" alt="Insert image" />
             </router-link>
 
@@ -35,22 +35,19 @@ import Post from './../../../community/post/PostSection.vue'
 import LoadingScreen from '@/components/shared/LoadingScreen.vue';
 import { getUserPosts } from './../../../../../service/api/community/postController'
 import { type IPost } from '@/data/models/postModels';
+import { type IProfile } from '@/service/api/account/profileController';
+import { useUserStore } from '@/store/account/auth';
 
 const posts = ref<IPost[] | null>(null);
 const arePostsLoading = ref(true);
 const postPageNumber = ref(1);
 const postPageSize = 10;
+const userStore = useUserStore();
 
-const props = defineProps({
-    tabs: {
-        type: Array as () => string[],
-        default: () => [],
-    },
-    profile: {
-        type: Object,
-        default: null
-    }
-});
+const props = defineProps<{
+    tabs: string[],
+    profile: IProfile,
+}>();
 
 onMounted(async () => {
     await getPosts();
@@ -81,16 +78,18 @@ function setActiveTab(tabName: string) {
     border-radius: 10px;
 
     .content-header {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         border-bottom: 1px solid grey;
         margin-bottom: 0.5rem;
 
-        @media (max-width: 328px) {
-        grid-template-columns: 1fr;
+        @media (max-width: 388px) {
+            flex-direction: column;
         }
 
         button {
+            flex-grow: 1;
             word-wrap:break-word;
             word-spacing: normal;
             color: white;

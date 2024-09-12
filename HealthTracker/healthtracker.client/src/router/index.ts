@@ -98,7 +98,15 @@ const router = createRouter({
     {
       path: '/profile/:id',
       name: 'UsersProfile',
-      component: UserProfile
+      component: UserProfile,
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore();
+        if (userStore.userId?.toString() === to.params.id) {
+          next('/profile');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/post/create',
