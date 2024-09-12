@@ -46,6 +46,7 @@ const friendsStore = useFriendsStore();
         overflow-y: auto;
         -ms-overflow-style: none;
         scrollbar-width: none;
+        
         &::-webkit-scrollbar { 
             display: none;
         }

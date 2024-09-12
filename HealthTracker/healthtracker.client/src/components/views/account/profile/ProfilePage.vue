@@ -23,7 +23,7 @@ import ErrorScreen from "./../../../shared/ErrorScreen.vue"
 import { useRoute } from 'vue-router';
 import { type IProfile, getProfileById } from '@/service/api/account/profileController';
 import LoadingScreen from '../../../shared/LoadingScreen.vue'
-import { getFriendship, postFriendshipRequest } from '@/service/api/community/friendshipController';
+import { apiGetFriendship, apiPostFriendshipRequest } from '@/service/api/community/friendshipController';
 import ProfileContent from './components/ProfileContent.vue';
 import ProfileInfo from './components/ProfileInfo.vue';
 import { useUserStore } from "@/store/account/auth";
@@ -57,7 +57,7 @@ async function getFriendshipStatus() {
   }
 
   if (profile.value) {
-    const friendshipData = await getFriendship(profile.value.id);
+    const friendshipData = await apiGetFriendship(profile.value.id);
     if (friendshipData != null) {
       isFriendshipRequestSended.value = true;
     } else {
@@ -68,7 +68,7 @@ async function getFriendshipStatus() {
 
 async function sendFriendshipRequest() {
   if (profile.value) {
-    isFriendshipRequestSended.value = await postFriendshipRequest(profile.value.id);
+    isFriendshipRequestSended.value = await apiPostFriendshipRequest(profile.value.id);
   }
 }
 

@@ -34,14 +34,12 @@ namespace HealthTracker.Server.Modules.Community.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IStatusRepository _statusRepository;
         private readonly IFileService _fileService;
 
-        public PostRepository(ApplicationDbContext context, IMapper mapper, IStatusRepository statusRepository, IFileService fileService)
+        public PostRepository(ApplicationDbContext context, IMapper mapper, IFileService fileService)
         {
             _context = context;
             _mapper = mapper;
-            _statusRepository = statusRepository;
             _fileService = fileService;
         }
 
@@ -108,17 +106,16 @@ namespace HealthTracker.Server.Modules.Community.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<PostDTO>> GetPosts(int userId, int pageSize, int pageNumber)
+        public async Task<List<PostDTO>> GetPosts(int userId, int pageSize, int pageNumber) //Do sprawdzenia i edycji
         {
             if (!await _context.User.AnyAsync(u => u.Id == userId))
             {
                 throw new UserNotFoundException();
             }
 
-            Status status = await _statusRepository.GetStatus("Accepted");
             var friendIds = await _context.Friendship
-                .Where(f => (f.User1Id == userId || f.User2Id == userId) && f.StatusId == status.Id)
-                .Select(f => f.User1Id == userId ? f.User2Id : f.User1Id)
+                .Where(f => (f.UserId == userId || f.FriendId == userId) && f.Status == Status.Accepted)
+                .Select(f => f.UserId == userId ? f.FriendId : f.UserId)
                 .Distinct()
                 .ToListAsync();
 

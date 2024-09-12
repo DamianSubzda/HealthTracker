@@ -50,7 +50,7 @@ import LoadingScreen from './../../shared/LoadingScreen.vue'
 import { currentPosts } from '@/data/models/postModels';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { getPostOnWall } from '@/service/api/community/postController';
-import { getFriendList } from '@/service/api/community/friendshipController';
+import { apiGetFriendList } from '@/service/api/community/friendshipController';
 import { useUserStore } from '@/store/account/auth';
 import { useChatStore } from '@/store/community/chatStore';
 import { useFriendsStore } from '@/store/community/friendsStore';
@@ -93,7 +93,7 @@ async function getFriends() {
   if (!userStore.userId) {
     return;
   }
-  const response = await getFriendList();
+  const response = await apiGetFriendList();
   if (response != null) {
     friendsStore.friends = response.map((friend: any) => ({
       ...friend,

@@ -196,7 +196,6 @@ void AddRepositoryServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<IChatRepository, ChatRepository>();
     builder.Services.AddScoped<IFriendRepository, FriendshipRepository>();
     builder.Services.AddScoped<IPostRepository, PostRepository>();
-    builder.Services.AddScoped<IStatusRepository, StatusRepository>();
     builder.Services.AddScoped<IGoalRepository, GoalRepository>();
     builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
     builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();

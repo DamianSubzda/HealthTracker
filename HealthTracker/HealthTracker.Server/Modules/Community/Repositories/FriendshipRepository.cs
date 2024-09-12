@@ -19,11 +19,12 @@ namespace HealthTracker.Server.Modules.Community.Repositories
     /// </summary>
     public interface IFriendRepository
     {
-        Task<List<FriendDTO>> GetFriendList(int id);
         Task<FriendshipDTO> CreateFriendshipRequest(CreateFriendshipDTO createFriendshipDTO);
+        Task<List<FriendDTO>> GetFriendList(int userId);
         Task<FriendshipDTO> GetFriendship(int friendshipId);
         Task<FriendshipDTO> GetFriendshipByUsersId(int userId, int friendId);
-        Task ChangeFriendshipStatus(int userId, int friendId, bool isAccepted);
+        Task AcceptFriendship(int userId, int friendId);
+        Task DeclineFriendship(int userId, int friendId);
         Task DeleteFriendship(int userId, int friendId);
     }
 
@@ -31,37 +32,33 @@ namespace HealthTracker.Server.Modules.Community.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IStatusRepository _statusRepository;
-        public FriendshipRepository(ApplicationDbContext context, IMapper mapper, IStatusRepository statusRepository)
+        public FriendshipRepository(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _statusRepository = statusRepository;
         }
 
         public async Task<FriendshipDTO> CreateFriendshipRequest(CreateFriendshipDTO createFriendshipDTO)
         {
-            var user1 = await _context.User.AnyAsync(line => line.Id == createFriendshipDTO.User1Id);
-            var user2 = await _context.User.AnyAsync(line => line.Id == createFriendshipDTO.User2Id);
+            var user = await _context.User.AnyAsync(line => line.Id == createFriendshipDTO.UserId);
+            var friend = await _context.User.AnyAsync(line => line.Id == createFriendshipDTO.FriendId);
 
-            if (!user1 || !user2)
+            if (!user || !friend)
             {
-                throw new UserNotFoundException(user1 ? createFriendshipDTO.User1Id : createFriendshipDTO.User2Id);
+                throw new UserNotFoundException(user ? createFriendshipDTO.UserId : createFriendshipDTO.FriendId);
             }
 
             bool friendshipExists = await _context.Friendship.AnyAsync(f =>
-                (f.User1Id == createFriendshipDTO.User1Id && f.User2Id == createFriendshipDTO.User2Id) ||
-                (f.User1Id == createFriendshipDTO.User2Id && f.User2Id == createFriendshipDTO.User1Id));
+                (f.UserId == createFriendshipDTO.UserId && f.FriendId == createFriendshipDTO.FriendId) ||
+                (f.UserId == createFriendshipDTO.FriendId && f.FriendId == createFriendshipDTO.UserId));
 
             if (friendshipExists)
             {
-                throw new FriendshipAlreadyExistsException();
+                throw new FriendshipAlreadyExistsException(); //Może rozdzielić na to aby wysyłać odpowiednie komunikaty. Żeby nie można było wysłać zaproszenia osobie która wcześniej cie zaprosiła
             }
 
-            Status status = await _statusRepository.GetStatus("RequestSend");
-
             var friendship = _mapper.Map<Friendship>(createFriendshipDTO);
-            friendship.Status = status;
+            friendship.Status = Status.Requested;
 
             await _context.Friendship.AddAsync(friendship);
             await _context.SaveChangesAsync();
@@ -96,56 +93,49 @@ namespace HealthTracker.Server.Modules.Community.Repositories
             }
 
             var friendship = await _context.Friendship
-                .Where(f => (f.User1Id == userId && f.User2Id == friendId) || (f.User2Id == userId && f.User1Id == friendId))
+                .Where(f => (f.UserId == userId && f.FriendId == friendId) || (f.FriendId == userId && f.UserId == friendId))
                 .ProjectTo<FriendshipDTO>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             return friendship ?? throw new FriendshipNotFoundException();
         }
 
-        public async Task<List<FriendDTO>> GetFriendList(int id)
+        public async Task<List<FriendDTO>> GetFriendList(int userId)
         {
-            var user = await _context.User.AnyAsync(line => line.Id == id);
+            var user = await _context.User.AnyAsync(line => line.Id == userId);
 
             if (!user)
             {
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException(userId);
             }
 
-            Status status = await _statusRepository.GetStatus("Accepted");
             var friends = await _context.Friendship
-                .Where(f => f.User1Id == id || f.User2Id == id)
-                .Where(f => f.Status == status)
-                .Select(f => new
-                {
-                    User = f.User1Id == id ? f.User2 : f.User1
-                })
-                .Distinct()
+                .Where(f => f.UserId == userId)
+                .Where(f => f.Status == Status.Accepted)
                 .Select(u => new FriendDTO
                 {
-                    UserId = u.User.Id,
-                    FirstName = u.User.FirstName,
-                    LastName = u.User.LastName
+                    UserId = u.Friend.Id,
+                    FirstName = u.Friend.FirstName,
+                    LastName = u.Friend.LastName
                 })
                 .ToListAsync();
 
             return friends;
         }
 
-        public async Task ChangeFriendshipStatus(int userId, int friendId, bool isAccepted)
+        public async Task AcceptFriendship(int userId, int friendId)
         {
-            var user1 = await _context.User.AnyAsync(line => line.Id == userId);
-            var user2 = await _context.User.AnyAsync(line => line.Id == friendId);
+            var user = await _context.User.AnyAsync(line => line.Id == userId);
+            var friend = await _context.User.AnyAsync(line => line.Id == friendId);
 
-            if (!user1 || !user2)
+            if (!user || !friend)
             {
-                throw new UserNotFoundException(user1 ? userId : friendId);
+                throw new UserNotFoundException(user ? userId : friendId);
             }
 
-            Status status = await _statusRepository.GetStatus(isAccepted ? "Accepted" : "Declined");
-
             var friendship = await _context.Friendship
-                .Where(f => (f.User1Id == userId && f.User2Id == friendId) || (f.User2Id == userId && f.User1Id == friendId))
+                .Where(f => (f.UserId == friendId && f.FriendId == userId)) //Chyba trzeba kolejnością zamienić i że 
+                .Where(f => f.Status == Status.Requested)
                 .FirstOrDefaultAsync();
 
             if (friendship == null)
@@ -153,24 +143,70 @@ namespace HealthTracker.Server.Modules.Community.Repositories
                 throw new FriendshipNotFoundException();
             }
 
-            friendship.Status = status;
-            friendship.DateOfStart = DateTime.UtcNow;
+            friendship.Status = Status.Accepted;
+            friendship.UpdatedAt = DateTime.UtcNow;
 
+            var symmetricalFriendship = new Friendship
+            {
+                UserId = userId,    //UserId potwierdza requesta,
+                FriendId = friendId,
+                Status = Status.Accepted,
+                CreatedAt = friendship.CreatedAt,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            await _context.AddAsync(symmetricalFriendship);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeclineFriendship(int userId, int friendId)
+        {
+            var user = await _context.User.AnyAsync(line => line.Id == userId);
+            var friend = await _context.User.AnyAsync(line => line.Id == friendId);
+
+            if (!user || !friend)
+            {
+                throw new UserNotFoundException(user ? userId : friendId);
+            }
+
+            var friendship = await _context.Friendship
+                .Where(f => (f.UserId == friendId && f.FriendId == userId))
+                .Where(f => f.Status == Status.Requested)
+                .FirstOrDefaultAsync();
+
+            if (friendship == null)
+            {
+                throw new FriendshipNotFoundException();
+            }
+
+            friendship.Status = Status.Declined;
+            friendship.UpdatedAt = DateTime.UtcNow;
+
+            var symmetricalFriendship = new Friendship
+            {
+                UserId = userId,    //UserId potwierdza requesta,
+                FriendId = friendId,
+                Status = Status.Declined,
+                CreatedAt = friendship.CreatedAt,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            await _context.AddAsync(symmetricalFriendship);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteFriendship(int userId, int friendId)
         {
-            var friendship = await _context.Friendship
-                .Where(f => (f.User1Id == userId && f.User2Id == friendId) || (f.User2Id == userId && f.User1Id == friendId))
-                .FirstOrDefaultAsync();
+            var friendships = await _context.Friendship
+                .Where(f => (f.UserId == userId && f.FriendId == friendId) || (f.FriendId == userId && f.UserId == friendId))
+                .ToListAsync();
 
-            if (friendship == null)
+            if (!friendships.Any())
             {
                 throw new FriendshipNotFoundException();
             }
 
-            _context.Friendship.RemoveRange(friendship);
+            _context.Friendship.RemoveRange(friendships);
             await _context.SaveChangesAsync();
         }
 
