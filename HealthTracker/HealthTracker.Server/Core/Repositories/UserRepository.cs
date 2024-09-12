@@ -4,8 +4,8 @@ using HealthTracker.Server.Core.DTOs;
 using HealthTracker.Server.Core.Exceptions;
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Infrastructure.Data;
+using HealthTracker.Server.Infrastructure.Services;
 using HealthTracker.Server.Modules.Community.DTOs;
-using HealthTracker.Server.Modules.Community.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,12 +21,12 @@ namespace HealthTracker.Server.Core.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IFileHelper _fileHelper;
-        public UserRepository(ApplicationDbContext context, IMapper mapper, IFileHelper fileHelper)
+        private readonly IFileService _fileService;
+        public UserRepository(ApplicationDbContext context, IMapper mapper, IFileService fileService)
         {
             _context = context;
             _mapper = mapper;
-            _fileHelper = fileHelper;
+            _fileService = fileService;
         }
 
         public async Task<UserDTO> GetUser(int userId)
@@ -51,10 +51,10 @@ namespace HealthTracker.Server.Core.Repositories
 
             if (user.ProfilePicture != null)
             {
-                _fileHelper.DeleteFile(user.ProfilePicture);
+                _fileService.DeleteFile(user.ProfilePicture);
             }
 
-            user.ProfilePicture = _fileHelper.SaveFile(photo, "Core\\Assets\\ProfilePictures");
+            user.ProfilePicture = _fileService.SaveFile(photo, "Core\\Assets\\ProfilePictures");
 
             await _context.SaveChangesAsync();
 

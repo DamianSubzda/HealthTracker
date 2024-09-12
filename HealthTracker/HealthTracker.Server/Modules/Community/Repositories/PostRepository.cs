@@ -4,8 +4,8 @@ using HealthTracker.Server.Core.Exceptions;
 using HealthTracker.Server.Core.Exceptions.Community;
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Infrastructure.Data;
+using HealthTracker.Server.Infrastructure.Services;
 using HealthTracker.Server.Modules.Community.DTOs;
-using HealthTracker.Server.Modules.Community.Helpers;
 using HealthTracker.Server.Modules.Community.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,14 +35,14 @@ namespace HealthTracker.Server.Modules.Community.Repositories
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IStatusRepository _statusRepository;
-        private readonly IFileHelper _fileHelper;
+        private readonly IFileService _fileService;
 
-        public PostRepository(ApplicationDbContext context, IMapper mapper, IStatusRepository statusRepository, IFileHelper fileHelper)
+        public PostRepository(ApplicationDbContext context, IMapper mapper, IStatusRepository statusRepository, IFileService fileService)
         {
             _context = context;
             _mapper = mapper;
             _statusRepository = statusRepository;
-            _fileHelper = fileHelper;
+            _fileService = fileService;
         }
 
         public async Task<PostDTO> CreatePost(CreatePostDTO createPostDTO)
@@ -57,7 +57,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
 
             if (createPostDTO.ImageFile != null)
             {
-                post.ImageURL = _fileHelper.SaveFile(createPostDTO.ImageFile, "Modules\\Community\\Assets\\PostAttachments");
+                post.ImageURL = _fileService.SaveFile(createPostDTO.ImageFile, "Modules\\Community\\Assets\\PostAttachments");
             }
 
             await _context.Post.AddAsync(post);
@@ -98,7 +98,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
 
             if (post.ImageURL != null)
             {
-                _fileHelper.DeleteFile(post.ImageURL);
+                _fileService.DeleteFile(post.ImageURL);
             }
 
             _context.Like.RemoveRange(likes);

@@ -2,6 +2,7 @@ using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Core.Repositories;
 using HealthTracker.Server.Infrastructure.Hubs;
 using HealthTracker.Server.Infrastructure.Data;
+using HealthTracker.Server.Infrastructure.Services;
 using HealthTracker.Server.Modules.Community.Controllers;
 using HealthTracker.Server.Modules.Community.Helpers;
 using HealthTracker.Server.Modules.Community.Repositories;
@@ -214,7 +215,7 @@ void AddAutoMapperProfiles(WebApplicationBuilder builder)
 
 void AddHelpers(WebApplicationBuilder builder)
 {
-    builder.Services.AddScoped<IFileHelper, FileHelper>();
+    builder.Services.AddScoped<IFileService, FileService>();
 }
 
 void UseStaticFiles(WebApplication app)

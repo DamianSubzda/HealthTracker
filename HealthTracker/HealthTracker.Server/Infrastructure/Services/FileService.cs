@@ -2,17 +2,17 @@
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
 
-namespace HealthTracker.Server.Modules.Community.Helpers
+namespace HealthTracker.Server.Infrastructure.Services
 {
-    public interface IFileHelper
+    public interface IFileService
     {
         string SaveFile(IFormFile file, string uploadPath);
         void ResizeImage(string filePath, int maxWidth = 1280, int maxHeight = 720);
         void DeleteFile(string filePath);
     }
-    public class FileHelper : IFileHelper
+    public class FileService : IFileService
     {
-        public FileHelper() { }
+        public FileService() { }
 
         public string SaveFile(IFormFile file, string uploadPath)
         {
