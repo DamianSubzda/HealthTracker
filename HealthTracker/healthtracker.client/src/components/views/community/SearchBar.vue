@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { debounce } from 'lodash-es';
 import { ref, watch } from 'vue';
-import { getSearchedUsers } from '@/service/api/community/profileController'
+import { getSearchedUsers } from '@/service/api/community/userController'
 
 const searchQuery = ref('');
 const searchResults = ref<SearchedUser[]>([]);

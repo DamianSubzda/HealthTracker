@@ -49,6 +49,11 @@ namespace HealthTracker.Server.Core.Repositories
                 throw new UserNotFoundException(userId);
             }
 
+            if (user.ProfilePicture != null)
+            {
+                _fileHelper.DeleteFile(user.ProfilePicture);
+            }
+
             user.ProfilePicture = _fileHelper.SaveFile(photo, "Core\\Assets\\ProfilePictures");
 
             await _context.SaveChangesAsync();

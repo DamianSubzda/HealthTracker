@@ -30,5 +30,32 @@ async function getProfileById(userId: number) {
   }
 }
 
+async function setUserPhoto(userId: number, image: HTMLInputElement | null) {
+  if (!userId || !image || !image.files) {
+    return null;
+  }
+
+  const formData = new FormData();
+  formData.append('photo', image.files[0]);
+
+  try {
+    const userStore = useUserStore();
+    const response = await apiClient.post(
+      `/api/users/${userId}/photo`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',       
+          Authorization: `Bearer ${userStore.token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed to upload photo:", error);
+    return null;
+  }
+}
+
 export type { IProfile };
-export { getProfileById };
+export { getProfileById, setUserPhoto };
