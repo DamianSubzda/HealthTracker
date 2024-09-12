@@ -133,7 +133,7 @@ function setActiveTab(tabName: string) {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: rgb(112, 112, 112);
+            background-color: rgb(153, 144, 144);
             border-radius: 50rem;
             border: 0;
             cursor: pointer;

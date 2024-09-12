@@ -5,7 +5,7 @@
     <div className="change-picture">
       <button v-if="userStore.userId == profileId" v-on:click="openFileDialog">
         <img src="@/assets/icons/change-photo.svg" alt="Insert image" />
-        <input ref="fileInput" type="file" @change="handleFileSelect" accept="image/*" style="display: none;" >
+        <input ref="fileInput" type="file" @change="handleFileSelect" accept="image/*" style="display: none;">
       </button>
 
     </div>
@@ -27,23 +27,23 @@ const userStore = useUserStore();
 const fileInput = ref<HTMLInputElement | null>(null);
 
 async function handleFileSelect() {
-    if (fileInput.value) {
-        try {
-            const response = await setUserPhoto(props.profileId, fileInput.value);
-            if (response) {
-                localPicture.value = `${config.serverURL}${response}?v=${new Date().getTime()}`;
-                fileInput.value.value = "";
-            } else {
-                console.error('Failed to upload photo.');
-            }
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
+  if (fileInput.value) {
+    try {
+      const response = await setUserPhoto(props.profileId, fileInput.value);
+      if (response) {
+        localPicture.value = `${config.serverURL}${response}?v=${new Date().getTime()}`;
+        fileInput.value.value = "";
+      } else {
+        console.error('Failed to upload photo.');
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
     }
+  }
 }
 
 function openFileDialog() {
-    fileInput.value?.click();
+  fileInput.value?.click();
 }
 
 </script>
@@ -56,11 +56,41 @@ function openFileDialog() {
   overflow: hidden;
 
   .change-picture {
+    height: 2rem;
+    width: 2rem;
+    padding: 5px;
     margin-top: 5px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+  }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    height: inherit;
+    width: inherit;
+    cursor: pointer;
+    background-color: rgb(153, 144, 144);
+    border: 0;
+
+    img {
+      border-radius: inherit;
+      height: 100%;
+    }
+
+    &:hover {
+      background-color: rgb(95, 95, 95);
+      z-index: 9999;
+
+      img {
+        height: inherit;
+        transition: height 0.3s ease;
+      }
+    }
   }
 
   img {
