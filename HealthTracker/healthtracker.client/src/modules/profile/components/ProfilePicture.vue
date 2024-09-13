@@ -4,7 +4,7 @@
     <img v-else src="@/assets/pictures/defaultProfilePicture.png" alt="default picture">
     <div v-if="userStore.userId == profile.id" className="change-picture">
       <button  v-on:click="openFileDialog">
-        <img src="@/assets/icons/change-photo.svg" alt="Insert image" />
+        <img src="@/assets/icons/change-photo.svg" alt=" " />
         <input ref="fileInput" type="file" @change="handleFileSelect" accept="image/*" style="display: none;">
       </button>
 

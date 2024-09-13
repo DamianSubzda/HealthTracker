@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import ErrorScreen from "@/shared/components/ErrorWidget.vue"
 import LoadingScreen from '@/shared/components/LoadingWidget.vue'
 import { useRoute } from 'vue-router';
@@ -36,6 +36,14 @@ const userStore = useUserStore();
 const isOwnProfile = ref(false);
 
 onMounted(async () => {
+  await loadProfile();
+});
+
+watch(() => route.params.id, async () => {
+  await loadProfile();
+});
+
+async function loadProfile() {
   isLoading.value = true;
 
   let userId = route.params.id ? Number(route.params.id) : userStore.userId;
@@ -46,9 +54,12 @@ onMounted(async () => {
   if (fetchedProfile != null) {
     profile.value = fetchedProfile;
     await getFriendshipStatus();
+  } else {
+    profile.value = null;
   }
+
   isLoading.value = false;
-});
+}
 
 async function getFriendshipStatus() {
   if (isOwnProfile.value){

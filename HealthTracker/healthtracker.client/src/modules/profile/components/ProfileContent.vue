@@ -8,7 +8,7 @@
         <!-- Zawartość zakładek -->
         <div v-if="activeTab === 'Posts'" className="post-panel panel">
             <router-link :to="{name: 'CreatePost'}" v-if="userStore.userId == profile.id">
-                <img src="@/assets/icons/add.svg" alt="Insert image" />
+                <img src="@/assets/icons/add.svg" alt=" " />
             </router-link>
             
             <div v-if="arePostsLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
@@ -72,7 +72,6 @@ async function getFriends() {
 
 async function getFriendshipRequests() {
     const friends = await apiGetFriendshipRequestsForUser();
-    console.log(friends);
 }
 
 const activeTab = ref(props.tabs[0]);
