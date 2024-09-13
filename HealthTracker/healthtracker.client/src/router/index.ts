@@ -1,20 +1,22 @@
-import { useUserStore } from './../store/account/auth';
+import { useUserStore } from '../modules/auth/store/auth';
 import {createRouter, createWebHistory} from 'vue-router'
 
-import Home from '../components/views/home/HomePage.vue'
-import About from '../components/views/about/AboutPage.vue'
-import Diary from '../components/views/diary/DiaryPage.vue'
-import TreningsPlanner from '../components/views/treningsPlanner/TreningsPlannerPage.vue'
-import Health from '../components/views/health/HealthPage.vue'
-import Goals from '../components/views/goals/GoalsPage.vue'
-import Community from '../components/views/community/CommunityPage.vue'
-import Register from '../components/views/account/register/RegisterPage.vue'
-import Login from '../components/views/account/login/LoginPage.vue'
-import NewPass from '../components/views/account/new_pass/NewPassPage.vue'
-import PassReset from '../components/views/account/pass_reset/PassResetPage.vue'
-import LoginSuccess from '../components/views/account/login/SuccessLoginPage.vue'
-import UserProfile from '../components/views/account/profile/ProfilePage.vue'
-import CreatePostPage from '@/components/views/community/post/CreatePostPage.vue';
+import Home from '../modules/home/pages/HomePage.vue'
+import About from '../modules/about/pages/AboutPage.vue'
+import Diary from '../modules/diary/pages/DiaryPage.vue'
+import TreningsPlanner from '../modules/treningPlanner/pages/TreningPlannerPage.vue'
+import Health from '../modules/health/pages/HealthPage.vue'
+import Goals from '../modules/goals/pages/GoalsPage.vue'
+import Community from '../modules/community/pages/CommunityPage.vue'
+
+import Register from '../modules/auth/pages/RegisterPage.vue'
+import Login from '../modules/auth/pages/LoginPage.vue'
+import LoginSuccess from '../modules/auth/pages/LoginSuccessPage.vue'
+import PasswordNew from '../modules/auth/pages/PasswordNewPage.vue'
+import PasswordReset from '../modules/auth/pages/PasswordResetPage.vue'
+
+import Profile from '../modules/profile/pages/ProfilePage.vue'
+import CreatePost from '../modules/community/pages/CreatePostPage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -72,12 +74,12 @@ const router = createRouter({
     {
       path: '/login/pass-reset',
       name: 'Reset Password',
-      component: PassReset
+      component: PasswordReset
     },
     {
       path: '/login/new-pass',
       name: 'New Password',
-      component: NewPass
+      component: PasswordNew
     },
     {
       path: '/logout',
@@ -93,12 +95,12 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'Profile',
-      component: UserProfile
+      component: Profile
     },
     {
       path: '/profile/:id',
       name: 'UsersProfile',
-      component: UserProfile,
+      component: Profile,
       beforeEnter: (to, from, next) => {
         const userStore = useUserStore();
         if (userStore.userId?.toString() === to.params.id) {
@@ -111,7 +113,7 @@ const router = createRouter({
     {
       path: '/post/create',
       name: 'CreatePost',
-      component: CreatePostPage
+      component: CreatePost
     }
   ]
 })

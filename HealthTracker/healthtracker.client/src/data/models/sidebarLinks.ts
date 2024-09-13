@@ -1,5 +1,5 @@
 import { reactive, computed } from "vue";
-import { useUserStore } from "@/store/account/auth";
+import { useUserStore } from "@/modules/auth/store/auth";
 
 const createLink = (name: string, link: string, icon: string, isAuthRequired: boolean) => {
   return computed(() => {
