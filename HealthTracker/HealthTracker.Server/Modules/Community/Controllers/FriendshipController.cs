@@ -12,7 +12,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
 
     [Route("api")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class FriendshipController : ControllerBase
     {
         private readonly IFriendRepository _friendRepository;
@@ -98,6 +98,25 @@ namespace HealthTracker.Server.Modules.Community.Controllers
             {
                 var friendsListDto = await _friendRepository.GetFriendList(userId);
                 return Ok(friendsListDto);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during the get friendships list process for {userId}.", userId);
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+        [HttpGet("users/{userId}/friends/requests")]
+        public async Task<ActionResult<List<FriendDTO>>> GetFriendshipRequestsForUser(int userId)
+        {
+            try
+            {
+                var friendsRequested = await _friendRepository.GetFriendshipRequestsForUser(userId);
+                return Ok(friendsRequested);
             }
             catch (UserNotFoundException ex)
             {

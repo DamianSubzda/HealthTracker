@@ -1,7 +1,7 @@
 import { useUserStore } from "@/store/account/auth";
 import apiClient from "../axios";
 
-const apiGetFriendList = async () => {
+async function apiGetFriendList() {
   const userStore = useUserStore();
   const response = await apiClient
     .get(`/api/users/${userStore.userId}/friends`, {
@@ -14,35 +14,26 @@ const apiGetFriendList = async () => {
       return null;
     });
   return response?.data;
-};
-
-async function apiPostFriendshipRequest(id: number) {
-  const userStore = useUserStore();
-
-  await apiClient
-    .post(
-      `/api/users/friends`,
-      {
-        userId: userStore.userId,
-        friendId: id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${userStore.token}`,
-        },
-      }
-    )
-    .catch((error) => {
-      console.log(error);
-      return false;
-    });
-  return true;
 }
 
-async function apiGetFriendship(id: number) {
+async function apiGetFriendshipRequestsForUser(){
+  const userStore = useUserStore();
+  const respone = await apiClient.get(`/api/users/${userStore.userId}/friends/requests`, {
+    headers: {
+      Authorization: `Bearer ${userStore.token}`,
+    }
+  }).catch((error) => {
+    console.log(error);
+    return null;
+  })
+
+  return respone?.data;
+}
+
+async function apiGetFriendship(friendId: number) {
   const userStore = useUserStore();
   const response = await apiClient
-    .get(`/api/users/${userStore.userId}/friends/${id}`, {
+    .get(`/api/users/${userStore.userId}/friends/${friendId}`, {
       headers: {
         Authorization: `Bearer ${userStore.token}`,
       },
@@ -55,6 +46,28 @@ async function apiGetFriendship(id: number) {
     });
 
   return response?.data;
+}
+
+async function apiPostFriendshipRequest(friendId: number) {
+  const userStore = useUserStore();
+  await apiClient
+    .post(
+      `/api/users/friends`,
+      {
+        userId: userStore.userId,
+        friendId: friendId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${userStore.token}`,
+        },
+      }
+    )
+    .catch((error) => {
+      console.log(error);
+      return false;
+    });
+  return true;
 }
 
 async function apiPutFriendshipAccept(friendId: Number) {
@@ -103,4 +116,5 @@ export {
   apiPutFriendshipAccept,
   apiPutFriendshipDecline,
   apiDeleteFriendship,
+  apiGetFriendshipRequestsForUser,
 };

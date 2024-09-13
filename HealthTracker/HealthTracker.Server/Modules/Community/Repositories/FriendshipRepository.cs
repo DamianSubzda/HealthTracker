@@ -21,6 +21,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
     {
         Task<FriendshipDTO> CreateFriendshipRequest(CreateFriendshipDTO createFriendshipDTO);
         Task<List<FriendDTO>> GetFriendList(int userId);
+        Task<List<FriendDTO>> GetFriendshipRequestsForUser(int userId);
         Task<FriendshipDTO> GetFriendship(int friendshipId);
         Task<FriendshipDTO> GetFriendshipByUsersId(int userId, int friendId);
         Task AcceptFriendship(int userId, int friendId);
@@ -121,6 +122,29 @@ namespace HealthTracker.Server.Modules.Community.Repositories
                 .ToListAsync();
 
             return friends;
+        }
+
+        public async Task<List<FriendDTO>> GetFriendshipRequestsForUser(int userId)
+        {
+            var user = await _context.User.AnyAsync(u => u.Id == userId);
+
+            if (!user)
+            {
+                throw new UserNotFoundException(userId);
+            }
+
+            var friendshipRequests = await _context.Friendship
+                .Where(f => f.FriendId == userId && f.Status == Status.Requested)
+                .Select(u => new FriendDTO
+                {
+                    UserId = u.User.Id,
+                    FirstName = u.User.FirstName,
+                    LastName = u.User.LastName
+                })
+                .ToListAsync();
+
+            return friendshipRequests;
+
         }
 
         public async Task AcceptFriendship(int userId, int friendId)

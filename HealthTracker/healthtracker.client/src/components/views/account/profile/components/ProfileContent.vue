@@ -10,7 +10,7 @@
             <router-link :to="`post/create`" v-if="userStore.userId == profile.id">
                 <img src="@/assets/icons/add.svg" alt="Insert image" />
             </router-link>
-
+            
             <div v-if="arePostsLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
                 <LoadingScreen :cubSize="25" />
             </div>
@@ -37,9 +37,11 @@ import { getUserPosts } from './../../../../../service/api/community/postControl
 import { type IPost } from '@/data/models/postModels';
 import { type IProfile } from '@/service/api/account/profileController';
 import { useUserStore } from '@/store/account/auth';
+import { apiGetFriendshipRequestsForUser } from '@/service/api/community/friendshipController';
 
 const posts = ref<IPost[] | null>(null);
 const arePostsLoading = ref(true);
+const areFriendsLoading = ref(true);
 const postPageNumber = ref(1);
 const postPageSize = 10;
 const userStore = useUserStore();
@@ -51,6 +53,7 @@ const props = defineProps<{
 
 onMounted(async () => {
     await getPosts();
+    await getFriendshipRequests();
 });
 
 async function getPosts() {
@@ -61,6 +64,15 @@ async function getPosts() {
     } else {
         console.error("Failed to load posts or no posts available");
     }
+}
+
+async function getFriends() {
+    
+}
+
+async function getFriendshipRequests() {
+    const friends = await apiGetFriendshipRequestsForUser();
+    console.log(friends);
 }
 
 const activeTab = ref(props.tabs[0]);
