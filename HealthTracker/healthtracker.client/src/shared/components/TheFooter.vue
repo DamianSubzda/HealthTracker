@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import SocialLinks from './components/SocialLinks.vue';
+import SocialLinks from './SocialLinks.vue';
 import { computed } from 'vue';
 
 const route = useRoute();

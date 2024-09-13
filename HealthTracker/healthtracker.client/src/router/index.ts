@@ -1,120 +1,41 @@
-import { useUserStore } from '../modules/auth/store/auth';
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { authGuard } from './guards';
 
-import Home from '../modules/home/pages/HomePage.vue'
-import About from '../modules/about/pages/AboutPage.vue'
-import Diary from '../modules/diary/pages/DiaryPage.vue'
-import TreningsPlanner from '../modules/treningPlanner/pages/TreningPlannerPage.vue'
-import Health from '../modules/health/pages/HealthPage.vue'
-import Goals from '../modules/goals/pages/GoalsPage.vue'
-import Community from '../modules/community/pages/CommunityPage.vue'
+import NotFoundPage from '@/shared/pages/NotFoundPage.vue'
 
-import Register from '../modules/auth/pages/RegisterPage.vue'
-import Login from '../modules/auth/pages/LoginPage.vue'
-import LoginSuccess from '../modules/auth/pages/LoginSuccessPage.vue'
-import PasswordNew from '../modules/auth/pages/PasswordNewPage.vue'
-import PasswordReset from '../modules/auth/pages/PasswordResetPage.vue'
+import { aboutRoutes } from '@/modules/about/routes';
+import { authRoutes } from '@/modules/auth/routes';
+import { communityRoutes } from '@/modules/community/routes';
+import { diaryRoutes } from '@/modules/diary/routes';
+import { goalRoutes } from '@/modules/goals/routes';
+import { healthRoutes } from '@/modules/health/routes';
+import { homeRoutes } from '@/modules/home/routes';
+import { profileRoutes } from '@/modules/profile/routes';
+import { treningPlannerRoutes } from '@/modules/treningPlanner/routes';
 
-import Profile from '../modules/profile/pages/ProfilePage.vue'
-import CreatePost from '../modules/community/pages/CreatePostPage.vue';
+const routes: Array<RouteRecordRaw> = [
+  ...aboutRoutes,
+  ...authRoutes,
+  ...communityRoutes,
+  ...diaryRoutes,
+  ...goalRoutes,
+  ...healthRoutes,
+  ...homeRoutes,
+  ...profileRoutes,
+  ...treningPlannerRoutes,
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFoundPage,
+    meta: { requiresAuth: true }
+  }
+];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'About',
-      component: About
-    },
-    {
-      path: '/diary',
-      name: 'Diary',
-      component: Diary
-    },
-    {
-      path: '/planner',
-      name: 'Planner',
-      component: TreningsPlanner
-    },
-    {
-      path: '/health',
-      name: 'Health',
-      component: Health
-    },
-    {
-      path: '/goals',
-      name: 'Goals',
-      component: Goals
-    },
-    {
-      path: '/community',
-      name: 'Community',
-      component: Community
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/login-success',
-      name: 'LoginSuccess',
-      component: LoginSuccess
-    },
-    {
-      path: '/login/pass-reset',
-      name: 'Reset Password',
-      component: PasswordReset
-    },
-    {
-      path: '/login/new-pass',
-      name: 'New Password',
-      component: PasswordNew
-    },
-    {
-      path: '/logout',
-      name: 'Logout',
-      beforeEnter: (_to, _from, next) => {
-        localStorage.removeItem("user");
-        const userStore = useUserStore();
-        userStore.updateUserData();
-        next('/login')
-      },
-      redirect: ''
-    },
-    {
-      path: '/profile',
-      name: 'Profile',
-      component: Profile
-    },
-    {
-      path: '/profile/:id',
-      name: 'UsersProfile',
-      component: Profile,
-      beforeEnter: (to, from, next) => {
-        const userStore = useUserStore();
-        if (userStore.userId?.toString() === to.params.id) {
-          next('/profile');
-        } else {
-          next();
-        }
-      }
-    },
-    {
-      path: '/post/create',
-      name: 'CreatePost',
-      component: CreatePost
-    }
-  ]
-})
+  routes: routes
+});
+
+router.beforeEach(authGuard)
+
 export default router

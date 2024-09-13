@@ -19,10 +19,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import ErrorScreen from "./../../../components/ErrorScreen.vue"
-import LoadingScreen from './../../../components/LoadingScreen.vue'
+import ErrorScreen from "@/shared/components/ErrorWidget.vue"
+import LoadingScreen from '@/shared/components/LoadingWidget.vue'
 import { useRoute } from 'vue-router';
-import { type IProfile, getProfileById } from '../../../api/account/profileController';
+import { type IProfile, getProfileById } from '@/api/account/profileController';
 import { apiGetFriendship, apiPostFriendshipRequest } from '@/api/community/friendshipController';
 import ProfileContent from './../components/ProfileContent.vue';
 import ProfileInfo from './../components/ProfileInfo.vue';

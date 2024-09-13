@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import SidebarItem from "./components/SidebarItem.vue";
+import SidebarItem from "./SidebarItem.vue";
 import { getLinks, getAuthLinks } from "@/data/models/sidebarLinks";
 import { ref, reactive,onBeforeMount } from "vue";
 const is_expanded = ref(false)

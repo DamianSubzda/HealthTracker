@@ -1,7 +1,7 @@
 <template>
   <main class="home-page">
     <div class="main-view">
-      <RouterLink v-for="card in HomeCardData" :key="card.name" :to="card.link" class="segment">
+      <RouterLink v-for="card in HomeCardData" :key="card.title" :to="card.name" class="segment">
         <HomeCard class="home-main-card" :item="card" />
       </RouterLink>
     </div>

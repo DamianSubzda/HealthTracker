@@ -6,7 +6,7 @@
             <div class="search-results" v-if="searchResults.length">
                 <ul>
                     <li v-for="user in searchResults" :key="user.id">
-                        <router-link :to="`profile/${user.id}`" @click="searchQuery = ''">
+                        <router-link :to="{ name: 'UsersProfile', params: { id: user.id } }" @click="searchQuery = ''">
                             {{ user.firstName }} {{ user.lastName }}
                         </router-link>
                     </li>

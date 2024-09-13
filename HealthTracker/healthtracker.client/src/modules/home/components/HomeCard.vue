@@ -1,7 +1,7 @@
 <template>
     <div class="border">
         <div class="main-box">
-            <div class="title">{{ item.name }}</div>
+            <div class="title">{{ item.title }}</div>
             <div class="content">
                 <div class="description">
                     {{ item.description }}

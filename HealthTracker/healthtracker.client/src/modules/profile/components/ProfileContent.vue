@@ -7,7 +7,7 @@
         </div>
         <!-- Zawartość zakładek -->
         <div v-if="activeTab === 'Posts'" className="post-panel panel">
-            <router-link :to="`post/create`" v-if="userStore.userId == profile.id">
+            <router-link :to="{name: 'CreatePost'}" v-if="userStore.userId == profile.id">
                 <img src="@/assets/icons/add.svg" alt="Insert image" />
             </router-link>
             
@@ -31,8 +31,8 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import Post from './../../community/components/post/PostSection.vue'
-import LoadingScreen from '@/components/LoadingScreen.vue';
+import Post from '@/modules/community/components/post/PostSection.vue'
+import LoadingScreen from '@/shared/components/LoadingWidget.vue';
 import { getUserPosts } from '@/api/community/postController'
 import { type IPost } from '@/data/models/postModels';
 import { type IProfile } from '@/api/account/profileController';
