@@ -12,7 +12,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
 
     [Route("api")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class FriendshipController : ControllerBase
     {
         private readonly IFriendRepository _friendRepository;

@@ -46,7 +46,7 @@ const getUserPosts = async(userId: number | null, pageNumber: number, pageSize: 
       return null;
     });
 
-  return response?.data;
+  return null;
 }
 
 const getPostComments = async (

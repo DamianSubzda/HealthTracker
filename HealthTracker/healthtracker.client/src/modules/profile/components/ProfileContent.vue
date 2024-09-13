@@ -62,7 +62,7 @@ async function getPosts() {
         posts.value = result
         arePostsLoading.value = false;
     } else {
-        console.error("Failed to load posts or no posts available");
+        arePostsLoading.value = false;
     }
 }
 

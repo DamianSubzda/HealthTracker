@@ -15,7 +15,7 @@ import { HomeCardData } from '@/data/models/homeCardModel';
 
 <style lang="scss" scoped>
 	.home-page {
-		height: 100%;
+		height: 100%;C
 
 		.main-view {
 			position: relative;
