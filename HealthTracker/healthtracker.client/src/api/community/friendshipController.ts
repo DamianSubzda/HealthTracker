@@ -72,8 +72,9 @@ async function apiPostFriendshipRequest(friendId: number) {
 
 async function apiPutFriendshipAccept(friendId: Number) {
   const userStore = useUserStore();
+  
   await apiClient
-    .put(`/api/users/${userStore.userId}/friends/${friendId}/accept`, {
+    .put(`/api/users/${userStore.userId}/friends/${friendId}/accept`, null, {
       headers: {
         Authorization: `Bearer ${userStore.token}`,
       },
@@ -86,7 +87,7 @@ async function apiPutFriendshipAccept(friendId: Number) {
 async function apiPutFriendshipDecline(friendId: Number) {
   const userStore = useUserStore();
   await apiClient
-    .put(`/api/users/${userStore.userId}/friends/${friendId}/decline`, {
+    .put(`/api/users/${userStore.userId}/friends/${friendId}/decline`, null, {
       headers: {
         Authorization: `Bearer ${userStore.token}`,
       },
