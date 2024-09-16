@@ -1,22 +1,34 @@
 import { defineStore } from "pinia";
 
-interface FriendModel {
+interface IFriendRequestModel {
   userId: number;
   firstName: string;
   lastName: string;
+}
+
+interface IFriendModel extends IFriendRequestModel {
   newMessagesCount: number;
 }
 
 export const useFriendsStore = defineStore("friendData", {
   state: () => ({
-    friends: [] as FriendModel[],
+    friends: [] as IFriendModel[],
+    friendRequests: [] as IFriendRequestModel[],
   }),
   actions: {
-    setFriends(friendsData: FriendModel[]) {
+    setFriends(friendsData: IFriendModel[]) {
       this.friends = friendsData;
     },
-    addFriend(friendData: FriendModel) {
-      this.friends.push(friendData);
+    addFriend(friendData: IFriendModel | IFriendRequestModel) {
+      if ("newMessagesCount" in friendData) {
+        this.friends.push(friendData);
+      } else {
+        const newFriend: IFriendModel = {
+          ...friendData,
+          newMessagesCount: 0,
+        };
+        this.friends.push(newFriend);
+      }
     },
     setNewMessagesCount(userId: number, count: number) {
       const friend = this.friends.find((f) => f.userId === userId);
@@ -36,7 +48,19 @@ export const useFriendsStore = defineStore("friendData", {
         friend.newMessagesCount++;
       }
     },
+    //Requests
+    setFriendRequests(requestsData: IFriendRequestModel[]) {
+      this.friendRequests = requestsData;
+    },
+    addFriendRequest(requestData: IFriendRequestModel) {
+      this.friendRequests.push(requestData);
+    },
+    removeFriendRequest(userId: number) {
+      this.friendRequests = this.friendRequests.filter(
+        (r) => r.userId !== userId
+      );
+    },
   },
 });
 
-export type { FriendModel };
+export type { IFriendModel, IFriendRequestModel };

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="friend-item">
+    <div class="friend-item" @click="handleClick">
       <div class="notification">
         <i v-if="friend.newMessagesCount > 0" class="bi bi-circle-fill"></i>
       </div>
@@ -15,22 +15,23 @@
 </template>
 
 <script lang="ts" setup>
+import type { IFriendModel } from "@/modules/community/store/friendsStore"
 
-defineProps<{
-  friend: {
-    userId: number;
-    firstName: string;
-    lastName: string;
-    newMessagesCount: number;
-  }
+const props = defineProps<{
+  friend: IFriendModel,
+  onClick: (friend : IFriendModel) => void,
 }>()
+
+function handleClick() {
+  props.onClick(props.friend);
+}
 
 </script>
 
 <style lang="scss" scoped>
 .friend-item{
   display: grid;
-  grid-template-columns: repeat(2, 1fr) 10fr;
+  grid-template-columns: 1fr 1fr 20fr;
   grid-column-gap: 0.5rem;
   justify-content: center;
   align-content: center;
@@ -49,13 +50,18 @@ defineProps<{
       box-shadow: 0px 0px 12px 2px rgba(255, 255, 0, 1);
     }
   }
-  .avatar{
-    align-content: center;
-    font-size: 100%;
+  .avatar {
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: end;
   }
-  .person-info{
+
+  .person-info {
+    height: inherit;
     display: inline-flex;
   }
+
   &:hover{
     cursor: pointer;
     background-color: rgba(100, 100, 100, 0.2);

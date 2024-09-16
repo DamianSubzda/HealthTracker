@@ -7,10 +7,10 @@
         </div>
         <!-- Zawartość zakładek -->
         <div v-if="activeTab === 'Posts'" className="post-panel panel">
-            <router-link :to="{name: 'CreatePost'}" v-if="userStore.userId == profile.id">
-                <img src="@/assets/icons/add.svg" alt=" " />
+            <router-link :to="{ name: 'CreatePost' }" v-if="userStore.userId == profile.id">
+                <img src="@/assets/icons/add.svg" alt=" " style="" />
             </router-link>
-            
+
             <div v-if="arePostsLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
                 <LoadingScreen :cubSize="25" />
             </div>
@@ -25,7 +25,25 @@
             <p>Here are the training plans...</p>
         </div>
         <div v-if="activeTab === 'Friends'" className="friend-panel panel">
-            <p>Friends confirmations here...</p>
+            <div v-if="areFriendsLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
+                <LoadingScreen :cubSize="25" />
+            </div>
+            <div v-else>
+                <div v-if="friendsStore.friendRequests.length != 0" class="friends-requests">
+                    <p>Friend requests...</p>
+                    <div v-for="friend in friendsStore.friendRequests" :key="friend.userId">
+                        <FriendRequestItem :friend="friend" :onClick="() => redirectToProfile(friend)" />
+                    </div>
+                </div>
+                <div class="friends">
+                    <p>Friends...</p>
+                    <div v-for="friend in friendsStore.friends" :key="friend.userId">
+                        <FriendItem :friend="friend" :onClick="() => redirectToProfile(friend)"/>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </template>
@@ -37,7 +55,11 @@ import { getUserPosts } from '@/api/community/postController'
 import { type IPost } from '@/data/models/postModels';
 import { type IProfile } from '@/api/account/profileController';
 import { useUserStore } from '@/modules/auth/store/auth';
-import { apiGetFriendshipRequestsForUser } from '@/api/community/friendshipController';
+import { apiGetFriendList, apiGetFriendshipRequestsForUser } from '@/api/community/friendshipController';
+import FriendItem from '@/modules/community/components/friends/FriendItem.vue';
+import FriendRequestItem from '@/modules/community/components/friends/FriendRequestItem.vue';
+import { useFriendsStore, type IFriendModel, type IFriendRequestModel } from '@/modules/community/store/friendsStore';
+import router from '@/router';
 
 const posts = ref<IPost[] | null>(null);
 const arePostsLoading = ref(true);
@@ -45,6 +67,7 @@ const areFriendsLoading = ref(true);
 const postPageNumber = ref(1);
 const postPageSize = 10;
 const userStore = useUserStore();
+const friendsStore = useFriendsStore();
 
 const props = defineProps<{
     tabs: string[],
@@ -52,8 +75,10 @@ const props = defineProps<{
 }>();
 
 onMounted(async () => {
-    await getPosts();
-    await getFriendshipRequests();
+    if (props.profile) {
+        await getPosts();
+        await getFriends();
+    }
 });
 
 async function getPosts() {
@@ -68,10 +93,19 @@ async function getPosts() {
 
 async function getFriends() {
     
+    await getUsersFriends();
+    await getFriendshipRequests();
+    areFriendsLoading.value = false;
+}
+
+async function getUsersFriends() {
+    const friends = await apiGetFriendList();
+    friendsStore.setFriends(friends);
 }
 
 async function getFriendshipRequests() {
-    const friends = await apiGetFriendshipRequestsForUser();
+    const friendRequests = await apiGetFriendshipRequestsForUser();
+    friendsStore.setFriendRequests(friendRequests);
 }
 
 const activeTab = ref(props.tabs[0]);
@@ -79,6 +113,11 @@ const activeTab = ref(props.tabs[0]);
 function setActiveTab(tabName: string) {
     activeTab.value = tabName;
 }
+
+function redirectToProfile(friend: IFriendRequestModel | IFriendModel) {
+  router.push({ name: 'UsersProfile', params: { id: friend.userId } });
+}
+
 </script>
 <style scoped lang="scss">
 .content-right {
@@ -101,7 +140,7 @@ function setActiveTab(tabName: string) {
 
         button {
             flex-grow: 1;
-            word-wrap:break-word;
+            word-wrap: break-word;
             word-spacing: normal;
             color: white;
             font-size: large;
@@ -144,7 +183,7 @@ function setActiveTab(tabName: string) {
             justify-content: center;
             align-items: center;
             background-color: rgb(153, 144, 144);
-            border-radius: 50rem;
+            border-radius: 50%;
             border: 0;
             cursor: pointer;
 
@@ -171,7 +210,13 @@ function setActiveTab(tabName: string) {
             justify-content: center;
         }
     }
-
+    .friend-panel{
+        .friends-requests {
+            a{
+                padding: 0;
+            }
+        }
+    }
 
 }
 </style>
