@@ -3,17 +3,14 @@ using HealthTracker.Server.Core.Repositories;
 using HealthTracker.Server.Infrastructure.Hubs;
 using HealthTracker.Server.Infrastructure.Data;
 using HealthTracker.Server.Infrastructure.Services;
-using HealthTracker.Server.Modules.Community.Controllers;
 using HealthTracker.Server.Modules.Community.Helpers;
 using HealthTracker.Server.Modules.Community.Repositories;
 using HealthTracker.Server.Modules.PhysicalActivity.Helpers;
 using HealthTracker.Server.Modules.PhysicalActivity.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -31,6 +28,7 @@ ConfigureCors(builder);
 var app = builder.Build();
 ConfigureMiddleware(app);
 ConfigureEndpoints(app);
+await CreateRoles(app);
 
 app.Run();
 
@@ -45,7 +43,6 @@ void ConfigureLogging(WebApplicationBuilder builder)
     builder.Logging.ClearProviders();
     builder.Logging.AddSerilog(logger);
 }
-
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
@@ -250,4 +247,26 @@ void UseStaticFiles(WebApplication app)
             Path.Combine(app.Environment.ContentRootPath, "Modules/Community/Assets/PostAttachments")),
         RequestPath = "/Modules/Community/Assets/PostAttachments"
     });
+}
+
+async Task CreateRoles(WebApplication app)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
+
+        string[] roleNames = { "Admin", "User" };
+        IdentityResult roleResult;
+
+        foreach (var roleName in roleNames)
+        {
+            var roleExist = await roleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+            {
+                roleResult = await roleManager.CreateAsync(new IdentityRole<int>(roleName));
+            }
+        }
+    }
 }

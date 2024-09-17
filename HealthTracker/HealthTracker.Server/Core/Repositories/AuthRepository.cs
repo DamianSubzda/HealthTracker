@@ -110,7 +110,14 @@ namespace HealthTracker.Server.Core.Repositories
                 DateOfCreate = DateTime.UtcNow
             };
 
-            return await _userManager.CreateAsync(user, userDto.Password);
+            var result = await _userManager.CreateAsync(user, userDto.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+            }
+
+            return result;
         }
 
         public async Task<IdentityResult> LoginAsync(LoginDto loginDto)

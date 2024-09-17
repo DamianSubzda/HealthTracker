@@ -2,6 +2,7 @@
 using HealthTracker.Server.Core.DTOs;
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Core.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -104,6 +105,19 @@ namespace HealthTracker.Server.Core.Controllers
             }
         }
 
+        [HttpPost("assign-admin-role/{userId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AssignAdminRole(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            await _userManager.AddToRoleAsync(user, "Admin");
+            return Ok(new { Message = $"User {user.UserName} was assigned to role Admin." });
+        }
 
     }
 }
