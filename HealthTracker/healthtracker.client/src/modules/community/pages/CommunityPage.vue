@@ -49,13 +49,13 @@ import SearchBar from './../components/SearchBar.vue'
 import LoadingScreen from '@/shared/components/LoadingWidget.vue'
 import { currentPosts } from '@/data/models/postModels';
 import { ref, onMounted, onUnmounted, computed } from "vue";
-import { getPostOnWall } from '@/api/community/postController';
+import { apiGetPostOnWall } from '@/api/community/postController';
 import { apiGetFriendList } from '@/api/community/friendshipController';
 import { useUserStore } from '@/modules/auth/store/userStore';
 import { useChatStore } from './../store/chatStore';
 import { useFriendsStore } from './../store/friendsStore';
 import { connectToChatHub } from './../hubs/chatHub'
-import { getNumberOfNewMessagesForFriend } from '@/api/community/chatController';
+import { apiGetNumberOfNewMessagesForFriend } from '@/api/community/chatController';
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -101,7 +101,7 @@ async function getFriends() {
     }));
 
     friendsStore.friends.forEach(async (friend) => {
-      const response = await getNumberOfNewMessagesForFriend(friend.userId);
+      const response = await apiGetNumberOfNewMessagesForFriend(friend.userId);
       friend.newMessagesCount = response; 
     });
     areFriendsLoading.value = false;
@@ -109,7 +109,7 @@ async function getFriends() {
 }
 
 async function getPosts() {
-  const posts = await getPostOnWall(postPageNumber.value, postPageSize);
+  const posts = await apiGetPostOnWall(postPageNumber.value, postPageSize);
   if (posts) {
     currentPosts.value.posts = posts
     arePostsLoading.value = false;

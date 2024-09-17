@@ -40,7 +40,7 @@ import DOMPurify from 'dompurify';
 import MarkdownIt from 'markdown-it';
 import { type IPost } from '@/data/models/postModels';
 import type { IComment } from '@/data/models/postModels';
-import { getPostComments, likePostByPostId, deleteLikeByPostId, addCommentToPost } from '@/api/community/postController';
+import { apiGetPostComments, apiPostLikePost, apiDeleteLike, apiPostCommentToPost } from '@/api/community/postController';
 import { useUserStore } from "@/modules/auth/store/userStore";
 
 const props = defineProps<{
@@ -77,19 +77,19 @@ async function presslikePostButton() {
   const likeIndex = localPost.likes.findIndex((like) => like.userId === userStore.userId)
 
   if (likeIndex > -1) {
-    const respone = await deleteLikeByPostId(localPost.id);
+    const respone = await apiDeleteLike(localPost.id);
     if (respone != null) {
       localPost.likes.splice(likeIndex, 1);
     }
   } else {
-    const response = await likePostByPostId(localPost.id);
+    const response = await apiPostLikePost(localPost.id);
     localPost.likes.push(response);
   }
 }
 
 async function getComments() {
   pageNr.value += 1;
-  const recivedData = await getPostComments(localPost.id, pageNr.value, pageSize);
+  const recivedData = await apiGetPostComments(localPost.id, pageNr.value, pageSize);
   if (recivedData.comments) {
     recivedData.comments.forEach((element: IComment) => {
       comments.value.push(element);
@@ -104,7 +104,7 @@ async function getComments() {
 
 async function addComment() {
   if (commentToAdd.value) {
-    const response = await addCommentToPost(localPost.id, commentToAdd.value)
+    const response = await apiPostCommentToPost(localPost.id, commentToAdd.value)
     if (response != null) {
       commentsCount.value += 1;
       comments.value.unshift(response);

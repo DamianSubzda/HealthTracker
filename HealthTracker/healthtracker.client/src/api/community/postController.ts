@@ -1,7 +1,7 @@
 import { useUserStore } from "@/modules/auth/store/userStore";
 import apiClient from "../apiClient";
 
-const getPostOnWall = async (pageNumber: number, pageSize: number) => {
+const apiGetPostOnWall = async (pageNumber: number, pageSize: number) => {
   const userStore = useUserStore();
   if (!userStore.userId) {
     console.log("No user ID provided");
@@ -25,7 +25,7 @@ const getPostOnWall = async (pageNumber: number, pageSize: number) => {
   return response?.data;
 };
 
-const getUserPosts = async(userId: number | null, pageNumber: number, pageSize: number) => {
+const apiGetUserPosts = async(userId: number | null, pageNumber: number, pageSize: number) => {
   const userStore = useUserStore();
   if (!userId || !userStore.userId) {
     console.log("No user ID provided");
@@ -46,10 +46,10 @@ const getUserPosts = async(userId: number | null, pageNumber: number, pageSize: 
       return null;
     });
 
-  return null;
+  return response?.data;
 }
 
-const getPostComments = async (
+const apiGetPostComments = async (
   postId: number,
   pageNumber: number,
   pageSize: number
@@ -77,7 +77,7 @@ const getPostComments = async (
   return response?.data;
 };
 
-const getChildComments = async (postId: number, parentCommentId: number | null) => {
+const apiGetChildComments = async (postId: number, parentCommentId: number | null) => {
   const userStore = useUserStore();
   const response = await apiClient
     .get(`/api/users/posts/${postId}/comments/${parentCommentId}`, {
@@ -93,7 +93,7 @@ const getChildComments = async (postId: number, parentCommentId: number | null) 
   return response?.data;
 };
 
-const likePostByPostId = async (postId: number) => {
+const apiPostLikePost = async (postId: number) => {
   const userStore = useUserStore();
   const response = await apiClient
     .post(
@@ -116,7 +116,7 @@ const likePostByPostId = async (postId: number) => {
   return response?.data;
 };
 
-const deleteLikeByPostId = async (postId: number) => {
+const apiDeleteLike = async (postId: number) => {
   const userStore = useUserStore();
   await apiClient
     .delete(`/api/users/${userStore.userId}/posts/${postId}/likes`, {
@@ -132,7 +132,7 @@ const deleteLikeByPostId = async (postId: number) => {
   return true;
 };
 
-const addCommentToPost = async (postId: number, content: string) => {
+const apiPostCommentToPost = async (postId: number, content: string) => {
   const userStore = useUserStore();
   const response = await apiClient
     .post(
@@ -155,7 +155,7 @@ const addCommentToPost = async (postId: number, content: string) => {
   return response?.data;
 };
 
-const addCommentToParent = async (
+const apiPostCommentToParent = async (
   postId: number,
   commentId: number,
   content: string
@@ -183,7 +183,7 @@ const addCommentToParent = async (
   return response?.data;
 };
 
-const createPost = async (userId: number | null, content: string, image: HTMLInputElement | null) => {
+const apiPostPost = async (userId: number | null, content: string, image: HTMLInputElement | null) => {
   
   if (!userId) {
     return null;
@@ -212,13 +212,13 @@ const createPost = async (userId: number | null, content: string, image: HTMLInp
 
 
 export {
-  getPostOnWall,
-  getUserPosts,
-  getPostComments,
-  getChildComments,
-  likePostByPostId,
-  deleteLikeByPostId,
-  addCommentToPost,
-  addCommentToParent,
-  createPost,
+  apiGetPostOnWall,
+  apiGetUserPosts,
+  apiGetPostComments,
+  apiGetChildComments,
+  apiPostLikePost,
+  apiDeleteLike,
+  apiPostCommentToPost,
+  apiPostCommentToParent,
+  apiPostPost,
 };

@@ -2,7 +2,7 @@ import { useFriendsStore } from '@/modules/community/store/friendsStore';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useUserStore } from "@/modules/auth/store/userStore";
 import { useChatStore } from "@/modules/community/store/chatStore";
-import { updateMessagesToRead } from '@/api/community/chatController';
+import { apiPutMessagesToRead } from '@/api/community/chatController';
 
 let connection: HubConnection | null = null;
 
@@ -41,7 +41,7 @@ async function connectToChatHub() {
       if (chatStore.friendToChat && chatStore.friendToChat.userId == userFrom && chatStore.isChatExpanded == true){
         const friendsStore = useFriendsStore();
         friendsStore.resetNewMessagesCount(chatStore.friendToChat.userId);
-        await updateMessagesToRead(chatStore.friendToChat.userId);
+        await apiPutMessagesToRead(chatStore.friendToChat.userId);
       }
     });
   } catch (err) {

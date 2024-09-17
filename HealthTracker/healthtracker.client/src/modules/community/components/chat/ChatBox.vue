@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick, watch } from 'vue';
 import { useUserStore } from "@/modules/auth/store/userStore";
-import { getMessagesWithFriend, updateMessagesToRead } from '@/api/community/chatController';
+import { apiGetMessagesWithFriend, apiPutMessagesToRead } from '@/api/community/chatController';
 import { useChatStore } from '@/modules/community/store/chatStore';
 import { sendMesssage } from './../../hubs/chatHub';
 import { useFriendsStore } from '@/modules/community/store/friendsStore';
@@ -80,14 +80,14 @@ const handleScroll = async () => {
 async function resetNewMessagesCount() {
   if (chatStore.friendToChat) {
     friendsStore.resetNewMessagesCount(chatStore.friendToChat.userId);
-    await updateMessagesToRead(chatStore.friendToChat.userId);
+    await apiPutMessagesToRead(chatStore.friendToChat.userId);
   }
 }
 
 async function loadMessages() {
   if (chatStore.friendToChat == null) return;
   const actualScrollHeight = messagesContainer.value.scrollHeight;
-  const response = await getMessagesWithFriend(chatStore.friendToChat.userId, chatStore.pageNumber, chatStore.pageSize);
+  const response = await apiGetMessagesWithFriend(chatStore.friendToChat.userId, chatStore.pageNumber, chatStore.pageSize);
   if (response.length > 0) {
     chatStore.addMessagesFromAPI(response, userStore.userId);
     chatStore.pageNumber++;

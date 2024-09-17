@@ -2,8 +2,6 @@ import { useFormStatusStore } from '@/modules/auth/store/formStatusStore';
 import apiClient from "./../apiClient";
 import type { ILoginModel, IRegisterModel } from "@/data/models/formDataModels";
 
-
-
 async function apiPostLogin(loginData: ILoginModel) {
   const formStatusStore = useFormStatusStore();
   formStatusStore.clearFormStatus();

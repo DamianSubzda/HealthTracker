@@ -51,7 +51,7 @@
 import { ref, onMounted } from 'vue'
 import Post from '@/modules/community/components/post/PostSection.vue'
 import LoadingScreen from '@/shared/components/LoadingWidget.vue';
-import { getUserPosts } from '@/api/community/postController'
+import { apiGetUserPosts } from '@/api/community/postController'
 import { type IPost } from '@/data/models/postModels';
 import { type IProfile } from '@/api/account/profileController';
 import { useUserStore } from '@/modules/auth/store/userStore';
@@ -82,7 +82,7 @@ onMounted(async () => {
 });
 
 async function getPosts() {
-    const result = await getUserPosts(props.profile.id, postPageNumber.value, postPageSize);
+    const result = await apiGetUserPosts(props.profile.id, postPageNumber.value, postPageSize);
     if (result) {
         posts.value = result
         arePostsLoading.value = false;

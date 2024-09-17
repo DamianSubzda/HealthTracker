@@ -22,7 +22,7 @@ import { ref, onMounted, watch } from 'vue';
 import ErrorScreen from "@/shared/components/ErrorWidget.vue"
 import LoadingScreen from '@/shared/components/LoadingWidget.vue'
 import { useRoute } from 'vue-router';
-import { type IProfile, getProfileById } from '@/api/account/profileController';
+import { type IProfile, apiGetProfileById } from '@/api/account/profileController';
 import { apiGetFriendship, apiPostFriendshipRequest } from '@/api/community/friendshipController';
 import ProfileContent from './../components/ProfileContent.vue';
 import ProfileInfo from './../components/ProfileInfo.vue';
@@ -49,7 +49,7 @@ async function loadProfile() {
   let userId = route.params.id ? Number(route.params.id) : userStore.userId;
   isOwnProfile.value = !route.params.id;
 
-  const fetchedProfile = userId ? await getProfileById(userId) : null;
+  const fetchedProfile = userId ? await apiGetProfileById(userId) : null;
   
   if (fetchedProfile != null) {
     profile.value = fetchedProfile;
