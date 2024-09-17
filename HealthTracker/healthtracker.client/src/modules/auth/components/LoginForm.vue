@@ -22,9 +22,9 @@
                 <LoginWithGoogle v-model="isLogging" />
             </GroupElement>
             <GroupElement name="control2">
-                <ButtonElement name="forgot" button-type="anchor" href="/login/pass-reset"
+                <ButtonElement name="forgot" button-type="anchor" @click="goToResetPassword"
                     button-label="Forgot password?" :columns="{ default: 6 }" full size="sm" secondary />
-                <ButtonElement name="register" href="/register" button-label="Register" :columns="{ default: 6 }" full
+                <ButtonElement name="register" @click="goToRegister" button-label="Register" :columns="{ default: 6 }" full
                     size="sm" secondary button-type="anchor" />
             </GroupElement>
         </Vueform>
@@ -62,6 +62,16 @@ const login = async () => {
     isLogging.value = false;
     formData.value.Password = '';
 }
+
+const goToResetPassword = () => {
+    console.log("TEST");
+    router.push({ name: 'Reset Password' });
+};
+
+const goToRegister = () => {
+    router.push({ name: 'Register' });
+};
+
 </script>
 
 <style lang="scss" scoped>
