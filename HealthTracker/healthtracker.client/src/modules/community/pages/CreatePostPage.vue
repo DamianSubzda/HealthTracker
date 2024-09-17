@@ -51,7 +51,7 @@
 import { ref, computed } from 'vue';
 import { marked } from 'marked';
 import _ from 'lodash';
-import { useUserStore } from './../../auth/store/auth';
+import { useUserStore } from '../../auth/store/userStore';
 import { createPost } from './../../../api/community/postController'
 
 const userStore = useUserStore();

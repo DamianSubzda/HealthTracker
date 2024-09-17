@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick, watch } from 'vue';
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 import { getMessagesWithFriend, updateMessagesToRead } from '@/api/community/chatController';
 import { useChatStore } from '@/modules/community/store/chatStore';
 import { sendMesssage } from './../../hubs/chatHub';

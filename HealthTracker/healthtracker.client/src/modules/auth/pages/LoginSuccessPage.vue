@@ -4,7 +4,7 @@
 
 <script>
 import router from "@/router";
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 export default {
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);

@@ -51,7 +51,7 @@ import { currentPosts } from '@/data/models/postModels';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { getPostOnWall } from '@/api/community/postController';
 import { apiGetFriendList } from '@/api/community/friendshipController';
-import { useUserStore } from '@/modules/auth/store/auth';
+import { useUserStore } from '@/modules/auth/store/userStore';
 import { useChatStore } from './../store/chatStore';
 import { useFriendsStore } from './../store/friendsStore';
 import { connectToChatHub } from './../hubs/chatHub'

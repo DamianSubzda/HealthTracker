@@ -1,4 +1,4 @@
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 import apiClient from "../apiClient";
 
 const getPostOnWall = async (pageNumber: number, pageSize: number) => {

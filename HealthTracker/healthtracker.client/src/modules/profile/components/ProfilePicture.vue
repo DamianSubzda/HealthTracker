@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import config from "@/config.json"
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 import { setUserPhoto, type IProfile } from "@/api/account/profileController";
 
 const props = defineProps<{

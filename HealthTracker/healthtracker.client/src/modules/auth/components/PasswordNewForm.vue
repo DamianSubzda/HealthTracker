@@ -31,7 +31,6 @@
 import { ref } from 'vue';
 import type { INewPassModel } from '@/data/models/formDataModels';
 import FormStatus from '@/shared/components/FormStatus.vue'
-import { preventSubmit } from '@/api/account/sendDataService'
 
 const formData = ref<INewPassModel>({
     password: '',
@@ -39,7 +38,7 @@ const formData = ref<INewPassModel>({
 });
 
 const sendFormData = async () => {
-    preventSubmit("/new-pass", JSON.stringify(formData.value))
+    // preventSubmit("/new-pass", JSON.stringify(formData.value))
     formData.value.password = ''
     formData.value.password_confirmation = ''
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="form" :class="{ 'is-registering': isRegistering }">
     <FormStatus formTitle="Registration" />
-    <Vueform class="form-content" v-model="formData" @submit="sendFormData" :float-placeholders="false"
+    <Vueform class="form-content" v-model="formData" @submit="register" :float-placeholders="false"
       :endpoint="false" :display-errors="false" sync>
       <GroupElement name="name" before="Name">
         <TextElement :addons="{
@@ -65,7 +65,7 @@
 import { ref } from 'vue';
 import type { IRegisterModel } from '@/data/models/formDataModels';
 import FormStatus from '@/shared/components/FormStatus.vue'
-import { preventSubmit } from '@/api/account/sendDataService'
+import { apiPostRegister } from "@/api/account/authController"
 
 const isRegistering = ref(false)
 
@@ -80,16 +80,17 @@ const formData = ref<IRegisterModel>({
   Password_confirmation: ""
 });
 
-const sendFormData = async () => {
+const register = async () => {
   isRegistering.value = true;
-  try {
     formData.value.DateOfBirth = new Date(formData.value.DateOfBirth).toISOString()
-    await preventSubmit("/register", JSON.stringify(formData.value))
-  } finally {
+    const result = await apiPostRegister(formData.value);
+    console.log(result);
+    if (result) {
+      document.getElementById("reset_button")!.click()
+    }
     formData.value.Password = ""
     formData.value.Password_confirmation = ""
     isRegistering.value = false;
-  }
 }
 </script>
 <style lang="scss" scoped>

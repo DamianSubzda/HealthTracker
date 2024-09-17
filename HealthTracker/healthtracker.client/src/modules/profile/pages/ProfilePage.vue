@@ -26,7 +26,7 @@ import { type IProfile, getProfileById } from '@/api/account/profileController';
 import { apiGetFriendship, apiPostFriendshipRequest } from '@/api/community/friendshipController';
 import ProfileContent from './../components/ProfileContent.vue';
 import ProfileInfo from './../components/ProfileInfo.vue';
-import { useUserStore } from "../../auth/store/auth";
+import { useUserStore } from "../../auth/store/userStore";
 
 const profile = ref<IProfile | null>(null);
 const isLoading = ref(false);

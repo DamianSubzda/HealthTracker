@@ -1,5 +1,5 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-import { useUserStore } from '@/modules/auth/store/auth';
+import { useUserStore } from '@/modules/auth/store/userStore';
 
 export function authGuard(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
   const userStore = useUserStore();

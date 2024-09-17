@@ -41,7 +41,7 @@ import MarkdownIt from 'markdown-it';
 import { type IPost } from '@/data/models/postModels';
 import type { IComment } from '@/data/models/postModels';
 import { getPostComments, likePostByPostId, deleteLikeByPostId, addCommentToPost } from '@/api/community/postController';
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 
 const props = defineProps<{
   post: IPost

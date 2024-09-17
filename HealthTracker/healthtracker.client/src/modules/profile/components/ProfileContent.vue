@@ -54,7 +54,7 @@ import LoadingScreen from '@/shared/components/LoadingWidget.vue';
 import { getUserPosts } from '@/api/community/postController'
 import { type IPost } from '@/data/models/postModels';
 import { type IProfile } from '@/api/account/profileController';
-import { useUserStore } from '@/modules/auth/store/auth';
+import { useUserStore } from '@/modules/auth/store/userStore';
 import { apiGetFriendList, apiGetFriendshipRequestsForUser } from '@/api/community/friendshipController';
 import FriendItem from '@/modules/community/components/friends/FriendItem.vue';
 import FriendRequestItem from '@/modules/community/components/friends/FriendRequestItem.vue';

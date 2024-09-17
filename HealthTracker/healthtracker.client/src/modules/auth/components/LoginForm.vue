@@ -1,19 +1,19 @@
 <template>
     <div class="form" :class="{ 'is-logging': isLogging }">
         <FormStatus formTitle="Login" />
-        <Vueform class="form-content" v-model="formData" @submit="sendFormData" :float-placeholders="false"
-            :endpoint="false" :display-errors="false" sync>
+        <Vueform class="form-content" v-model="formData" @submit="login" :float-placeholders="false" :endpoint="false"
+            :display-errors="false" sync>
             <GroupElement name="email_username">
                 <TextElement name="EmailUserName" label="Email or username" placeholder="user@example.com"
                     rules="required" :addons="{
-        before: `<i class='bi bi-pencil-fill'></i>`
-    }" />
+                        before: `<i class='bi bi-pencil-fill'></i>`
+                    }" />
             </GroupElement>
             <GroupElement name="password">
                 <TextElement name="Password" label="Password" placeholder="Password" input-type="password"
                     rules="required|min:6|regex:/^(?=.*[^\w\d])(?=.*\d)(?=.*[A-Z]).+$/" :addons="{
-        before: `<i class='bi bi-lock-fill'></i>`
-    }" />
+                        before: `<i class='bi bi-lock-fill'></i>`
+                    }" />
             </GroupElement>
             <GroupElement name="controll">
                 <ButtonElement id="reset_button" name="reset" type="reset" :resets="true" hidden />
@@ -34,9 +34,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { ILoginModel } from '@/data/models/formDataModels';
-import FormStatus from '@/shared/components/FormStatus.vue'
-import { preventSubmit } from '@/api/account/sendDataService';
 import LoginWithGoogle from './LoginWithGoogle.vue'
+import { apiPostLogin } from '@/api/account/authController.ts'
+import FormStatus from "@/shared/components/FormStatus.vue"
+import { useUserStore } from "@/modules/auth/store/userStore";
+import router from "@/router/index";
 
 const isLogging = ref(false);
 
@@ -45,14 +47,20 @@ const formData = ref<ILoginModel>({
     Password: '',
 });
 
-const sendFormData = async () => {
+const login = async () => {
     isLogging.value = true;
-    try {
-        await preventSubmit("/login", JSON.stringify(formData.value));
-    } finally {
-        isLogging.value = false;
-        formData.value.Password = '';
+    const result = await apiPostLogin(formData.value);
+
+    if (result) {
+        localStorage.setItem("user", JSON.stringify(result.data));
+        const userStore = useUserStore();
+        router.push("/").then(() => {
+            userStore.updateUserData();
+        });
     }
+    
+    isLogging.value = false;
+    formData.value.Password = '';
 }
 </script>
 

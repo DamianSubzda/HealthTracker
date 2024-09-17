@@ -18,7 +18,7 @@ import Footer from '@/shared/components/TheFooter.vue'
 import Sidebar from '@/shared/components/TheSidebar.vue'
 import Header from '@/shared/components/TheHeader.vue'
 import { onMounted } from 'vue';
-import { useUserStore } from './modules/auth/store/auth'
+import { useUserStore } from './modules/auth/store/userStore'
 
 const userStore = useUserStore();
 

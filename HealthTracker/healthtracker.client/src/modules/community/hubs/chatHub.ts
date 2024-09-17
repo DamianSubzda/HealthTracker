@@ -1,6 +1,6 @@
 import { useFriendsStore } from '@/modules/community/store/friendsStore';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 import { useChatStore } from "@/modules/community/store/chatStore";
 import { updateMessagesToRead } from '@/api/community/chatController';
 
