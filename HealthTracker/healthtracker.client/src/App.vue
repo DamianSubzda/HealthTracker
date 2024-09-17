@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import Footer from './components/shared/footer/FooterComponent.vue'
-import Sidebar from './components/shared/sidebar/NavigationSidebar.vue'
-import Header from './components/shared/header/HeaderComponent.vue'
+import Footer from '@/shared/components/TheFooter.vue'
+import Sidebar from '@/shared/components/TheSidebar.vue'
+import Header from '@/shared/components/TheHeader.vue'
 import { onMounted } from 'vue';
-import { useUserStore } from './store/account/auth'
+import { useUserStore } from './modules/auth/store/auth'
 
 const userStore = useUserStore();
 

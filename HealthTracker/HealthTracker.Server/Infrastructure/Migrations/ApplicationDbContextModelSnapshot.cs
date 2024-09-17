@@ -53,6 +53,9 @@ namespace HealthTracker.Server.Migrations
                     b.Property<DateTime?>("DateOfCreate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
 
@@ -60,8 +63,6 @@ namespace HealthTracker.Server.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
 
@@ -202,25 +203,27 @@ namespace HealthTracker.Server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DateOfStart")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("FriendId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("User1Id")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int>("User2Id")
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("FriendId");
 
-                    b.HasIndex("User1Id");
-
-                    b.HasIndex("User2Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Friendship");
                 });
@@ -300,27 +303,6 @@ namespace HealthTracker.Server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Post");
-                });
-
-            modelBuilder.Entity("HealthTracker.Server.Modules.Community.Models.Status", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Status");
                 });
 
             modelBuilder.Entity("HealthTracker.Server.Modules.Health.Models.HealthMeasurement", b =>
@@ -742,19 +724,11 @@ namespace HealthTracker.Server.Migrations
 
             modelBuilder.Entity("HealthTracker.Server.Core.Models.Notification", b =>
                 {
-                    b.HasOne("HealthTracker.Server.Modules.Community.Models.Status", "Status")
-                        .WithMany("Notifications")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HealthTracker.Server.Core.Models.User", "User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Status");
 
                     b.Navigation("User");
                 });
@@ -786,29 +760,21 @@ namespace HealthTracker.Server.Migrations
 
             modelBuilder.Entity("HealthTracker.Server.Modules.Community.Models.Friendship", b =>
                 {
-                    b.HasOne("HealthTracker.Server.Modules.Community.Models.Status", "Status")
-                        .WithMany("Friendships")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HealthTracker.Server.Core.Models.User", "User1")
-                        .WithMany("Friendships")
-                        .HasForeignKey("User1Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("HealthTracker.Server.Core.Models.User", "User2")
+                    b.HasOne("HealthTracker.Server.Core.Models.User", "Friend")
                         .WithMany()
-                        .HasForeignKey("User2Id")
+                        .HasForeignKey("FriendId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Status");
+                    b.HasOne("HealthTracker.Server.Core.Models.User", "User")
+                        .WithMany("Friendships")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("User1");
+                    b.Navigation("Friend");
 
-                    b.Navigation("User2");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HealthTracker.Server.Modules.Community.Models.Like", b =>
@@ -1020,13 +986,6 @@ namespace HealthTracker.Server.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Likes");
-                });
-
-            modelBuilder.Entity("HealthTracker.Server.Modules.Community.Models.Status", b =>
-                {
-                    b.Navigation("Friendships");
-
-                    b.Navigation("Notifications");
                 });
 
             modelBuilder.Entity("HealthTracker.Server.Modules.Health.Models.MeasurementType", b =>

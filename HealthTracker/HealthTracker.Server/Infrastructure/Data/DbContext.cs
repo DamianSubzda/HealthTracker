@@ -22,7 +22,6 @@ namespace HealthTracker.Server.Infrastructure.Data
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Friendship> Friendship { get; set; }
         public DbSet<Post> Post { get; set; }
-        public DbSet<Status> Status { get; set; }
         public DbSet<HealthMeasurement> HealthMeasurement { get; set; }
         public DbSet<MeasurementType> MeasurementType { get; set; }
         public DbSet<Meal> Meal { get; set; }
@@ -40,20 +39,22 @@ namespace HealthTracker.Server.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Friendship>()
-                .HasOne(f => f.User1)
+                .HasOne(f => f.User)
                 .WithMany(u => u.Friendships)
-                .HasForeignKey(f => f.User1Id)
+                .HasForeignKey(f => f.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Friendship>()
-                .HasOne(f => f.User2)
+                .HasOne(f => f.Friend)
                 .WithMany()
-                .HasForeignKey(f => f.User2Id)
+                .HasForeignKey(f => f.FriendId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Status>()
-                .HasIndex(s => s.Name)
-                .IsUnique();
+            modelBuilder.Entity<Friendship>(entity =>
+            {
+                entity.Property(e => e.Status)
+                      .HasConversion<string>();
+            });
 
             modelBuilder.Entity<Like>()
                 .HasKey(l => new { l.UserId, l.PostId });

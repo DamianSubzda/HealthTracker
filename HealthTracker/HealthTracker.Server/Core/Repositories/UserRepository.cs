@@ -14,7 +14,7 @@ namespace HealthTracker.Server.Core.Repositories
     public interface IUserRepository
     {
         Task<UserDTO> GetUser(int userId);
-        Task<List<UserSerachDTO>> GetUsers(int userId, string input);
+        Task<List<UserSerachDTO>> GetUsers(int userId, string query);
         Task<string> SetPhotoUser(int userId, IFormFile photo);
     }
     public class UserRepository : IUserRepository
@@ -61,16 +61,27 @@ namespace HealthTracker.Server.Core.Repositories
             return user.ProfilePicture;
         }
 
-        public async Task<List<UserSerachDTO>> GetUsers(int userId, string input)
+        public async Task<List<UserSerachDTO>> GetUsers(int userId, string query)
         {
-            var userDTO = await _context.User
-                .Where(u => u.Id != userId && (u.FirstName.ToLower().Contains(input.ToLower()) || u.LastName.ToLower().Contains(input.ToLower())))
+            var queryParts = query.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(q => q.ToLower())
+                .ToList();
+
+            var userDTOQuery = _context.Users
+                .Where(u => u.Id != userId && queryParts.Any(qp => u.FirstName.ToLower().Contains(qp)
+                                                               || u.LastName.ToLower().Contains(qp)));
+
+            var userDTO = await userDTOQuery
+                .OrderBy(u => u.FirstName.ToLower().StartsWith(queryParts[0]) ? 0 : 1)
+                .ThenBy(u => u.LastName.ToLower().StartsWith(queryParts[0]) ? 0 : 1)
+                .ThenBy(u => u.FirstName.ToLower())
                 .Take(10)
                 .ProjectTo<UserSerachDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return userDTO;
         }
+
 
     }
 }

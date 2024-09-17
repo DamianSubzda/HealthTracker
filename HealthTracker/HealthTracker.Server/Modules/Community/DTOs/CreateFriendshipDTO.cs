@@ -6,7 +6,7 @@ namespace HealthTracker.Server.Modules.Community.DTOs
 {
     public class CreateFriendshipDTO
     {
-        public int User1Id { get; set; }
-        public int User2Id { get; set; }
+        public int UserId { get; set; }
+        public int FriendId { get; set; }
     }
 }

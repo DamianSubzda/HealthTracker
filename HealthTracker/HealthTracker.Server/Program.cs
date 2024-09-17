@@ -138,6 +138,22 @@ void ConfigureAuthentication(WebApplicationBuilder builder)
             ValidateIssuerSigningKey = true,
             ClockSkew = TimeSpan.Zero
         };
+
+        o.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chatHub"))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
+
     })
     .AddGoogle(googleOptions =>
     {
@@ -196,7 +212,6 @@ void AddRepositoryServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<IChatRepository, ChatRepository>();
     builder.Services.AddScoped<IFriendRepository, FriendshipRepository>();
     builder.Services.AddScoped<IPostRepository, PostRepository>();
-    builder.Services.AddScoped<IStatusRepository, StatusRepository>();
     builder.Services.AddScoped<IGoalRepository, GoalRepository>();
     builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
     builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();

@@ -110,12 +110,31 @@ namespace HealthTracker.Server.Modules.Community.Controllers
             }
         }
 
-        [HttpPut("users/{userId}/friends/{friendId}/accept")]
-        public async Task<ActionResult> ChangeFriendshipStatus(int userId, int friendId, [FromQuery] bool isAccepted)
+        [HttpGet("users/{userId}/friends/requests")]
+        public async Task<ActionResult<List<FriendDTO>>> GetFriendshipRequestsForUser(int userId)
         {
             try
             {
-                await _friendRepository.ChangeFriendshipStatus(userId, friendId, isAccepted);
+                var friendsRequested = await _friendRepository.GetFriendshipRequestsForUser(userId);
+                return Ok(friendsRequested);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during the get friendships list process for {userId}.", userId);
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+        [HttpPut("users/{userId}/friends/{friendId}/accept")]
+        public async Task<ActionResult> AcceptFriendshipStatus(int userId, int friendId)
+        {
+            try
+            {
+                await _friendRepository.AcceptFriendship(userId, friendId);
                 return NoContent();
             }
             catch (DbUpdateException ex)
@@ -128,7 +147,30 @@ namespace HealthTracker.Server.Modules.Community.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred during the change friendship status process for user {UserId} to friend {FriendId}.", userId, friendId);
+                _logger.LogError(ex, "Error occurred during the accept friendship status process for user {UserId} to friend {FriendId}.", userId, friendId);
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+        [HttpPut("users/{userId}/friends/{friendId}/decline")]
+        public async Task<ActionResult> DeclineFriendshipStatus(int userId, int friendId)
+        {
+            try
+            {
+                await _friendRepository.DeclineFriendship(userId, friendId);
+                return NoContent();
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest(ex.InnerException?.Message ?? "Database error.");
+            }
+            catch (Exception ex) when (ex is UserNotFoundException || ex is FriendshipNotFoundException)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred during the decline friendship status process for user {UserId} to friend {FriendId}.", userId, friendId);
                 return StatusCode(500, "Internal server error.");
             }
         }
