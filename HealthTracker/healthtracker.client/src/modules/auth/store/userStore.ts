@@ -77,5 +77,8 @@ export const useUserStore = defineStore("userData", {
         this.clearUserData();
       }
     },
+    checkIfAdmin() {
+      return this.roles && this.roles.includes('Admin');
+    }
   },
 });
