@@ -9,7 +9,7 @@ export function authGuard(to: RouteLocationNormalized, from: RouteLocationNormal
     if (userStore.roles && userStore.roles.includes('Admin')) {
       next();
     } else {
-      next('/'); // w przyszłośći na unauthorize page 
+      next('/unauthorized');
     }
     return;
   }

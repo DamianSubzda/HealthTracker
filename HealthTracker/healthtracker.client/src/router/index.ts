@@ -2,6 +2,7 @@ import {createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import { authGuard } from './guards';
 
 import NotFoundPage from '@/shared/pages/NotFoundPage.vue'
+import UnauthorizedPage from '@/shared/pages/UnauthorizedPage.vue';
 
 import { aboutRoutes } from '@/modules/about/routes';
 import { authRoutes } from '@/modules/auth/routes';
@@ -29,6 +30,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFoundPage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/unauthorized',
+    name: 'Unauthorized',
+    component: UnauthorizedPage,
     meta: { requiresAuth: true }
   }
 ];
