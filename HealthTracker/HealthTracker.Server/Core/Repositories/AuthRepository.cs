@@ -50,7 +50,7 @@ namespace HealthTracker.Server.Core.Repositories
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByEmailAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
+                var user = await _userManager.FindByEmailAsync(info.Principal.FindFirstValue(ClaimTypes.Email) ?? "");
                 var userDTO = _mapper.Map<SuccessLoginDto>(user);
                 userDTO.Token = await GenerateJwtToken(user.Email);
                 return userDTO;
@@ -61,8 +61,8 @@ namespace HealthTracker.Server.Core.Repositories
                 {
                     Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                     UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                    FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
-                    LastName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                    FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? "",
+                    LastName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? "",
                     PhoneNumber = info.Principal.FindFirstValue(ClaimTypes.MobilePhone),
                     DateOfCreate = DateTime.UtcNow
                 };

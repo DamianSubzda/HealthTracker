@@ -12,6 +12,7 @@ import { healthRoutes } from '@/modules/health/routes';
 import { homeRoutes } from '@/modules/home/routes';
 import { profileRoutes } from '@/modules/profile/routes';
 import { treningPlannerRoutes } from '@/modules/treningPlanner/routes';
+import { dashboardRoutes } from '@/modules/dashboard/routes';
 
 const routes: Array<RouteRecordRaw> = [
   ...aboutRoutes,
@@ -23,6 +24,7 @@ const routes: Array<RouteRecordRaw> = [
   ...homeRoutes,
   ...profileRoutes,
   ...treningPlannerRoutes,
+  ...dashboardRoutes,
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
