@@ -5,6 +5,7 @@ export const dashboardRoutes: Array<RouteRecordRaw> = [
     {
         path: '/dashboard',
         name: 'Dashboard',
-        component: DashboardPage
+        component: DashboardPage,
+        meta: { requiresAuth: true, requiresAdmin: true },
     },
 ];
