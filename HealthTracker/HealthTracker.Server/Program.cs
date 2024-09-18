@@ -116,6 +116,12 @@ void ConfigureServices(WebApplicationBuilder builder)
 void ConfigureAuthentication(WebApplicationBuilder builder)
 {
     builder.Services.AddAuthorization();
+
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    });
+
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
