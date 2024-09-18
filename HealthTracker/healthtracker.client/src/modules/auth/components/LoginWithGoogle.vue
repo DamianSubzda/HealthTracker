@@ -4,10 +4,11 @@
 </template>
 
 <script setup>
+import config from "@/config.json"
 const isLogging = defineModel();
 
-function loginWithGoogle() {
+async function loginWithGoogle() {
   isLogging.value = true;
-  window.location.href = "https://localhost:7170/login-google";
+  window.location.href = `${config.serverURL}login-google`;
 }
 </script>

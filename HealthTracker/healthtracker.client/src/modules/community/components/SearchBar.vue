@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { debounce } from 'lodash-es';
 import { ref, watch } from 'vue';
-import { getSearchedUsers } from '@/api/community/userController'
+import { apiGetSearchedUsers } from '@/api/community/userController'
 
 const searchQuery = ref('');
 const searchResults = ref<SearchedUser[]>([]);
@@ -45,7 +45,7 @@ watch(searchQuery, (newQuery) => {
 });
 
 async function searchUsers(query: string) {
-    searchResults.value = await getSearchedUsers(query);
+    searchResults.value = await apiGetSearchedUsers(query);
 }
 </script>
 

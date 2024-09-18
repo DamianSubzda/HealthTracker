@@ -1,6 +1,6 @@
 import { type FriendModel, useFriendsStore } from './../store/friendsStore';
 import { defineStore } from "pinia";
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 
 interface IMessage {
   id: number;

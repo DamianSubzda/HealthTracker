@@ -1,7 +1,7 @@
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 import apiClient from "../apiClient";
 
-async function getSearchedUsers(query: string) {
+async function apiGetSearchedUsers(query: string) {
     const userStore = useUserStore();
     try {
         const response = await apiClient.get(`/api/users/${userStore.userId}/search?query=${encodeURIComponent(query)}`, {
@@ -16,4 +16,4 @@ async function getSearchedUsers(query: string) {
     }
 }
 
-export { getSearchedUsers };
+export { apiGetSearchedUsers };

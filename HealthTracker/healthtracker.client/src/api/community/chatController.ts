@@ -1,7 +1,7 @@
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 import apiClient from "../apiClient";
 
-const getMessagesWithFriend = async (
+const apiGetMessagesWithFriend = async (
     friendId: number | null,
     pageNumber: number,
     pageSize: number
@@ -23,7 +23,7 @@ const getMessagesWithFriend = async (
   return response?.data;
 };
 
-const getNumberOfNewMessagesForFriend = async (
+const apiGetNumberOfNewMessagesForFriend = async (
   friendId: number
 ) => {
 const userStore = useUserStore();
@@ -39,7 +39,7 @@ const response = await apiClient.get(`/api/users/messages/${friendId}/${userStor
 return response?.data;
 };
 
-const updateMessagesToRead = async(userFrom: number) => {
+const apiPutMessagesToRead = async(userFrom: number) => {
   const userStore = useUserStore();
   await apiClient.put(`/api/users/messages/${userStore.userId}/${userFrom}`, {}, {
     headers: {
@@ -51,4 +51,4 @@ const updateMessagesToRead = async(userFrom: number) => {
     });
 }
 
-export { getMessagesWithFriend, updateMessagesToRead, getNumberOfNewMessagesForFriend };
+export { apiGetMessagesWithFriend, apiPutMessagesToRead, apiGetNumberOfNewMessagesForFriend };

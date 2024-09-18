@@ -2,11 +2,11 @@
 using HealthTracker.Server.Core.DTOs;
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Core.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Security.Claims;
 
 
 namespace HealthTracker.Server.Core.Controllers
@@ -75,29 +75,20 @@ namespace HealthTracker.Server.Core.Controllers
         }
 
         [HttpGet("login-google")]
-        public IActionResult LoginWithGoogle()
+        public async Task<IActionResult> LoginWithGoogleAsync()
         {
             string? redirectUrl = Url.Action(nameof(HandleGoogleLogin), "Auth");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            var properties = await _authRepository.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
             return new ChallengeResult("Google", properties);
         }
 
         [HttpGet("handle-google-login")]
         public async Task<IActionResult> HandleGoogleLogin()
         {
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
+            try
             {
-                _logger.LogError("Error loading external login information.");
-                return StatusCode(500, "External server error.");
-            }
+                var userDTO = await _authRepository.HandleGoogleLogin();
 
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
-            if (result.Succeeded)
-            {
-                var user = await _userManager.FindByEmailAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
-                var userDTO = _mapper.Map<SuccessLoginDto>(user);
-                userDTO.Token = await _authRepository.GenerateJwtToken(user.Email);
                 var settings = new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -107,47 +98,26 @@ namespace HealthTracker.Server.Core.Controllers
                 var frontendUrl = $"https://localhost:5174/login-success?user={Uri.EscapeDataString(userJson)}";
                 return Redirect(frontendUrl);
             }
-            else
+            catch (Exception ex)
             {
-                var user = new User
-                {
-                    Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                    FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
-                    LastName = info.Principal.FindFirstValue(ClaimTypes.Surname),
-                    PhoneNumber = info.Principal.FindFirstValue(ClaimTypes.MobilePhone),
-                    DateOfCreate = DateTime.UtcNow
-                };
-
-                if (DateTime.TryParse(info.Principal.FindFirstValue(ClaimTypes.DateOfBirth), out DateTime dob))
-                {
-                    user.DateOfBirth = dob;
-                }
-
-                var createUserResult = await _userManager.CreateAsync(user);
-                if (createUserResult.Succeeded)
-                {
-                    await _userManager.AddLoginAsync(user, info);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    var userDTO = _mapper.Map<SuccessLoginDto>(user);
-                    userDTO.Token = await _authRepository.GenerateJwtToken(user.Email);
-                    var settings = new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    };
-
-                    var userJson = JsonConvert.SerializeObject(userDTO, settings);
-                    var frontendUrl = $"https://localhost:5174/login-success?user={Uri.EscapeDataString(userJson)}";
-                    return Redirect(frontendUrl);
-                }
-                else
-                {
-                    return StatusCode(500, createUserResult.Errors);
-                }
+                _logger.LogError(ex.Message);
+                return StatusCode(500, "Error occurred during the external google login process.");
             }
         }
 
+        [HttpPost("assign-admin-role/{userId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AssignAdminRole(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
 
+            await _userManager.AddToRoleAsync(user, "Admin");
+            return Ok(new { Message = $"User {user.UserName} was assigned to role Admin." });
+        }
 
     }
 }

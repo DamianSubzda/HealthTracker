@@ -1,4 +1,4 @@
-import { useUserStore } from "@/modules/auth/store/auth";
+import { useUserStore } from "@/modules/auth/store/userStore";
 import apiClient from "../apiClient";
 
 interface IProfile {
@@ -14,7 +14,7 @@ interface IProfile {
   profilePicture: string;
 }
 
-async function getProfileById(userId: number) {
+async function apiGetProfileById(userId: number) {
   const userStore = useUserStore();
   try {
     const response = await apiClient.get(`api/users/${userId}`, {
@@ -30,7 +30,7 @@ async function getProfileById(userId: number) {
   }
 }
 
-async function setUserPhoto(userId: number, image: HTMLInputElement | null) {
+async function apiPostUserPhoto(userId: number, image: HTMLInputElement | null) {
   if (!userId || !image || !image.files) {
     return null;
   }
@@ -58,4 +58,4 @@ async function setUserPhoto(userId: number, image: HTMLInputElement | null) {
 }
 
 export type { IProfile };
-export { getProfileById, setUserPhoto };
+export { apiGetProfileById, apiPostUserPhoto };

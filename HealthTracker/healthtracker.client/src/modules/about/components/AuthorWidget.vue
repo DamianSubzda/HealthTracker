@@ -1,6 +1,6 @@
 <template>
     <div class="author-image">
-        <img :src="`/src/assets/about/authors/${author.image}`" :alt="`${author.firstName}'s image`">
+        <img :src="`/src/assets/pictures/${author.image}`" :alt="`${author.firstName}'s image`">
     </div>
     <div class="description">
         <div class="author-about">

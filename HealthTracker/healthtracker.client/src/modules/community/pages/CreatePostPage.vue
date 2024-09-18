@@ -51,8 +51,8 @@
 import { ref, computed } from 'vue';
 import { marked } from 'marked';
 import _ from 'lodash';
-import { useUserStore } from './../../auth/store/auth';
-import { createPost } from './../../../api/community/postController'
+import { useUserStore } from '../../auth/store/userStore';
+import { apiPostPost } from './../../../api/community/postController'
 
 const userStore = useUserStore();
 const textInput = ref<string>("");
@@ -70,7 +70,7 @@ const update = _.debounce((e: Event) => {
 }, 300);
 
 async function createPostClick() {
-    const result = await createPost(userStore.userId, textInput.value, fileInput.value);
+    const result = await apiPostPost(userStore.userId, textInput.value, fileInput.value);
     if (result) {
         textInput.value = "";
         removeImage();

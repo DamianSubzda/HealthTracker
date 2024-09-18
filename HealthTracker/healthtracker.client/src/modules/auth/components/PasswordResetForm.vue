@@ -24,14 +24,13 @@
 import { ref } from "vue";
 import type { IPassResetModel } from "@/data/models/formDataModels";
 import FormStatus from '@/shared/components/FormStatus.vue'
-import { preventSubmit } from '@/api/account/sendDataService'
 
 const formData = ref<IPassResetModel>({
     email: "",
 });
 
 const sendFormData = async () => {
-    preventSubmit("/pass-reset", JSON.stringify(formData.value))
+    // preventSubmit("/pass-reset", JSON.stringify(formData.value))
     formData.value.email = "";
 };
 </script>

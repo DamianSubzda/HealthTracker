@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, computed } from 'vue';
 import { type IComment } from '@/data/models/postModels'
-import { addCommentToParent, getChildComments } from '@/api/community/postController';
+import { apiPostCommentToParent, apiGetChildComments } from '@/api/community/postController';
 
 const comments = ref<IComment[]>([]);
 const commentToAdd = ref('');
@@ -80,7 +80,7 @@ function toggleMoreComments() {
 }
 
 async function getComments(parentCommentId: number | null) {
-    const response = await getChildComments(props.postId, parentCommentId);
+    const response = await apiGetChildComments(props.postId, parentCommentId);
     if (response != null) {
         comments.value = response;
     }
@@ -88,7 +88,7 @@ async function getComments(parentCommentId: number | null) {
 
 async function addComment() {
     if (commentToAdd.value) {
-        const response = await addCommentToParent(props.postId, props.item.id, commentToAdd.value)
+        const response = await apiPostCommentToParent(props.postId, props.item.id, commentToAdd.value)
         if (response != null) {
             comments.value.unshift(response);
             isMoreCommentsClicked.value = true;

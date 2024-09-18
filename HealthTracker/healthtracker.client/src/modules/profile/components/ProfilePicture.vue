@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import config from "@/config.json"
-import { useUserStore } from "@/modules/auth/store/auth";
-import { setUserPhoto, type IProfile } from "@/api/account/profileController";
+import { useUserStore } from "@/modules/auth/store/userStore";
+import { apiPostUserPhoto, type IProfile } from "@/api/account/profileController";
 
 const props = defineProps<{
     profile: IProfile
@@ -28,7 +28,7 @@ const fileInput = ref<HTMLInputElement | null>(null);
 async function handleFileSelect() {
   if (fileInput.value) {
     try {
-      const response = await setUserPhoto(props.profile.id, fileInput.value);
+      const response = await apiPostUserPhoto(props.profile.id, fileInput.value);
       if (response) {
         localPicture.value = `${config.serverURL}${response}?v=${new Date().getTime()}`;
         fileInput.value.value = "";
