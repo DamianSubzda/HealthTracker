@@ -3,6 +3,7 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@micros
 import { useUserStore } from "@/modules/auth/store/userStore";
 import { useChatStore } from "@/modules/community/store/chatStore";
 import { apiPutMessagesToRead } from '@/api/community/chatController';
+import config from "@/config.json"
 
 let connection: HubConnection | null = null;
 
@@ -14,7 +15,7 @@ function getConnection() {
     return connection;
   }
   connection = new HubConnectionBuilder()
-    .withUrl("https://localhost:7170/chatHub", {
+      .withUrl(`${config.serverURL}chatHub`, {
       accessTokenFactory: () => userStore.token ?? "",
     })
     .withAutomaticReconnect()

@@ -173,10 +173,11 @@ void ConfigureAuthentication(WebApplicationBuilder builder)
 
 void ConfigureCors(WebApplicationBuilder builder)
 {
+    var clientUrl = builder.Configuration["Urls:clientUrl"];
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowSpecificOrigin", builder => builder
-            .WithOrigins("https://localhost:5174")
+            .WithOrigins(clientUrl)
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());

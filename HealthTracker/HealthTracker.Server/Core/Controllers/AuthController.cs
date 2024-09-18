@@ -20,14 +20,23 @@ namespace HealthTracker.Server.Core.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
         private readonly ILogger<AuthController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(IAuthRepository authRepository, UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, ILogger<AuthController> logger)
+        public AuthController(
+            IAuthRepository authRepository, 
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager, 
+            IMapper mapper, 
+            ILogger<AuthController> logger,
+            IConfiguration configuration
+            )
         {
             _authRepository = authRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpPost("login")]
@@ -93,9 +102,8 @@ namespace HealthTracker.Server.Core.Controllers
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
-
                 var userJson = JsonConvert.SerializeObject(userDTO, settings);
-                var frontendUrl = $"https://localhost:5174/login-success?user={Uri.EscapeDataString(userJson)}";
+                var frontendUrl = $"{_configuration["Urls:clientUrl"]}/login-success?user={Uri.EscapeDataString(userJson)}";
                 return Redirect(frontendUrl);
             }
             catch (Exception ex)
