@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed } from 'vue';
-import { type IComment } from '@/modules/community/data/postModels'
+import type { IComment } from '@/modules/community/types/Post'
 import { apiPostCommentToParent, apiGetChildComments } from '@/api/community/postController';
 
 const comments = ref<IComment[]>([]);
