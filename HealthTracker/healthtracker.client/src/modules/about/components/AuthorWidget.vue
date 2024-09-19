@@ -23,11 +23,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { IAuthor } from '@/data/models/authorsData';
+import type { IAuthor } from '@/modules/about/data/authorsData';
 
 defineProps<{
     author: IAuthor
 }>();
+
 </script>
 
 <style lang="scss" scoped>
