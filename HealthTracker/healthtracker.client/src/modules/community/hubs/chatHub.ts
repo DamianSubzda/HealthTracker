@@ -61,7 +61,7 @@ async function disconnectWithChat(){
     try {
       await connection.stop();
       console.log("Disconnected from Chat");
-      connection = null; //Możliwe że trzeba usunać
+      connection = null;
     } catch (err) {
       console.error("Error disconnecting from Chat:", err);
     }
