@@ -35,7 +35,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { type IProfile } from '@/api/account/profileController';
+import type { IProfile } from "./../types/Profile.ts"
 import ProfilePicture from './ProfilePicture.vue'
 
 defineProps<{

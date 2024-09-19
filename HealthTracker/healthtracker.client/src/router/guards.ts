@@ -5,7 +5,6 @@ export function authGuard(to: RouteLocationNormalized, from: RouteLocationNormal
   const userStore = useUserStore();
   
   if (to.meta.requiresAdmin) {
-    console.log(userStore.roles);
     if (userStore.roles && userStore.roles.includes('Admin')) {
       next();
     } else {

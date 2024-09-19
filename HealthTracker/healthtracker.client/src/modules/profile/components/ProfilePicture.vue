@@ -15,7 +15,8 @@
 import { ref } from "vue"
 import config from "@/config.json"
 import { useUserStore } from "@/shared/store/userStore";
-import { apiPostUserPhoto, type IProfile } from "@/api/account/profileController";
+import { apiPostUserPhoto } from "@/api/account/profileController";
+import type { IProfile } from "./../types/Profile.ts"
 
 const props = defineProps<{
     profile: IProfile
