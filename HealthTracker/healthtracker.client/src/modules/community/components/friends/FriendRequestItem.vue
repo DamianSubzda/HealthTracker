@@ -22,13 +22,14 @@
 
 <script lang="ts" setup>
 import { apiPutFriendshipAccept, apiPutFriendshipDecline } from "@/api/community/friendshipController";
-import { useFriendsStore, type IFriendRequestModel } from "@/modules/community/store/friendsStore"
+import { useFriendsStore } from "@/modules/community/store/friendsStore"
+import type { IFriendRequest } from "./../../types/Friend.ts"
 
 const friendsStore = useFriendsStore();
 
 const props = defineProps<{
-  friend: IFriendRequestModel,
-  onClick: (friend : IFriendRequestModel) => void,
+  friend: IFriendRequest,
+  onClick: (friend : IFriendRequest) => void,
 }>()
 
 function handleClick() {

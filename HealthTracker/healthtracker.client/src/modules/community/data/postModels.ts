@@ -1,3 +1,5 @@
+//Change to store
+
 import { type Ref, ref } from "vue";
 
 const currentPosts: Ref<ICurrentPosts> = ref({

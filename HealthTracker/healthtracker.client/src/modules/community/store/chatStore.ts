@@ -1,22 +1,9 @@
-import { type FriendModel, useFriendsStore } from './../store/friendsStore';
+import { useFriendsStore } from './../store/friendsStore';
 import { defineStore } from "pinia";
 import { useUserStore } from "@/shared/store/userStore";
+import type { IChat, IMessage } from '../types/Chat';
+import type { IFriend } from '../types/Friend';
 
-interface IMessage {
-  id: number;
-  text: string;
-  isYours: boolean;
-  isReaded: boolean;
-}
-
-interface IChat {
-  messages: IMessage[];
-  friendToChat: FriendModel | null;
-  isChatExpanded: boolean;
-  isLoadingOlderMessages: boolean;
-  pageNumber: number;
-  pageSize: number;
-}
 
 export const useChatStore = defineStore("chatData", {
   state: (): IChat => ({
@@ -94,7 +81,7 @@ export const useChatStore = defineStore("chatData", {
       this.pageNumber = 1;
       this.pageSize = 10;
     },
-    setFriendToChat(friend: FriendModel){
+    setFriendToChat(friend: IFriend){
       this.friendToChat = friend;
     }
   },

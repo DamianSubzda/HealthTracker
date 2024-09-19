@@ -20,17 +20,10 @@
 import { debounce } from 'lodash-es';
 import { ref, watch } from 'vue';
 import { apiGetSearchedUsers } from '@/api/community/userController'
+import type { SearchedUser } from "./../types/SearchedUser.ts"
 
 const searchQuery = ref('');
 const searchResults = ref<SearchedUser[]>([]);
-
-type SearchedUser = {
-    id: number,
-    firstName: string,
-    lastName: string,
-    userName: string,
-    profilePicture: string | null
-}
 
 const debouncedSearch = debounce(async (query: string) => {
     if (query.length > 1) {
