@@ -1,14 +1,5 @@
 import { defineStore } from "pinia";
-
-interface IErrorModel {
-  code: string;
-  description: string;
-}
-
-interface IFormStatusModel {
-  success: string | null;
-  errors: IErrorModel[];
-}
+import type { IFormStatusModel, IErrorModel } from "../types/FormStatusModels";
 
 export const useFormStatusStore = defineStore("formStatus", {
   state: (): IFormStatusModel => ({

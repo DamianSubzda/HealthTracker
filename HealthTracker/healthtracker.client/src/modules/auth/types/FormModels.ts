@@ -23,4 +23,9 @@ interface IRegisterModel {
   Password_confirmation: string
 }
 
-export type { ILoginModel, INewPassModel, IPassResetModel, IRegisterModel }
+export type { 
+  ILoginModel, 
+  INewPassModel, 
+  IPassResetModel, 
+  IRegisterModel
+ }

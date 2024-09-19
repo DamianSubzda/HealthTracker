@@ -1,6 +1,6 @@
 import { useFormStatusStore } from '@/modules/auth/store/formStatusStore';
 import apiClient from "./../apiClient";
-import type { ILoginModel, IRegisterModel } from "@/data/models/formDataModels";
+import type { ILoginModel, IRegisterModel } from "@/modules/auth/types/FormModels";
 
 async function apiPostLogin(loginData: ILoginModel) {
   const formStatusStore = useFormStatusStore();

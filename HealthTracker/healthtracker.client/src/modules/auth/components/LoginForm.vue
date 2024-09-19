@@ -33,11 +33,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { ILoginModel } from '@/data/models/formDataModels';
+import type { ILoginModel } from '@/modules/auth/types/FormModels';
 import LoginWithGoogle from './LoginWithGoogle.vue'
-import { apiPostLogin } from '@/api/account/authController.ts'
+import { apiPostLogin } from '@/api/account/authController'
 import FormStatus from "@/shared/components/FormStatus.vue"
-import { useUserStore } from "@/modules/auth/store/userStore";
+import { useUserStore } from "@/shared/store/userStore";
 import router from "@/router/index";
 
 const isLogging = ref(false);
@@ -64,7 +64,6 @@ const login = async () => {
 }
 
 const goToResetPassword = () => {
-    console.log("TEST");
     router.push({ name: 'Reset Password' });
 };
 

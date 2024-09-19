@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { INewPassModel } from '@/data/models/formDataModels';
+import type { INewPassModel } from '@/modules/auth/types/FormModels';
 import FormStatus from '@/shared/components/FormStatus.vue'
 
 const formData = ref<INewPassModel>({
