@@ -10,8 +10,9 @@ let connection: HubConnection | null = null;
 function getConnection() {
   const userStore = useUserStore();
 
-  if (connection && connection.state !== HubConnectionState.Disconnected) {
-    console.log(`Connection state: ${connection.state}`);
+  if (connection && (connection.state === HubConnectionState.Connected ||
+                    connection.state === HubConnectionState.Connecting ||
+                    connection.state === HubConnectionState.Reconnecting)) {
     return connection;
   }
   connection = new HubConnectionBuilder()
@@ -34,8 +35,13 @@ async function connectToChatHub() {
 
   try {
     const connection = getConnection();
-    await connection.start();
-    console.log("Connected to Chat");
+
+    if (connection.state === HubConnectionState.Disconnected) {
+      await connection.start();
+      console.log("Connected to Chat");
+    }
+
+    connection.off("ReceiveMessage");
     connection.on("ReceiveMessage", async (id, userFrom, userTo, message) => {
       chatStore.addMessageFromChatHub(id, message, userFrom, userTo, userStore.userId);
 
@@ -47,6 +53,20 @@ async function connectToChatHub() {
     });
   } catch (err) {
     console.error("Error connecting to Chat:", err);
+  }
+}
+
+async function disconnectWithChat(){
+  if (connection && connection.state === HubConnectionState.Connected) {
+    try {
+      await connection.stop();
+      console.log("Disconnected from Chat");
+      connection = null; //Możliwe że trzeba usunać
+    } catch (err) {
+      console.error("Error disconnecting from Chat:", err);
+    }
+  } else {
+    console.log("No active connection to disconnect");
   }
 }
 
@@ -69,4 +89,4 @@ async function sendMesssage(messageToSend: string) {
   }
 }
 
-export { connectToChatHub, sendMesssage };
+export { connectToChatHub, disconnectWithChat, sendMesssage };
