@@ -1,18 +1,6 @@
-import { useUserStore } from "@/modules/auth/store/userStore";
+import { useUserStore } from "@/shared/store/userStore";
 import apiClient from "../apiClient";
-
-interface IProfile {
-  id: number;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  email: string;
-  about: string;
-  phoneNumber: string;
-  dateOfBirth: string;
-  dateOfCreate: string;
-  profilePicture: string;
-}
+import type { IProfile } from "@/modules/profile/types/Profile";
 
 async function apiGetProfileById(userId: number) {
   const userStore = useUserStore();

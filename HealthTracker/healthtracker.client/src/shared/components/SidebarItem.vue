@@ -10,13 +10,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { ILink } from "./../types/Link"
+
 defineProps<{
-  item: {
-    name: string;
-    description: string;
-    icon: string;
-    isHidden: boolean;
-  }
+  item: ILink
 }>()
 </script>
 

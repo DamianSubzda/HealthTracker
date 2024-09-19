@@ -38,10 +38,9 @@ import UsersComment from './UsersComment.vue'
 import { ref, computed, onMounted } from 'vue';
 import DOMPurify from 'dompurify';
 import MarkdownIt from 'markdown-it';
-import { type IPost } from '@/data/models/postModels';
-import type { IComment } from '@/data/models/postModels';
+import type { IPost, IComment } from '@/modules/community/types/Post';
 import { apiGetPostComments, apiPostLikePost, apiDeleteLike, apiPostCommentToPost } from '@/api/community/postController';
-import { useUserStore } from "@/modules/auth/store/userStore";
+import { useUserStore } from "@/shared/store/userStore";
 
 const props = defineProps<{
   post: IPost

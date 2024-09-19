@@ -19,12 +19,12 @@
         <FriendsList v-else class="list-mobile" />
         <ChatBox :is_expanded="true" class="chat-mobile" />
       </div>
-      <div class="wall-body">
+      <div class="wall-body" ref="postsContainer" @scroll="handlePostsScroll">
+        <div v-for="post in postStore.posts" :key="post.id" class="posts">
+          <Post :post="post" />
+        </div>
         <div v-if="arePostsLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
           <LoadingScreen :cubSize="25"/>
-        </div>
-        <div v-else v-for="post in currentPosts.posts" :key="post.id" class="posts">
-          <Post :post="post" />
         </div>
       </div>
     </div>
@@ -47,18 +47,19 @@ import ChatBox from './../components/chat/ChatBox.vue';
 import Post from './../components/post/PostSection.vue'
 import SearchBar from './../components/SearchBar.vue'
 import LoadingScreen from '@/shared/components/LoadingWidget.vue'
-import { currentPosts } from '@/data/models/postModels';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { apiGetPostOnWall } from '@/api/community/postController';
 import { apiGetFriendList } from '@/api/community/friendshipController';
-import { useUserStore } from '@/modules/auth/store/userStore';
+import { useUserStore } from '@/shared/store/userStore';
 import { useChatStore } from './../store/chatStore';
+import { usePostStore } from './../store/postStore'
 import { useFriendsStore } from './../store/friendsStore';
-import { connectToChatHub } from './../hubs/chatHub'
+import { connectToChatHub, disconnectWithChat } from './../hubs/chatHub'
 import { apiGetNumberOfNewMessagesForFriend } from '@/api/community/chatController';
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
+const postStore = usePostStore();
 const friendsStore = useFriendsStore();
 const isMobile = ref(window.innerWidth < 785 || window.innerHeight < 590);
 const isButtonExpandedClicked = ref(false);
@@ -66,6 +67,7 @@ const isMobileExpanded = computed(() => isMobile.value && isButtonExpandedClicke
 
 const postPageNumber = ref(1)
 const postPageSize = 10
+const postsContainer = ref();
 
 const arePostsLoading = ref(true);
 const areFriendsLoading = ref(true);
@@ -77,8 +79,10 @@ onMounted(async () => {
   await getPosts();
 });
 
-onUnmounted(() => {
+onUnmounted(async () => {
   window.removeEventListener('resize', handleResize);
+  postStore.removePosts();
+  await disconnectWithChat();
 });
 
 function toggleMobile() {
@@ -109,14 +113,26 @@ async function getFriends() {
 }
 
 async function getPosts() {
+  arePostsLoading.value = true;
   const posts = await apiGetPostOnWall(postPageNumber.value, postPageSize);
   if (posts) {
-    currentPosts.value.posts = posts
-    arePostsLoading.value = false;
-  } else {
-    arePostsLoading.value = false;
+    postStore.addPosts(posts);
   }
+  arePostsLoading.value = false;
+  postPageNumber.value++;
 }
+
+const handlePostsScroll = async () => {
+  const container = postsContainer.value;
+  if (container) {
+    const scrollBottom = container.scrollTop + container.clientHeight >= container.scrollHeight - 1;
+    
+    if (scrollBottom && !arePostsLoading.value) {
+      await getPosts();
+    }
+  }
+};
+
 
 </script>
 

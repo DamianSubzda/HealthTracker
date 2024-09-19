@@ -1,4 +1,4 @@
-import { useUserStore } from "@/modules/auth/store/userStore";
+import { useUserStore } from "@/shared/store/userStore";
 import apiClient from "../apiClient";
 
 const apiGetMessagesWithFriend = async (
@@ -34,7 +34,7 @@ const response = await apiClient.get(`/api/users/messages/${friendId}/${userStor
 })
   .catch((error) => {
     console.log(error);
-    return 0;
+    return { data: 0 };
   });
 return response?.data;
 };

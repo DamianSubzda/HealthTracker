@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { IRegisterModel } from '@/data/models/formDataModels';
+import type { IRegisterModel } from '@/modules/auth/types/FormModels';
 import FormStatus from '@/shared/components/FormStatus.vue'
 import { apiPostRegister } from "@/api/account/authController"
 

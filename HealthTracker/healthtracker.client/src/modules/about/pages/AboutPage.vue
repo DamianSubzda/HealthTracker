@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-import { authors } from '@/data/models/authorsData'
+import { authors } from '@/modules/about/data/authorsData'
 import AuthorWidget from './../components/AuthorWidget.vue'
 </script>
 

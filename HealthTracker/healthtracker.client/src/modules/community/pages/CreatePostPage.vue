@@ -51,8 +51,8 @@
 import { ref, computed } from 'vue';
 import { marked } from 'marked';
 import _ from 'lodash';
-import { useUserStore } from '../../auth/store/userStore';
-import { apiPostPost } from './../../../api/community/postController'
+import { useUserStore } from '@/shared/store/userStore';
+import { apiPostPost } from '@/api/community/postController'
 
 const userStore = useUserStore();
 const textInput = ref<string>("");

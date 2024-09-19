@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { SocialLinks } from '@/data/models/socialLinks'
+import { SocialLinks } from '@/shared/data/socialLinks'
 </script>
 
 <style lang="scss" scoped>

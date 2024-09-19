@@ -21,10 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import type { IHomeCardModel } from "@/data/models/homeCardModel";
+import type { ICardModel } from "@/modules/home/types/CardModel.ts";
 
 defineProps<{
-    item: IHomeCardModel;
+    item: ICardModel;
 }>();
 </script>
 

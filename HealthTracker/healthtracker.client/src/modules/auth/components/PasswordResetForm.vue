@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { IPassResetModel } from "@/data/models/formDataModels";
+import type { IPassResetModel } from "@/modules/auth/types/FormModels";
 import FormStatus from '@/shared/components/FormStatus.vue'
 
 const formData = ref<IPassResetModel>({

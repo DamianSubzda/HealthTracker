@@ -22,11 +22,12 @@ import { ref, onMounted, watch } from 'vue';
 import ErrorScreen from "@/shared/components/ErrorWidget.vue"
 import LoadingScreen from '@/shared/components/LoadingWidget.vue'
 import { useRoute } from 'vue-router';
-import { type IProfile, apiGetProfileById } from '@/api/account/profileController';
+import { apiGetProfileById } from '@/api/account/profileController';
 import { apiGetFriendship, apiPostFriendshipRequest } from '@/api/community/friendshipController';
 import ProfileContent from './../components/ProfileContent.vue';
 import ProfileInfo from './../components/ProfileInfo.vue';
-import { useUserStore } from "../../auth/store/userStore";
+import { useUserStore } from "@/shared/store/userStore";
+import type { IProfile } from "./../types/Profile.ts"
 
 const profile = ref<IProfile | null>(null);
 const isLoading = ref(false);

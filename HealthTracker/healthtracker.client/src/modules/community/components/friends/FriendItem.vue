@@ -15,11 +15,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { IFriendModel } from "@/modules/community/store/friendsStore"
+import type { IFriend } from "@/modules/community/types/Friend.ts"
 
 const props = defineProps<{
-  friend: IFriendModel,
-  onClick: (friend : IFriendModel) => void,
+  friend: IFriend,
+  onClick: (friend : IFriend) => void,
 }>()
 
 function handleClick() {

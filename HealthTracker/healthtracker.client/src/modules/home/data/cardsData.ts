@@ -1,7 +1,6 @@
-import { reactive } from "vue";
+import type { ICardModel } from "../types/CardModel";
 
-//Label do wybrania i fieldValue ściągane po API z backendu.
-const HomeCardData = reactive([
+const Cards : ICardModel[] = [
   {
     name: "Diary",
     title: "Meals",
@@ -37,14 +36,6 @@ const HomeCardData = reactive([
     label:'label',
     fieldValue: ['val1','val2']
   },
-])
+];
 
-interface IHomeCardModel {
-  name: string;
-  title: string;
-  description: string;
-  label: string;
-  fieldValue: string[],
-}
-export { HomeCardData };
-export type { IHomeCardModel };
+export { Cards };

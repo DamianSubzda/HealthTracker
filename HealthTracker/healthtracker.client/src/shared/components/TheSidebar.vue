@@ -13,26 +13,24 @@
       </div>
     </div>
     <div class="menu">
-      <SidebarItem v-for="link in Links" :item="link" :key="link"/>
+      <SidebarItem v-for="link in navigationStore.links" :item="link" :key="link.name"/>
     </div>
     <div class="flex"></div>
     <div class="menu">
-      <SidebarItem v-for="link in AuthLinks" :item="link" :key="link"/>
+      <SidebarItem v-for="link in navigationStore.authLinks" :item="link" :key="link.name"/>
     </div>
   </aside>
 </template>
 
 <script lang="ts" setup>
 import SidebarItem from "./SidebarItem.vue";
-import { getLinks, getAuthLinks } from "@/data/models/sidebarLinks";
-import { ref, reactive,onBeforeMount } from "vue";
+import { ref, onBeforeMount } from "vue";
+import { useNavigationStore } from "./../store/navigationStore"
 const is_expanded = ref(false)
-let Links = reactive({});
-let AuthLinks = reactive({});
+const navigationStore = useNavigationStore();
 
 onBeforeMount(() => {
-  Links = getLinks();
-  AuthLinks = getAuthLinks();
+  navigationStore.initializeLinks();
 });
 
 const ToggleMenu = () => {

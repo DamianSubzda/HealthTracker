@@ -1,17 +1,5 @@
-interface IUrl {
-  name: string;
-  url: string;
-}
-
-interface IAuthor {
-  firstName: string;
-  lastName: string;
-  role: string;
-  image: string;
-  urls: IUrl[];
-}
-
-const authors = [
+import type { IAuthor, IUrl } from "../types/Author";
+const authors : IAuthor[] = [
   {
     firstName: "Damian",
     lastName: "Subzda",
@@ -26,7 +14,7 @@ const authors = [
         name: "Example",
         url: "https://wp.pl",
       },
-    ],
+    ] as IUrl[],
   },
   {
     firstName: "Filip",
@@ -38,9 +26,8 @@ const authors = [
         name: "Github",
         url: "https://github.com/Hikareel",
       },
-    ],
+    ] as IUrl[],
   },
 ];
 
 export { authors };
-export type { IAuthor, IUrl };

@@ -1,7 +1,7 @@
 <template>
   <main class="home-page">
     <div class="main-view">
-      <RouterLink v-for="card in HomeCardData" :key="card.title" :to="card.name" class="segment">
+      <RouterLink v-for="card in Cards" :key="card.title" :to="card.name" class="segment">
         <HomeCard class="home-main-card" :item="card" />
       </RouterLink>
     </div>
@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import HomeCard from './../components/HomeCard.vue';
-import { HomeCardData } from '@/data/models/homeCardModel';
+import { Cards } from '@/modules/home/data/cardsData';
 </script>
 
 <style lang="scss" scoped>
