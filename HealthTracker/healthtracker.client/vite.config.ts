@@ -6,6 +6,9 @@ import fs from "fs";
 import path from "path";
 import child_process from "child_process";
 
+const configPath = path.resolve(__dirname, 'src/config.json');
+const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+
 const baseFolder =
 	process.env.APPDATA !== undefined && process.env.APPDATA !== ""
 		? `${process.env.APPDATA}/ASP.NET/https`
@@ -60,7 +63,7 @@ export default defineConfig({
 	server: {
 		proxy: {
 			"/api": {
-				target: "https://localhost:7170/",
+				target: config.serverURL,
 				secure: false,
 				rewrite: (path) => path.replace(/^\/api/, ""),
 			},
