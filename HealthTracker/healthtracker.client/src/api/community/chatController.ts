@@ -34,7 +34,7 @@ const response = await apiClient.get(`/api/users/messages/${friendId}/${userStor
 })
   .catch((error) => {
     console.log(error);
-    return 0;
+    return { data: 0 };
   });
 return response?.data;
 };

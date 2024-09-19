@@ -1,6 +1,6 @@
 import type { ICardModel } from "../types/CardModel";
 
-const Cards : ICardModel = [
+const Cards : ICardModel[] = [
   {
     name: "Diary",
     title: "Meals",

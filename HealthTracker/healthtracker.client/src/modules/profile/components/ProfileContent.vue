@@ -58,7 +58,8 @@ import { useUserStore } from '@/shared/store/userStore';
 import { apiGetFriendList, apiGetFriendshipRequestsForUser } from '@/api/community/friendshipController';
 import FriendItem from '@/modules/community/components/friends/FriendItem.vue';
 import FriendRequestItem from '@/modules/community/components/friends/FriendRequestItem.vue';
-import { useFriendsStore, type IFriendModel, type IFriendRequestModel } from '@/modules/community/store/friendsStore';
+import { useFriendsStore } from '@/modules/community/store/friendsStore';
+import type { IFriend, IFriendRequest } from "@/modules/community/types/Friend.ts"
 import router from '@/router';
 
 const posts = ref<IPost[] | null>(null);
@@ -114,7 +115,7 @@ function setActiveTab(tabName: string) {
     activeTab.value = tabName;
 }
 
-function redirectToProfile(friend: IFriendRequestModel | IFriendModel) {
+function redirectToProfile(friend: IFriendRequest | IFriend) {
   router.push({ name: 'UsersProfile', params: { id: friend.userId } });
 }
 
