@@ -37,7 +37,8 @@ import type { ILoginModel } from '@/modules/auth/types/FormModels';
 import LoginWithGoogle from './LoginWithGoogle.vue'
 import { apiPostLogin } from '@/api/account/authController'
 import FormStatus from "@/shared/components/FormStatus.vue"
-import { useUserStore } from "@/shared/store/userStore";
+import { useUserStore } from "@/shared/store/userStore"
+import { useNavigationStore } from '@/shared/store/navigationStore'
 import router from "@/router/index";
 
 const isLogging = ref(false);
@@ -54,8 +55,10 @@ const login = async () => {
     if (result) {
         localStorage.setItem("user", JSON.stringify(result.data));
         const userStore = useUserStore();
+        const navigationStore = useNavigationStore();
         router.push("/").then(() => {
             userStore.updateUserData();
+            navigationStore.updateLinkVisibility();
         });
     }
     

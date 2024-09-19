@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { IAuthor } from '@/modules/about/data/authorsData';
+import type { IAuthor } from '@/modules/about/types/Author';
 
 defineProps<{
     author: IAuthor

@@ -1,5 +1,6 @@
 import { type RouteRecordRaw } from 'vue-router';
 import { useUserStore } from '@/shared/store/userStore';
+import { useNavigationStore } from '@/shared/store/navigationStore';
 
 import Register from '@/modules/auth/pages/RegisterPage.vue'
 import Login from '@/modules/auth/pages/LoginPage.vue'
@@ -39,7 +40,9 @@ export const authRoutes: Array<RouteRecordRaw> = [
         beforeEnter: (_to, _from, next) => {
           localStorage.removeItem("user");
           const userStore = useUserStore();
+          const navigationStore = useNavigationStore();
           userStore.updateUserData();
+          navigationStore.updateLinkVisibility();
           next('/login')
         },
         redirect: ''

@@ -19,8 +19,10 @@ import Sidebar from '@/shared/components/TheSidebar.vue'
 import Header from '@/shared/components/TheHeader.vue'
 import { onMounted } from 'vue';
 import { useUserStore } from '@/shared/store/userStore'
+import { useNavigationStore } from '@/shared/store/navigationStore'
 
 const userStore = useUserStore();
+const navigationStore = useNavigationStore();
 
 onMounted(async ()=>{
   await initialApplication()
@@ -30,6 +32,7 @@ async function initialApplication() {
   console.log('Strona została odświeżona lub załadowana');
   
   userStore.updateUserData();
+  navigationStore.updateLinkVisibility();
 }
 </script>
 
