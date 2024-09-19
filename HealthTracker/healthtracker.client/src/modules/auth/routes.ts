@@ -1,5 +1,5 @@
 import { type RouteRecordRaw } from 'vue-router';
-import { useUserStore } from './store/userStore';
+import { useUserStore } from '@/shared/store/userStore';
 
 import Register from '@/modules/auth/pages/RegisterPage.vue'
 import Login from '@/modules/auth/pages/LoginPage.vue'

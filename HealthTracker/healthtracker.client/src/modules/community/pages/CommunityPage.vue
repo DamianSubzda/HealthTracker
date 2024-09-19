@@ -47,11 +47,11 @@ import ChatBox from './../components/chat/ChatBox.vue';
 import Post from './../components/post/PostSection.vue'
 import SearchBar from './../components/SearchBar.vue'
 import LoadingScreen from '@/shared/components/LoadingWidget.vue'
-import { currentPosts } from '@/data/models/postModels';
+import { currentPosts } from '@/modules/community/data/postModels';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { apiGetPostOnWall } from '@/api/community/postController';
 import { apiGetFriendList } from '@/api/community/friendshipController';
-import { useUserStore } from '@/modules/auth/store/userStore';
+import { useUserStore } from '@/shared/store/userStore';
 import { useChatStore } from './../store/chatStore';
 import { useFriendsStore } from './../store/friendsStore';
 import { connectToChatHub } from './../hubs/chatHub'

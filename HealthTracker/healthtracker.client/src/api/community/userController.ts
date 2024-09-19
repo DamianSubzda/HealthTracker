@@ -1,4 +1,4 @@
-import { useUserStore } from "@/modules/auth/store/userStore";
+import { useUserStore } from "@/shared/store/userStore";
 import apiClient from "../apiClient";
 
 async function apiGetSearchedUsers(query: string) {

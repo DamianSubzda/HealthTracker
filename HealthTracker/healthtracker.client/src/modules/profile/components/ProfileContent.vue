@@ -52,9 +52,9 @@ import { ref, onMounted } from 'vue'
 import Post from '@/modules/community/components/post/PostSection.vue'
 import LoadingScreen from '@/shared/components/LoadingWidget.vue';
 import { apiGetUserPosts } from '@/api/community/postController'
-import { type IPost } from '@/data/models/postModels';
+import { type IPost } from '@/modules/community/data/postModels';
 import { type IProfile } from '@/api/account/profileController';
-import { useUserStore } from '@/modules/auth/store/userStore';
+import { useUserStore } from '@/shared/store/userStore';
 import { apiGetFriendList, apiGetFriendshipRequestsForUser } from '@/api/community/friendshipController';
 import FriendItem from '@/modules/community/components/friends/FriendItem.vue';
 import FriendRequestItem from '@/modules/community/components/friends/FriendRequestItem.vue';
