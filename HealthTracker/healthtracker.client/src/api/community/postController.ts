@@ -222,6 +222,22 @@ const apiPostPost = async (
   return response?.data;
 };
 
+const apiDeletePost = async (postId: number) => {
+  const userStore = useUserStore();
+  await apiClient
+    .delete(`/api/users/posts/${postId}`, {
+      headers: {
+        Authorization: `Bearer ${userStore.token}`,
+      },
+    })
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+  return true;
+}
+
 export {
   apiGetPostOnWall,
   apiGetUserPosts,
@@ -232,4 +248,5 @@ export {
   apiPostCommentToPost,
   apiPostCommentToParent,
   apiPostPost,
+  apiDeletePost,
 };
