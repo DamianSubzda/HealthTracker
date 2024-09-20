@@ -18,14 +18,18 @@ const apiGetPostOnWall = async (pageNumber: number, pageSize: number) => {
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
 
   return response?.data;
 };
 
-const apiGetUserPosts = async(userId: number | null, pageNumber: number, pageSize: number) => {
+const apiGetUserPosts = async (
+  userId: number | null,
+  pageNumber: number,
+  pageSize: number
+) => {
   const userStore = useUserStore();
   if (!userId || !userStore.userId) {
     console.log("No user ID provided");
@@ -42,12 +46,12 @@ const apiGetUserPosts = async(userId: number | null, pageNumber: number, pageSiz
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
 
   return response?.data;
-}
+};
 
 const apiGetPostComments = async (
   postId: number,
@@ -77,7 +81,10 @@ const apiGetPostComments = async (
   return response?.data;
 };
 
-const apiGetChildComments = async (postId: number, parentCommentId: number | null) => {
+const apiGetChildComments = async (
+  postId: number,
+  parentCommentId: number | null
+) => {
   const userStore = useUserStore();
   const response = await apiClient
     .get(`/api/users/posts/${postId}/comments/${parentCommentId}`, {
@@ -86,7 +93,7 @@ const apiGetChildComments = async (postId: number, parentCommentId: number | nul
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
 
@@ -109,7 +116,7 @@ const apiPostLikePost = async (postId: number) => {
       }
     )
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
 
@@ -125,7 +132,7 @@ const apiDeleteLike = async (postId: number) => {
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
 
@@ -149,7 +156,7 @@ const apiPostCommentToPost = async (postId: number, content: string) => {
       }
     )
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
   return response?.data;
@@ -176,40 +183,44 @@ const apiPostCommentToParent = async (
       }
     )
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
 
   return response?.data;
 };
 
-const apiPostPost = async (userId: number | null, content: string, image: HTMLInputElement | null) => {
-  
+const apiPostPost = async (
+  userId: number | null,
+  content: string,
+  image: HTMLInputElement | null
+) => {
   if (!userId) {
     return null;
   }
+  
   const formData = new FormData();
-  formData.append('userId', userId.toString());
-  formData.append('content', content);
+  formData.append("userId", userId.toString());
+  formData.append("content", content);
   if (image && image?.files) {
-    formData.append('imageFile', image.files[0]);
+    formData.append("imageFile", image.files[0]);
   }
+
   const userStore = useUserStore();
   const response = await apiClient
     .post(`/api/users/posts`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${userStore.token}`,
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
 
   return response?.data;
 };
-
 
 export {
   apiGetPostOnWall,

@@ -1,6 +1,6 @@
 <template>
     <main>
-        <ErrorScreen :code="403" :message="`Unauthorized Access!`"/>
+        <ErrorScreen :code="403" :message="`Unauthorized Access!`" />
     </main>
 </template>
 

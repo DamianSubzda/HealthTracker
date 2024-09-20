@@ -16,7 +16,8 @@
                     <button @click="createPostClick">
                         <img src="@/assets/icons/arrow-long-right.svg" alt="Create Post" />
                     </button>
-                    <input ref="fileInput" type="file" @change="handleFileSelect" accept="image/*" style="display: none;" />
+                    <input ref="fileInput" type="file" @change="handleFileSelect" accept="image/*"
+                        style="display: none;" />
                 </div>
             </div>
 
@@ -92,10 +93,10 @@ function removeImage() {
 function handleFileSelect(event: Event) {
     const target = event.target as HTMLInputElement;
     const file = target.files ? target.files[0] : null;
-    
+
     if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             imageUrl.value = e.target?.result as string;
         };
         reader.readAsDataURL(file);
@@ -111,8 +112,8 @@ function handleFileSelect(event: Event) {
     justify-content: center;
     align-items: center;
 
-    .panel-create-success{
-        color:chartreuse;
+    .panel-create-success {
+        color: chartreuse;
         margin-top: 1rem;
     }
 
@@ -137,7 +138,8 @@ function handleFileSelect(event: Event) {
             border-top-left-radius: 1rem;
             border-top-right-radius: 1rem;
         }
-        .panel-editing-buttons{
+
+        .panel-editing-buttons {
             display: grid;
             grid-template-columns: 3rem 3rem 1fr;
             justify-content: center;
@@ -152,19 +154,20 @@ function handleFileSelect(event: Event) {
                 border-radius: 50rem;
                 border: 0;
                 cursor: pointer;
-                
+
                 img {
                     transition: transform 0.3s ease;
                 }
 
-                &:hover{
+                &:hover {
                     background-color: rgb(95, 95, 95);
                     z-index: 9999;
-                    img{
+
+                    img {
                         transform: scale(1.2, 1.2);
                         transition: transform 0.3s ease;
                     }
-                    
+
                 }
             }
         }
@@ -197,8 +200,8 @@ function handleFileSelect(event: Event) {
                     word-wrap: break-word;
                     white-space: normal;
                 }
-                
-                .attachment{
+
+                .attachment {
                     padding-top: 0.5rem;
 
                     img {

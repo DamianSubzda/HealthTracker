@@ -1,6 +1,6 @@
 <template>
     <div class="form">
-        <FormStatus formTitle="New Password"/>
+        <FormStatus formTitle="New Password" />
         <Vueform class="form-content" v-model="formData" @submit="sendFormData" :float-placeholders="false"
             :endpoint="false" :display-errors="false" sync>
             <GroupElement name="password">
@@ -18,10 +18,11 @@
             </GroupElement>
             <GroupElement name="controll">
                 <ButtonElement id="reset_button" name="reset" type="reset" :resets="true" hidden />
-                <ButtonElement name="submit" button-label="Confirm" align="right" :submits="true" full size="lg" :columns="{
-                    container: 12,
-                    label: 12
-                }" />
+                <ButtonElement name="submit" button-label="Confirm" align="right" :submits="true" full size="lg"
+                    :columns="{
+                        container: 12,
+                        label: 12
+                    }" />
             </GroupElement>
         </Vueform>
     </div>
@@ -38,11 +39,10 @@ const formData = ref<INewPassModel>({
 });
 
 const sendFormData = async () => {
-    // preventSubmit("/new-pass", JSON.stringify(formData.value))
+    //TODO backend
     formData.value.password = ''
     formData.value.password_confirmation = ''
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

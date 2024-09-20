@@ -1,6 +1,6 @@
 <template>
     <main>
-        <ErrorScreen :code="404" :message="`Page not found!`"/>
+        <ErrorScreen :code="404" :message="`Page not found!`" />
     </main>
 </template>
 

@@ -3,7 +3,7 @@
     <img v-if="profile.profilePicture != null" :src="localPicture" alt="profile picture">
     <img v-else src="@/assets/pictures/defaultProfilePicture.png" alt="default picture">
     <div v-if="userStore.userId == profile.id" className="change-picture">
-      <button  v-on:click="openFileDialog">
+      <button v-on:click="openFileDialog">
         <img src="@/assets/icons/change-photo.svg" alt=" " />
         <input ref="fileInput" type="file" @change="handleFileSelect" accept="image/*" style="display: none;">
       </button>
@@ -19,7 +19,7 @@ import { apiPostUserPhoto } from "@/api/account/profileController";
 import type { IProfile } from "./../types/Profile.ts"
 
 const props = defineProps<{
-    profile: IProfile
+  profile: IProfile
 }>();
 
 const localPicture = ref(`${config.serverURL}${props.profile.profilePicture}?v=${new Date().getTime()}`);

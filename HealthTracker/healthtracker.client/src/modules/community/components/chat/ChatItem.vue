@@ -11,7 +11,7 @@
 				</div>
 				<div class="chat-header-label">
 					<p v-if="chatStore.friendToChat">{{ chatStore.friendToChat.firstName }} {{
-			chatStore.friendToChat.lastName }}</p>
+						chatStore.friendToChat.lastName }}</p>
 				</div>
 			</div>
 			<div class="chat-content">
@@ -36,7 +36,7 @@ const notificationLabel = computed(() => {
 	const count = chatStore.friendToChat?.newMessagesCount;
 	if (count) {
 		return count > 1 ? `${count} new messages` :
-		count === 1 ? "New message" : "";
+			count === 1 ? "New message" : "";
 	}
 	return "";
 });

@@ -1,10 +1,10 @@
 <template>
-  <footer v-if="!isCommunityPage">
-    <div class="social">
-      <SocialLinks />
-      <h1>HealthTracker</h1>
-    </div>
-  </footer>
+    <footer v-if="!isCommunityPage">
+        <div class="social">
+            <SocialLinks />
+            <h1>HealthTracker</h1>
+        </div>
+    </footer>
 </template>
 
 <script setup lang="ts">
@@ -18,23 +18,24 @@ const isCommunityPage = computed(() => route.path === '/community');
 
 <style lang="scss" scoped>
 footer {
-  height: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .social {
-    margin: auto;
+    height: 4rem;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
 
-    @media (max-width: 550px) {
-      gap: 1rem;
-      h1{
-        display: none;
-      }
+    .social {
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        @media (max-width: 550px) {
+            gap: 1rem;
+
+            h1 {
+                display: none;
+            }
+        }
     }
-  }
 }
 </style>

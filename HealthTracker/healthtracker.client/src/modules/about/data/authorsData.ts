@@ -1,5 +1,6 @@
 import type { IAuthor, IUrl } from "../types/Author";
-const authors : IAuthor[] = [
+
+const authors: IAuthor[] = [
   {
     firstName: "Damian",
     lastName: "Subzda",

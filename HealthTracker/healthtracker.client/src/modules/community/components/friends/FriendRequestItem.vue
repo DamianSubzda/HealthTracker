@@ -10,7 +10,7 @@
       </div>
       <div class="button-group">
         <button @click.stop="acceptRequest">
-          <img src="@/assets/icons/check.svg" alt="Accept" style="height: 26px; width: 26px;"/>
+          <img src="@/assets/icons/check.svg" alt="Accept" style="height: 26px; width: 26px;" />
         </button>
         <button @click.stop="declineRequest">
           <img src="@/assets/icons/close-o.svg" alt="Decline" />
@@ -29,7 +29,7 @@ const friendsStore = useFriendsStore();
 
 const props = defineProps<{
   friend: IFriendRequest,
-  onClick: (friend : IFriendRequest) => void,
+  onClick: (friend: IFriendRequest) => void,
 }>()
 
 function handleClick() {
@@ -129,10 +129,7 @@ async function declineRequest() {
           transition: transform 0.3s ease;
         }
       }
-
-
     }
-
   }
 }
 </style>
