@@ -3,7 +3,7 @@ interface ICardModel {
   title: string;
   description: string;
   label: string;
-  fieldValue: string[],
+  fieldValue: string[];
 }
 
 export type { ICardModel };

@@ -19,7 +19,7 @@ import type { IFriend } from "@/modules/community/types/Friend.ts"
 
 const props = defineProps<{
   friend: IFriend,
-  onClick: (friend : IFriend) => void,
+  onClick: (friend: IFriend) => void,
 }>()
 
 function handleClick() {
@@ -29,7 +29,7 @@ function handleClick() {
 </script>
 
 <style lang="scss" scoped>
-.friend-item{
+.friend-item {
   display: grid;
   grid-template-columns: 1fr 1fr 20fr;
   grid-column-gap: 0.5rem;
@@ -41,15 +41,17 @@ function handleClick() {
   color: white;
   padding-left: 1rem;
 
-  .notification{
+  .notification {
     font-size: 30%;
     align-content: center;
+
     i {
       color: yellow;
       border-radius: 100%;
       box-shadow: 0px 0px 12px 2px rgba(255, 255, 0, 1);
     }
   }
+
   .avatar {
     height: inherit;
     display: flex;
@@ -62,7 +64,7 @@ function handleClick() {
     display: inline-flex;
   }
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     background-color: rgba(100, 100, 100, 0.2);
   }

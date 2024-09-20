@@ -10,22 +10,24 @@ async function apiGetFriendList() {
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return null;
     });
   return response?.data;
 }
 
-async function apiGetFriendshipRequestsForUser(){
+async function apiGetFriendshipRequestsForUser() {
   const userStore = useUserStore();
-  const respone = await apiClient.get(`/api/users/${userStore.userId}/friends/requests`, {
-    headers: {
-      Authorization: `Bearer ${userStore.token}`,
-    }
-  }).catch((error) => {
-    console.log(error);
-    return null;
-  })
+  const respone = await apiClient
+    .get(`/api/users/${userStore.userId}/friends/requests`, {
+      headers: {
+        Authorization: `Bearer ${userStore.token}`,
+      },
+    })
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
 
   return respone?.data;
 }
@@ -40,7 +42,7 @@ async function apiGetFriendship(friendId: number) {
     })
     .catch((error) => {
       if (error.status != 404) {
-        console.log(error);
+        console.error(error);
       }
       return null;
     });
@@ -64,7 +66,7 @@ async function apiPostFriendshipRequest(friendId: number) {
       }
     )
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return false;
     });
   return true;
@@ -72,7 +74,7 @@ async function apiPostFriendshipRequest(friendId: number) {
 
 async function apiPutFriendshipAccept(friendId: Number) {
   const userStore = useUserStore();
-  
+
   await apiClient
     .put(`/api/users/${userStore.userId}/friends/${friendId}/accept`, null, {
       headers: {
@@ -80,7 +82,7 @@ async function apiPutFriendshipAccept(friendId: Number) {
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 }
 
@@ -93,7 +95,7 @@ async function apiPutFriendshipDecline(friendId: Number) {
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 }
 
@@ -106,7 +108,7 @@ async function apiDeleteFriendship(friendId: Number) {
       },
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 }
 

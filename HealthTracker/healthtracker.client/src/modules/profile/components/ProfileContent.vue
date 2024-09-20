@@ -15,7 +15,7 @@
                 <LoadingScreen :cubSize="25" />
             </div>
             <div v-else v-for="post in posts" :key="post.id" className="post-div">
-                <Post :post="post" />
+                <Post :post="post" @post-removed="removePost"/>
             </div>
         </div>
         <div v-if="activeTab === 'Goals'" className="goal-panel panel">
@@ -38,7 +38,7 @@
                 <div class="friends">
                     <p>Friends...</p>
                     <div v-for="friend in friendsStore.friends" :key="friend.userId">
-                        <FriendItem :friend="friend" :onClick="() => redirectToProfile(friend)"/>
+                        <FriendItem :friend="friend" :onClick="() => redirectToProfile(friend)" />
                     </div>
                 </div>
 
@@ -49,18 +49,18 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import Post from '@/modules/community/components/post/PostSection.vue'
+import router from '@/router';
+import Post from '@/modules/community/components/post/PostItem.vue'
 import LoadingScreen from '@/shared/components/LoadingWidget.vue';
-import { apiGetUserPosts } from '@/api/community/postController'
-import type { IPost } from '@/modules/community/types/Post';
-import type { IProfile } from "./../types/Profile.ts"
-import { useUserStore } from '@/shared/store/userStore';
-import { apiGetFriendList, apiGetFriendshipRequestsForUser } from '@/api/community/friendshipController';
 import FriendItem from '@/modules/community/components/friends/FriendItem.vue';
 import FriendRequestItem from '@/modules/community/components/friends/FriendRequestItem.vue';
-import { useFriendsStore } from '@/modules/community/store/friendsStore';
+import type { IPost } from '@/modules/community/types/Post';
+import type { IProfile } from "./../types/Profile.ts"
 import type { IFriend, IFriendRequest } from "@/modules/community/types/Friend.ts"
-import router from '@/router';
+import { useUserStore } from '@/shared/store/userStore';
+import { useFriendsStore } from '@/modules/community/store/friendsStore';
+import { apiGetUserPosts } from '@/api/community/postController'
+import { apiGetFriendList, apiGetFriendshipRequestsForUser } from '@/api/community/friendshipController';
 
 const posts = ref<IPost[] | null>(null);
 const arePostsLoading = ref(true);
@@ -92,8 +92,13 @@ async function getPosts() {
     }
 }
 
+function removePost(postId: number){
+    if (posts.value){
+        posts.value = posts.value.filter(post => post.id !== postId);
+    }
+}
+
 async function getFriends() {
-    
     await getUsersFriends();
     await getFriendshipRequests();
     areFriendsLoading.value = false;
@@ -116,7 +121,7 @@ function setActiveTab(tabName: string) {
 }
 
 function redirectToProfile(friend: IFriendRequest | IFriend) {
-  router.push({ name: 'UsersProfile', params: { id: friend.userId } });
+    router.push({ name: 'UsersProfile', params: { id: friend.userId } });
 }
 
 </script>
@@ -211,9 +216,10 @@ function redirectToProfile(friend: IFriendRequest | IFriend) {
             justify-content: center;
         }
     }
-    .friend-panel{
+
+    .friend-panel {
         .friends-requests {
-            a{
+            a {
                 padding: 0;
             }
         }

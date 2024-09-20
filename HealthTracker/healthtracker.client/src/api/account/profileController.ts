@@ -24,7 +24,7 @@ async function apiPostUserPhoto(userId: number, image: HTMLInputElement | null) 
   }
 
   const formData = new FormData();
-  formData.append('photo', image.files[0]);
+  formData.append("photo", image.files[0]);
 
   try {
     const userStore = useUserStore();
@@ -33,7 +33,7 @@ async function apiPostUserPhoto(userId: number, image: HTMLInputElement | null) 
       formData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data',       
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${userStore.token}`,
         },
       }

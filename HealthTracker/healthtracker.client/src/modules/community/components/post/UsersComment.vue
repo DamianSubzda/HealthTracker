@@ -103,11 +103,10 @@ async function addComment() {
 </script>
 
 <style lang="scss" scoped>
-
 a:hover {
-  cursor: pointer;
-  color: gold;
-  background-color: transparent;
+    cursor: pointer;
+    color: gold;
+    background-color: transparent;
 }
 
 .comment {
@@ -128,8 +127,6 @@ a:hover {
             justify-items: center;
             align-items: baseline;
             width: inherit;
-
-            // .comment-header-name {}
 
             .comment-header-time {
                 font-size: 70%;
@@ -169,8 +166,6 @@ a:hover {
             &:hover {
                 background-color: rgb(112, 112, 112);
             }
-
-            // &:active {}
         }
 
         button i {
@@ -192,8 +187,6 @@ a:hover {
             padding-left: 1rem;
             font-weight: 400;
             border-radius: 1.5rem;
-
-            // &:hover {}
 
             &:active {
                 border: 0;

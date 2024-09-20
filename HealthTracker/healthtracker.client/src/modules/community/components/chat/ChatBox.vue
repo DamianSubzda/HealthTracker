@@ -16,10 +16,11 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick, watch } from 'vue';
 import { useUserStore } from "@/shared/store/userStore";
-import { apiGetMessagesWithFriend, apiPutMessagesToRead } from '@/api/community/chatController';
-import { useChatStore } from '@/modules/community/store/chatStore';
-import { sendMesssage } from './../../hubs/chatHub';
 import { useFriendsStore } from '@/modules/community/store/friendsStore';
+import { useChatStore } from '@/modules/community/store/chatStore';
+import { apiGetMessagesWithFriend, apiPutMessagesToRead } from '@/api/community/chatController';
+import { sendMesssage } from './../../hubs/chatHub';
+
 
 const userStore = useUserStore();
 const chatStore = useChatStore();
@@ -114,7 +115,6 @@ async function sendMessageToHub() {
 </script>
 
 <style lang="scss" scoped>
-
 .chat-messinput {
   grid-column: 2/3;
   background-color: rgb(199, 167, 167);

@@ -19,7 +19,7 @@
                 <p>Phonenumber:</p>
                 <h2>{{ profile.phoneNumber }}</h2>
             </div>
-            
+
         </div>
         <div class="dates">
             <div className="birthday">
@@ -30,7 +30,7 @@
                 <p>With HealthTracker from:</p>
                 <h2>{{ formatUtcToLocal(profile.dateOfCreate) }}</h2>
             </div>
-            
+
         </div>
     </div>
 </template>
@@ -62,7 +62,7 @@ function formatUtcToLocal(inputDate: string) {
     padding: 1rem;
     background-color: rgb(62, 50, 50);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
     height: auto;
 
@@ -71,7 +71,7 @@ function formatUtcToLocal(inputDate: string) {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 5px; 
+        gap: 5px;
 
         h1 {
             margin: 0;
@@ -97,25 +97,31 @@ function formatUtcToLocal(inputDate: string) {
         white-space: normal;
     }
 
-    .contact, .dates {
+    .contact,
+    .dates {
         background-color: rgb(141, 119, 119);
         padding: 1rem;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
-        p, h2 {
+        p,
+        h2 {
             display: inline-block;
             margin-right: 10px;
         }
     }
 
-    .contact, .dates {
+    .contact,
+    .dates {
         border-top: 2px solid rgb(192, 166, 166);
     }
 }
-.email, .phonenumber, .birthday, .ht-date {
+
+.email,
+.phonenumber,
+.birthday,
+.ht-date {
     display: flex;
     flex-direction: column;
 }
-
 </style>

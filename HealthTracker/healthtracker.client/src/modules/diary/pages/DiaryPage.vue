@@ -1,12 +1,11 @@
 <template>
-  <main class="meals-page">
-    <WorkInProgress />
-  </main>
+    <main class="meals-page">
+        <WorkInProgress />
+    </main>
 </template>
 
 <script lang="ts" setup>
 import WorkInProgress from '@/shared/components/WorkInProgressWidget.vue'
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

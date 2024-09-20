@@ -1,9 +1,8 @@
-import { useFriendsStore } from './../store/friendsStore';
 import { defineStore } from "pinia";
+import { useFriendsStore } from "./../store/friendsStore";
 import { useUserStore } from "@/shared/store/userStore";
-import type { IChat, IMessage } from '../types/Chat';
-import type { IFriend } from '../types/Friend';
-
+import type { IChat, IMessage } from "../types/Chat";
+import type { IFriend } from "../types/Friend";
 
 export const useChatStore = defineStore("chatData", {
   state: (): IChat => ({
@@ -18,21 +17,31 @@ export const useChatStore = defineStore("chatData", {
     setChatData(chatData: IChat) {
       this.messages = chatData.messages;
       this.friendToChat = chatData.friendToChat;
-      this.isChatExpanded = chatData.isChatExpanded,
-      this.pageNumber = chatData.pageNumber;
+      (this.isChatExpanded = chatData.isChatExpanded),
+        (this.pageNumber = chatData.pageNumber);
       this.pageSize = chatData.pageSize;
     },
     setMessagesFromAPI(
-      messageData: { id: number; text: string; userIdFrom: number; isReaded: boolean }[]
+      messageData: {
+        id: number;
+        text: string;
+        userIdFrom: number;
+        isReaded: boolean;
+      }[]
     ) {
       this.isLoadingOlderMessages = false;
       const userStore = useUserStore();
       this.messages = messageData.map(
-        (message: { id: number; text: string; userIdFrom: number; isReaded: boolean }) => ({
+        (message: {
+          id: number;
+          text: string;
+          userIdFrom: number;
+          isReaded: boolean;
+        }) => ({
           id: message.id,
           text: message.text,
           isYours: message.userIdFrom === userStore.userId,
-          isReaded: message.isReaded
+          isReaded: message.isReaded,
         })
       );
     },
@@ -40,18 +49,30 @@ export const useChatStore = defineStore("chatData", {
       this.messages = messageData;
     },
     addMessagesFromAPI(
-      messageData: { id: number; text: string; userIdFrom: number; isReaded: boolean }[],
+      messageData: {
+        id: number;
+        text: string;
+        userIdFrom: number;
+        isReaded: boolean;
+      }[],
       userId: number | null
     ) {
       this.isLoadingOlderMessages = true;
-      const newMessages = messageData.map(
-        (message: { id: number; text: string; userIdFrom: number; isReaded: boolean }) => ({
-          id: message.id,
-          text: message.text,
-          isYours: message.userIdFrom === userId,
-          isReaded: message.isReaded
-        })
-      ).reverse();
+      const newMessages = messageData
+        .map(
+          (message: {
+            id: number;
+            text: string;
+            userIdFrom: number;
+            isReaded: boolean;
+          }) => ({
+            id: message.id,
+            text: message.text,
+            isYours: message.userIdFrom === userId,
+            isReaded: message.isReaded,
+          })
+        )
+        .reverse();
       this.messages = [...newMessages, ...this.messages];
     },
     addMessageFromChatHub(
@@ -68,7 +89,7 @@ export const useChatStore = defineStore("chatData", {
         id: id,
         text: message,
         isYours: isYours,
-        isReaded: isYours
+        isReaded: isYours,
       });
       if (!isYours) {
         friendsStore.incrementNewMessagesCount(userFrom);
@@ -81,8 +102,8 @@ export const useChatStore = defineStore("chatData", {
       this.pageNumber = 1;
       this.pageSize = 10;
     },
-    setFriendToChat(friend: IFriend){
+    setFriendToChat(friend: IFriend) {
       this.friendToChat = friend;
-    }
+    },
   },
 });

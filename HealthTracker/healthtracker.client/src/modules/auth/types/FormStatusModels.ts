@@ -8,7 +8,4 @@ interface IFormStatusModel {
   errors: IErrorModel[];
 }
 
-export type { 
-  IErrorModel,
-  IFormStatusModel
- }
+export type { IErrorModel, IFormStatusModel };

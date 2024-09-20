@@ -1,6 +1,6 @@
 <template>
   <div v-if="isLoading" style="justify-content: center; display: flex; margin-top: 1rem;">
-    <LoadingScreen :cubSize="25"/>
+    <LoadingScreen :cubSize="25" />
   </div>
   <div v-else-if="profile != null">
     <div v-if="!isFriendshipRequestSended" class="header">
@@ -13,21 +13,21 @@
 
   </div>
   <div v-else>
-    <ErrorScreen :code="404" :message="`User not found!`"/>
+    <ErrorScreen :code="404" :message="`User not found!`" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import ErrorScreen from "@/shared/components/ErrorWidget.vue"
 import LoadingScreen from '@/shared/components/LoadingWidget.vue'
-import { useRoute } from 'vue-router';
-import { apiGetProfileById } from '@/api/account/profileController';
-import { apiGetFriendship, apiPostFriendshipRequest } from '@/api/community/friendshipController';
 import ProfileContent from './../components/ProfileContent.vue';
 import ProfileInfo from './../components/ProfileInfo.vue';
-import { useUserStore } from "@/shared/store/userStore";
 import type { IProfile } from "./../types/Profile.ts"
+import { useUserStore } from "@/shared/store/userStore";
+import { apiGetProfileById } from '@/api/account/profileController';
+import { apiGetFriendship, apiPostFriendshipRequest } from '@/api/community/friendshipController';
 
 const profile = ref<IProfile | null>(null);
 const isLoading = ref(false);
@@ -51,7 +51,7 @@ async function loadProfile() {
   isOwnProfile.value = !route.params.id;
 
   const fetchedProfile = userId ? await apiGetProfileById(userId) : null;
-  
+
   if (fetchedProfile != null) {
     profile.value = fetchedProfile;
     await getFriendshipStatus();
@@ -63,7 +63,7 @@ async function loadProfile() {
 }
 
 async function getFriendshipStatus() {
-  if (isOwnProfile.value){
+  if (isOwnProfile.value) {
     isFriendshipRequestSended.value = true;
     return;
   }

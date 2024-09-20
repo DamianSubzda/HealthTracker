@@ -69,7 +69,7 @@ export const useUserStore = defineStore("userData", {
             const decodedToken = VueJwtDecode.decode(data.token) as IJwtPayload;
             this.roles = decodedToken.roles;
           } catch (error) {
-              console.error("JWT token decode error:", error);
+            console.error("JWT token decode error:", error);
             this.roles = null;
           }
         }
@@ -78,7 +78,7 @@ export const useUserStore = defineStore("userData", {
       }
     },
     checkIfAdmin() {
-      return this.roles && this.roles.includes('Admin');
-    }
+      return this.roles && this.roles.includes("Admin");
+    },
   },
 });

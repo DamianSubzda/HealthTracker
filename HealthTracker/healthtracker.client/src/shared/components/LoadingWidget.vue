@@ -14,7 +14,6 @@ defineProps({
 </script>
 
 <style scoped lang="scss">
-
 .loader {
     opacity: 0.8;
     --g1: conic-gradient(from 90deg at left 3px top 3px, #0000 90deg, #fff 0);

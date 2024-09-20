@@ -1,6 +1,5 @@
 import { type RouteRecordRaw } from "vue-router";
 import { useUserStore } from "@/shared/store/userStore";
-
 import Profile from "@/modules/profile/pages/ProfilePage.vue";
 
 export const profileRoutes: Array<RouteRecordRaw> = [

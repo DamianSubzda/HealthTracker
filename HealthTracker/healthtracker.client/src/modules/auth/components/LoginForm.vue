@@ -24,8 +24,8 @@
             <GroupElement name="control2">
                 <ButtonElement name="forgot" button-type="anchor" @click="goToResetPassword"
                     button-label="Forgot password?" :columns="{ default: 6 }" full size="sm" secondary />
-                <ButtonElement name="register" @click="goToRegister" button-label="Register" :columns="{ default: 6 }" full
-                    size="sm" secondary button-type="anchor" />
+                <ButtonElement name="register" @click="goToRegister" button-label="Register" :columns="{ default: 6 }"
+                    full size="sm" secondary button-type="anchor" />
             </GroupElement>
         </Vueform>
     </div>
@@ -61,7 +61,7 @@ const login = async () => {
             navigationStore.updateLinkVisibility();
         });
     }
-    
+
     isLogging.value = false;
     formData.value.Password = '';
 }
