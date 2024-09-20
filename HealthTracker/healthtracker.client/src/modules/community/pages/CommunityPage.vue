@@ -56,7 +56,7 @@ import { useUserStore } from '@/shared/store/userStore';
 import { useChatStore } from './../store/chatStore';
 import { usePostStore } from './../store/postStore'
 import { useFriendsStore } from './../store/friendsStore';
-import { connectToChatHub, disconnectWithChat } from './../hubs/chatHub'\
+import { connectToChatHub, disconnectWithChat } from './../hubs/chatHub'
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
