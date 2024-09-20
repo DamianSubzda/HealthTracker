@@ -46,7 +46,7 @@ import { ref, onMounted, onUnmounted, computed } from "vue";
 import FriendsList from './../components/friends/FriendsList.vue'
 import ChatItem from './../components/chat/ChatItem.vue'
 import ChatBox from './../components/chat/ChatBox.vue';
-import Post from './../components/post/PostSection.vue'
+import Post from './../components/post/PostItem.vue'
 import SearchBar from './../components/SearchBar.vue'
 import LoadingScreen from '@/shared/components/LoadingWidget.vue'
 import { apiGetPostOnWall } from '@/api/community/postController';

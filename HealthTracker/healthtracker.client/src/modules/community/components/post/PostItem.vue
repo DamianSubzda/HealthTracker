@@ -3,6 +3,13 @@
     <div class="content">
       <div class="header">
         <p>{{ localPost.userFirstName }} {{ localPost.userLastName }}</p>
+        <div v-if="post.userId === userStore.userId" class="button-group" @click="toggleTooltip">
+          <img src="@/assets/icons/more-alt.svg" />
+          <div v-if="isTooltipVisible" class="tooltip">
+            <button @click="removePost">Remove</button>
+          </div>
+        </div>
+
       </div>
       <div class="main">
         <div v-html="safeHtml" className="post-text"></div>
@@ -39,12 +46,14 @@ import { ref, computed, onMounted } from 'vue';
 import DOMPurify from 'dompurify';
 import MarkdownIt from 'markdown-it';
 import type { IPost, IComment } from '@/modules/community/types/Post';
-import { apiGetPostComments, apiPostLikePost, apiDeleteLike, apiPostCommentToPost } from '@/api/community/postController';
+import { apiGetPostComments, apiPostLikePost, apiDeleteLike, apiPostCommentToPost, apiDeletePost } from '@/api/community/postController';
 import { useUserStore } from "@/shared/store/userStore";
 
 const props = defineProps<{
   post: IPost
 }>();
+
+const emit = defineEmits(['post-removed']);
 
 const localPost = props.post;
 
@@ -56,6 +65,7 @@ const isMoreComments = ref(false);
 const commentToAdd = ref('');
 const pageNr = ref(0);
 const pageSize = 10;
+const isTooltipVisible = ref(false);
 
 const safeHtml = computed(() => {
   const md = new MarkdownIt();
@@ -67,9 +77,18 @@ onMounted(async () => {
   await getComments();
 });
 
+function toggleTooltip() {
+  isTooltipVisible.value = !isTooltipVisible.value;
+}
+
 function toggleComments() {
   isCommentsVisible.value = !isCommentsVisible.value;
   pageNr.value = 0;
+}
+
+async function removePost(){
+  await apiDeletePost(props.post.id);
+  emit('post-removed', localPost.id);
 }
 
 async function presslikePostButton() {
@@ -130,8 +149,43 @@ async function addComment() {
     width: 100%;
 
     .header {
+      display: flex;
+      flex-direction: row;
       border-radius: 1rem 1rem 0 0;
       padding: 0.5rem;
+      justify-content: space-between;
+
+      .button-group {
+        cursor: pointer;
+        position: relative;
+
+        .tooltip {
+          position: absolute;
+          right: 0px;
+          background-color: rgba(43, 36, 36, 0.9);
+          padding: 0.5rem;
+          border-radius: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          z-index: 999;
+
+          button {
+            background-color: transparent;
+            border: none;
+            color: black;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: rgb(153, 144, 144);
+
+            &:hover {
+              background-color: rgb(95, 95, 95);
+            }
+          }
+        }
+
+      }
     }
 
     .main {
