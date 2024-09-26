@@ -87,9 +87,10 @@ namespace HealthTracker.Server.Tests.Services
             // Arrange
             var nonExistentFilePath = "non_existent_file.png";
 
-            // Act & Assert
+            // Act
             var exception = Record.Exception(() => _fileService.DeleteFile(nonExistentFilePath));
 
+            //Assert
             Assert.Null(exception);
         }
     }
