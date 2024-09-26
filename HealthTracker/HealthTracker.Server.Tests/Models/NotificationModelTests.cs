@@ -11,7 +11,7 @@ namespace HealthTracker.Server.Tests.Models
     public class NotificationModelTests
     {
         [Fact]
-        public void Content_ShowuldHaveMaxLengthOf100()
+        public void Content_ShouldHaveMaxLengthOf100()
         {
             //Arrange 
             var notification = new Notification();
