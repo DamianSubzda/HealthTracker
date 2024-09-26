@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthTracker.Server", "Hea
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "healthtracker.client", "healthtracker.client\healthtracker.client.esproj", "{D797FEF2-555C-49B6-AB12-EED54088F3A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthTracker.Server.Tests", "HealthTracker.Server.Tests\HealthTracker.Server.Tests.csproj", "{3B31B10D-17F3-4F6D-928E-8F7691849521}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D797FEF2-555C-49B6-AB12-EED54088F3A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D797FEF2-555C-49B6-AB12-EED54088F3A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D797FEF2-555C-49B6-AB12-EED54088F3A1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{3B31B10D-17F3-4F6D-928E-8F7691849521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B31B10D-17F3-4F6D-928E-8F7691849521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B31B10D-17F3-4F6D-928E-8F7691849521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B31B10D-17F3-4F6D-928E-8F7691849521}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
