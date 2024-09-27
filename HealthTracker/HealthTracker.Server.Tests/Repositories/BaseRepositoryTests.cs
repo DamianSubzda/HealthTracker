@@ -9,12 +9,12 @@ using Moq;
 
 namespace HealthTracker.Server.Tests.Repositories
 {
-    public class RepositoryBaseTests : IDisposable
+    public class BaseRepositoryTests : IDisposable
     {
         internal ApplicationDbContext _context;
-        internal IMapper _mapper;
+        internal IMapper? _mapper;
 
-        public RepositoryBaseTests()
+        public BaseRepositoryTests()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())

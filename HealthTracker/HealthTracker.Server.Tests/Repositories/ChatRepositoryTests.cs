@@ -9,7 +9,7 @@ using Moq;
 
 namespace HealthTracker.Server.Tests.Repositories
 {
-    public class ChatRepositoryTests : RepositoryBaseTests
+    public class ChatRepositoryTests : BaseRepositoryTests
     {
         private readonly ChatRepository _chatRepository;
 

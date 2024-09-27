@@ -15,7 +15,7 @@ using System.Security.Claims;
 
 namespace HealthTracker.Server.Tests.Repositories
 {
-    public class AuthRepositoryTests : RepositoryBaseTests
+    public class AuthRepositoryTests : BaseRepositoryTests
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;

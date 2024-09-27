@@ -7,7 +7,7 @@ using Moq;
 
 namespace HealthTracker.Server.Tests.Repositories
 {
-    public class UserRepositoryTests : RepositoryBaseTests
+    public class UserRepositoryTests : BaseRepositoryTests
     {
         private readonly IFileService _fileService;
         private readonly UserRepository _userRepository;
