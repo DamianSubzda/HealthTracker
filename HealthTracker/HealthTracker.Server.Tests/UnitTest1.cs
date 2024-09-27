@@ -6,9 +6,9 @@ namespace HealthTracker.Server.Tests
     public class UnitTests1
     {
         [Fact]
-        public void Test1()
+        public void Test()
         {
-
+            
         }
     }
 }
