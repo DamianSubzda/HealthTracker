@@ -21,11 +21,6 @@ namespace HealthTracker.Server.Tests.Repositories
             .Options;
 
             _context = new ApplicationDbContext(options);
-
-            _mapper = new MapperConfiguration(cfg => {
-                cfg.CreateMap<User, UserDTO>();
-                cfg.CreateMap<User, UserSerachDTO>();
-            }).CreateMapper();
         }
 
         public void Dispose()

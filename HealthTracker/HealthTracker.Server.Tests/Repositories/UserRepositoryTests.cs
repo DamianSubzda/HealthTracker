@@ -1,3 +1,5 @@
+using AutoMapper;
+using HealthTracker.Server.Core.DTOs;
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Core.Repositories;
 using HealthTracker.Server.Infrastructure.Services;
@@ -12,6 +14,11 @@ namespace HealthTracker.Server.Tests.Repositories
 
         public UserRepositoryTests()
         {
+            _mapper = new MapperConfiguration(cfg => {
+                cfg.CreateMap<User, UserDTO>();
+                cfg.CreateMap<User, UserSerachDTO>();
+            }).CreateMapper();
+
             _fileService = new Mock<IFileService>().Object;
             _userRepository = new UserRepository(_context, _mapper, _fileService);
         }
