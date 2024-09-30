@@ -161,7 +161,7 @@ namespace HealthTracker.Server.Tests.Repositories
             var post3 = CreatePostHelper(3, friend.Id);
 
             //Act
-            var result = await _postRepository.GetPosts(user.Id, 10, 1);
+            var result = await _postRepository.GetPosts(user.Id, 1, 10);
 
             //Assert
             Assert.True(result.Any());
@@ -200,7 +200,7 @@ namespace HealthTracker.Server.Tests.Repositories
             var post3 = await CreatePostHelper(3, user.Id);
 
             //Act
-            var result = await _postRepository.GetUsersPosts(user.Id, 10, 1);
+            var result = await _postRepository.GetUserPosts(user.Id, 1, 10);
 
             //Assert
             Assert.True(result.Any());
@@ -218,7 +218,7 @@ namespace HealthTracker.Server.Tests.Repositories
             var user = await CreateUserHelper(1, "test@test.pl");
 
             //Act
-            var exception = await Assert.ThrowsAsync<NullPageException>(() => _postRepository.GetUsersPosts(user.Id, 10, 1));
+            var exception = await Assert.ThrowsAsync<NullPageException>(() => _postRepository.GetUserPosts(user.Id, 10, 1));
 
             //Assert
             Assert.NotNull(exception.Message);
