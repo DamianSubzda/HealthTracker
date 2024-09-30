@@ -24,7 +24,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
         }
 
         [HttpPost("users/friends/")]
-        public async Task<ActionResult> FriendshipCreate([FromBody] CreateFriendshipDTO createFriendshipDTO)
+        public async Task<ActionResult> CreateFriendship([FromBody] CreateFriendshipDTO createFriendshipDTO)
         {
             try
             {
