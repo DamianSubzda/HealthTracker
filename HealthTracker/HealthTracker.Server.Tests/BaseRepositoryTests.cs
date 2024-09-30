@@ -7,7 +7,7 @@ using HealthTracker.Server.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace HealthTracker.Server.Tests.Repositories
+namespace HealthTracker.Server.Tests
 {
     public class BaseRepositoryTests : IDisposable
     {
