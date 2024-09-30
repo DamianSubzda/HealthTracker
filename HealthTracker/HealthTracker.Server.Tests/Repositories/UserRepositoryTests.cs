@@ -16,7 +16,7 @@ namespace HealthTracker.Server.Tests.Repositories
         {
             _mapper = new MapperConfiguration(cfg => {
                 cfg.CreateMap<User, UserDTO>();
-                cfg.CreateMap<User, UserSerachDTO>();
+                cfg.CreateMap<User, UserSearchDTO>();
             }).CreateMapper();
 
             _fileService = new Mock<IFileService>().Object;

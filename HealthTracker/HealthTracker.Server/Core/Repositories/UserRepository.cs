@@ -14,7 +14,7 @@ namespace HealthTracker.Server.Core.Repositories
     public interface IUserRepository
     {
         Task<UserDTO> GetUser(int userId);
-        Task<List<UserSerachDTO>> GetUsers(int userId, string query);
+        Task<List<UserSearchDTO>> GetUsers(int userId, string query);
         Task<string> SetPhotoUser(int userId, IFormFile photo);
     }
     public class UserRepository : IUserRepository
@@ -61,7 +61,7 @@ namespace HealthTracker.Server.Core.Repositories
             return user.ProfilePicture;
         }
 
-        public async Task<List<UserSerachDTO>> GetUsers(int userId, string query)
+        public async Task<List<UserSearchDTO>> GetUsers(int userId, string query)
         {
             var queryParts = query.Split(' ', StringSplitOptions.RemoveEmptyEntries)
                 .Select(q => q.ToLower())
@@ -76,7 +76,7 @@ namespace HealthTracker.Server.Core.Repositories
                 .ThenBy(u => u.LastName.ToLower().StartsWith(queryParts[0]) ? 0 : 1)
                 .ThenBy(u => u.FirstName.ToLower())
                 .Take(10)
-                .ProjectTo<UserSerachDTO>(_mapper.ConfigurationProvider)
+                .ProjectTo<UserSearchDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return userDTO;

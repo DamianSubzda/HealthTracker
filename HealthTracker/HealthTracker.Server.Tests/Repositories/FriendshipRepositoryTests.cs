@@ -5,7 +5,6 @@ using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Modules.Community.DTOs;
 using HealthTracker.Server.Modules.Community.Models;
 using HealthTracker.Server.Modules.Community.Repositories;
-using HealthTracker.Server.Tests.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 

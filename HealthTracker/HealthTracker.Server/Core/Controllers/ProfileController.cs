@@ -17,13 +17,11 @@ namespace HealthTracker.Server.Core.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
         private readonly ILogger<ProfileController> _logger;
 
-        public ProfileController(IUserRepository userRepository, IMapper mapper, ILogger<ProfileController> logger)
+        public ProfileController(IUserRepository userRepository, ILogger<ProfileController> logger)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
             _logger = logger;
         }
 
@@ -33,10 +31,6 @@ namespace HealthTracker.Server.Core.Controllers
             try
             {
                 var result = await _userRepository.GetUser(id);
-                if (result.ProfilePicture == null)
-                {
-                    return Ok(result);
-                }
                 return Ok(result);
             }
             catch (UserNotFoundException ex)
@@ -51,7 +45,7 @@ namespace HealthTracker.Server.Core.Controllers
         }
 
         [HttpGet("users/{id}/search")]
-        public async Task<ActionResult<List<UserSerachDTO>>> GetUsers(int id, [FromQuery] string query)
+        public async Task<ActionResult<List<UserSearchDTO>>> GetUsers(int id, [FromQuery] string query)
         {
             try
             {

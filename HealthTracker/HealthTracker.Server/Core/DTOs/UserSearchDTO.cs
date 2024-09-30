@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HealthTracker.Server.Core.DTOs
 {
-    public class UserSerachDTO
+    public class UserSearchDTO
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
