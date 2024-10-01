@@ -16,8 +16,8 @@ namespace HealthTracker.Server.Modules.Community.Repositories
         Task<PostDTO> CreatePost(CreatePostDTO postDTO);
         Task<PostDTO> GetPost(int postId);
         Task DeletePost(int postId);
-        Task<List<PostDTO>> GetPosts(int userId, int pageSize, int pageNumber);
-        Task<List<PostDTO>> GetUsersPosts(int userId, int pageSize,int pageNumber);
+        Task<List<PostDTO>> GetPosts(int userId, int pageNumber, int pageSize);
+        Task<List<PostDTO>> GetUserPosts(int userId, int pageNumber, int pageSize);
         Task<CommentDTO> CreateComment(int? parentCommentId, CreateCommentDTO commentDTO);
         Task<CommentDTO> GetComment(int commentId);
         Task<CommentFromPostDTO> GetCommentsByPostId(int postId, int pageNr, int pageSize);
@@ -106,7 +106,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<PostDTO>> GetPosts(int userId, int pageSize, int pageNumber) //Do sprawdzenia i edycji
+        public async Task<List<PostDTO>> GetPosts(int userId, int pageNumber, int pageSize)
         {
             if (!await _context.User.AnyAsync(u => u.Id == userId))
             {
@@ -149,7 +149,7 @@ namespace HealthTracker.Server.Modules.Community.Repositories
             return posts;
         }
 
-        public async Task<List<PostDTO>> GetUsersPosts(int userId, int pageSize, int pageNumber)
+        public async Task<List<PostDTO>> GetUserPosts(int userId, int pageNumber, int pageSize)
         {
             if (!await _context.User.AnyAsync(u => u.Id == userId))
             {

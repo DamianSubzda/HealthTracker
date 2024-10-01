@@ -81,7 +81,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
         {
             try
             {
-                var result = await _postRepository.GetPosts(userId, pageSize, pageNumber);
+                var result = await _postRepository.GetPosts(userId, pageNumber, pageSize);
                 return Ok(result);
 
             }
@@ -106,7 +106,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
         {
             try
             {
-                var result = await _postRepository.GetUsersPosts(userId, pageSize, pageNumber);
+                var result = await _postRepository.GetUserPosts(userId, pageNumber, pageSize);
                 return Ok(result);
 
             }
