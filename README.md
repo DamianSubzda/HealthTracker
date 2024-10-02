@@ -18,7 +18,8 @@ The application is composed of three core projects:
 - **.NET 8.0**
 - **ASP.NET Core**
 - **Entity Framework Core**: ORM used for database management with code-first approach.
-- **Authentication and Authorization**: ASP.NET Identity combined with JWT (JSON Web Tokens) and Google Authorization. This allows users to authenticate with either their email credentials or their Google accounts.
+- **Authentication and Authorization**: Implemented using ASP.NET Identity with JWT for secure token-based authentication, and Google OAuth for external authentication.
+- **HTTPS**: All communications between the client and server are encrypted and secured using HTTPS.
 - **SignalR**: Used for real-time communication in chat functionality.
 - **Serilog**: Used to log errors specifically during API requests that result in an internal server error.
 - **AutoMapper**: Used for simplifying object-to-object mapping between DTOs and domain models.
@@ -42,6 +43,7 @@ The application is composed of three core projects:
 - **xUnit**: Framework for backend unit testing.
 - **Moq**: Used for mocking dependencies.
 - **EF Core InMemory**: Used for testing repository without hitting the actual database.
+
 ## ✨ Modules and Features
 
 - Core Module
@@ -58,7 +60,7 @@ The application is composed of three core projects:
         - Review posts
         - Create posts with Markdown preview
         - Review goals
-    - Dashboard: (Under development)
+    - Dashboard: (Admin-only feature, Under development)
 - Community & Motivation Module
     - View posts from friends and interact with them by liking or commenting
     - Search for users using the search bar
@@ -107,6 +109,23 @@ Module structure:
 - **Types**: Defines TypeScript types and interfaces.
 - **Routes**: Manages route definitions specific to each module.
 
+## 🔐 Security and Access Control
+
+HealthTracker enforces strict security and access control policies to protect user data and ensure only authorized access.
+
+#### **Authentication**
+- **JWT Authentication**: Users receive a valid JWT after a successful login, which must be included in the `Authorization` header for API requests.
+- **Google Authentication**: Users can also authenticate using their Google accounts.
+#### **Authorization**:
+- **Role-based Authorization**:
+    - **Admin**: Has access to admin-specific features, such as the `Dashboard` and management endpoints.
+    - **User**: Standard user role.
+- **Non-authenticated users**: Cannot access any data from the REST API.
+
+#### **HTTPS Enforcement** 
+- All communication between the client and server is secured with HTTPS, ensuring encrypted and secure data transmission.
+#### **CORS Policy**
+- Only specific origins are allowed to communicate with the API, ensuring secure cross-origin requests. 
 
 ## 📄 Documentation
 
