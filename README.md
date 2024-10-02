@@ -78,11 +78,11 @@ The HealthTracker project follows a **layered modular architecture**, with clear
 
 The backend is designed with a layered approach:
 
-Key Characteristics:
+#### Key Characteristics:
 - **Core Module**: This is the main module, and it interacts with other modules. It contains essential functionality and serves as the central point for managing domain-specific logic.
 - **Infrastructure Layer**: Responsible for managing hubs, data access configuration, services, and storing Entity Framework Core migrations.
 
-Module Structure:
+#### Module Structure:
 - **Controllers**: Defines the API endpoints that handle incoming HTTP requests and send responses back to the client.
 - **Repositories**: Providing an abstraction layer for database queries.
 - **Models**: Domain models representing the entities in the system.
@@ -94,14 +94,14 @@ Module Structure:
 
 The frontend is structured to support modular development, with each feature or domain represented as a separate module.
 
-Key Characteristics:
+#### Key Characteristics:
 - **Single-Page Application (SPA)**: The frontend is a SPA using Vue.js 3.
 - **Shared**: Contains reusable elements that are used across multiple modules.
 - **Router**: Manages routes across the entire application.
 - **Api**: Handles communication with the backend via RESTful APIs, using *Axios* library.
 - **Assets**:  Stores static assets such as icons, images, and styles that are used across the application.
 
-Module structure:
+#### Module structure:
 - **Components**: Represents reusable Vue components for the UI. Each module has its own set of components that implement specific functionality.
 - **Pages**: Defines the main pages used in module.
 - **Data**: Contains static data used in specified module.
@@ -113,7 +113,7 @@ Module structure:
 
 HealthTracker enforces strict security and access control policies to protect user data and ensure only authorized access.
 
-#### **Authentication**
+#### **Authentication**:
 - **JWT Authentication**: Users receive a valid JWT after a successful login, which must be included in the `Authorization` header for API requests.
 - **Google Authentication**: Users can also authenticate using their Google accounts.
 #### **Authorization**:
@@ -122,9 +122,9 @@ HealthTracker enforces strict security and access control policies to protect us
     - **User**: Standard user role.
 - **Non-authenticated users**: Cannot access any data from the REST API.
 
-#### **HTTPS Enforcement** 
+#### **HTTPS Enforcement**: 
 - All communication between the client and server is secured with HTTPS, ensuring encrypted and secure data transmission.
-#### **CORS Policy**
+#### **CORS Policy**:
 - Only specific origins are allowed to communicate with the API, ensuring secure cross-origin requests. 
 
 ## 📄 Documentation
