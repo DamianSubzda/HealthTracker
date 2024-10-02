@@ -1,5 +1,6 @@
 ﻿using HealthTracker.Server.Core.DTOs;
 using HealthTracker.Server.Core.Exceptions.PhysicalActivity;
+using HealthTracker.Server.Modules.PhysicalActivity.DTOs;
 using HealthTracker.Server.Modules.PhysicalActivity.Models;
 using HealthTracker.Server.Modules.PhysicalActivity.Repository;
 using Microsoft.AspNetCore.Authorization;
