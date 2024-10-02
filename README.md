@@ -18,7 +18,8 @@ The application is composed of three core projects:
 - **.NET 8.0**
 - **ASP.NET Core**
 - **Entity Framework Core**: ORM used for database management with code-first approach.
-- **Authentication and Authorization**: ASP.NET Identity combined with JWT (JSON Web Tokens) and Google Authorization. This allows users to authenticate with either their email credentials or their Google accounts.
+- **Authentication and Authorization**: Implemented using ASP.NET Identity with JWT for secure token-based authentication, and Google OAuth for external authentication.
+- **HTTPS**: All communications between the client and server are encrypted and secured using HTTPS.
 - **SignalR**: Used for real-time communication in chat functionality.
 - **Serilog**: Used to log errors specifically during API requests that result in an internal server error.
 - **AutoMapper**: Used for simplifying object-to-object mapping between DTOs and domain models.
