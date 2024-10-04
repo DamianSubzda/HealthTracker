@@ -112,7 +112,7 @@ POST /api/users/messages
 #### Get a message:
 
 ```http
-GET api/users/messages/{messageId}
+GET /api/users/messages/{messageId}
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -122,7 +122,7 @@ GET api/users/messages/{messageId}
 #### Get a list of messages:
 
 ```http
-GET api/users/messages/{userFrom}/{userTo}
+GET /api/users/messages/{userFrom}/{userTo}
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -135,7 +135,7 @@ GET api/users/messages/{userFrom}/{userTo}
 #### Get a number Of New Messages for user:
 
 ```http
-GET api/users/messages/{userFrom}/{userTo}/new
+GET /api/users/messages/{userFrom}/{userTo}/new
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -146,7 +146,7 @@ GET api/users/messages/{userFrom}/{userTo}/new
 #### Update Messages To Readed status:
 
 ```http
-PUT api/users/messages/{userFrom}/{userTo}
+PUT /api/users/messages/{userFrom}/{userTo}
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -159,7 +159,7 @@ PUT api/users/messages/{userFrom}/{userTo}
 #### Create post:
 
 ```http
-POST api/users/posts
+POST /api/users/posts
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -171,7 +171,7 @@ POST api/users/posts
 #### Get the post:
 
 ```http
-GET api/users/posts/{postId}
+GET /api/users/posts/{postId}
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -181,7 +181,7 @@ GET api/users/posts/{postId}
 #### Get the list of the posts on users wall:
 
 ```http
-GET api/users/{userId}/wall/posts
+GET /api/users/{userId}/wall/posts
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -194,7 +194,7 @@ GET api/users/{userId}/wall/posts
 #### Get the list of users` posts:
 
 ```http
-GET api/users/{userId}/posts
+GET /api/users/{userId}/posts
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -206,7 +206,7 @@ GET api/users/{userId}/posts
 #### Delete post:
 
 ```http
-DELETE api/users/posts/{postId}
+DELETE /api/users/posts/{postId}
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -216,7 +216,7 @@ DELETE api/users/posts/{postId}
 #### Create like (like post):
 
 ```http
-POST api/users/posts/likes
+POST /api/users/posts/likes
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -227,7 +227,7 @@ POST api/users/posts/likes
 #### Get like:
 
 ```http
-GET api/users/{userId}/posts/{postId}/likes
+GET /api/users/{userId}/posts/{postId}/likes
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -238,7 +238,7 @@ GET api/users/{userId}/posts/{postId}/likes
 #### Get likes from post:
 
 ```http
-GET api/users/posts/{postId}/likes
+GET /api/users/posts/{postId}/likes
 ```
 
 | Parameter | Type     | Location | Description                |
@@ -248,7 +248,7 @@ GET api/users/posts/{postId}/likes
 #### Delete like:
 
 ```http
-DELETE api/users/{userId}/posts/{postId}/likes
+DELETE /api/users/{userId}/posts/{postId}/likes
 ```
 
 | Parameter | Type     | Location | Description                |
