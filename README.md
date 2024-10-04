@@ -13,7 +13,7 @@ The application is composed of three core projects:
 
 ## 🛠️ Technologies
 
-### Backend:
+### Backend
 
 - **.NET 8.0**
 - **ASP.NET Core**
@@ -25,7 +25,7 @@ The application is composed of three core projects:
 - **AutoMapper**: Used for simplifying object-to-object mapping between DTOs and domain models.
 - **Swagger**: Provides interactive API documentation for easier testing and development.
 
-### Frontend:
+### Frontend
 
 - **Vue.js 3**
 - **SPA**: Single-Page Application architecture.
@@ -34,11 +34,11 @@ The application is composed of three core projects:
 - **Axios**: The frontend communicates with the backend via RESTful APIs.
 - Mobile responsive application.
 
-### Database:
+### Database
 
 - **PostgreSQL**: Database built with code-first approach using EF Core.
 
-### Testing:
+### Testing
 
 - **xUnit**: Framework for backend unit testing.
 - **Moq**: Used for mocking dependencies.
@@ -60,16 +60,16 @@ The application is composed of three core projects:
         - Review posts
         - Create posts with Markdown preview
         - Review goals
-    - Dashboard: (Admin-only feature, Under development)
+    - Dashboard: (*Admin-only feature, Under development*)
 - Community & Motivation Module
     - View posts from friends and interact with them by liking or commenting
     - Search for users using the search bar
     - Real-time chat with friends
     - View friend list
-- Health Tracking Module: (Under development)
-- Diet Journal Module: (Under development)
-- Workout Planner Module: (Under development)
-- Goals & Progress Module: (Under development)
+- Health Tracking Module: (*Under development*)
+- Diet Journal Module: (*Under development*)
+- Workout Planner Module: (*Under development*)
+- Goals & Progress Module: (*Under development*)
 ## 🏛️ Project Architecture
 
 The HealthTracker project follows a **layered modular architecture**, with clear separation of concerns and responsibilities across different layers and modules. Each module represents a distinct domain within the system, making the application both easily scalable and maintainable.
@@ -78,11 +78,11 @@ The HealthTracker project follows a **layered modular architecture**, with clear
 
 The backend is designed with a layered approach:
 
-Key Characteristics:
+#### Key Characteristics
 - **Core Module**: This is the main module, and it interacts with other modules. It contains essential functionality and serves as the central point for managing domain-specific logic.
 - **Infrastructure Layer**: Responsible for managing hubs, data access configuration, services, and storing Entity Framework Core migrations.
 
-Module Structure:
+#### Module Structure
 - **Controllers**: Defines the API endpoints that handle incoming HTTP requests and send responses back to the client.
 - **Repositories**: Providing an abstraction layer for database queries.
 - **Models**: Domain models representing the entities in the system.
@@ -94,14 +94,14 @@ Module Structure:
 
 The frontend is structured to support modular development, with each feature or domain represented as a separate module.
 
-Key Characteristics:
+#### Key Characteristics
 - **Single-Page Application (SPA)**: The frontend is a SPA using Vue.js 3.
 - **Shared**: Contains reusable elements that are used across multiple modules.
 - **Router**: Manages routes across the entire application.
 - **Api**: Handles communication with the backend via RESTful APIs, using *Axios* library.
 - **Assets**:  Stores static assets such as icons, images, and styles that are used across the application.
 
-Module structure:
+#### Module structure
 - **Components**: Represents reusable Vue components for the UI. Each module has its own set of components that implement specific functionality.
 - **Pages**: Defines the main pages used in module.
 - **Data**: Contains static data used in specified module.
@@ -116,13 +116,13 @@ HealthTracker enforces strict security and access control policies to protect us
 #### **Authentication**
 - **JWT Authentication**: Users receive a valid JWT after a successful login, which must be included in the `Authorization` header for API requests.
 - **Google Authentication**: Users can also authenticate using their Google accounts.
-#### **Authorization**:
+#### **Authorization**
 - **Role-based Authorization**:
     - **Admin**: Has access to admin-specific features, such as the `Dashboard` and management endpoints.
     - **User**: Standard user role.
 - **Non-authenticated users**: Cannot access any data from the REST API.
 
-#### **HTTPS Enforcement** 
+#### **HTTPS Enforcement**:
 - All communication between the client and server is secured with HTTPS, ensuring encrypted and secure data transmission.
 #### **CORS Policy**
 - Only specific origins are allowed to communicate with the API, ensuring secure cross-origin requests. 
@@ -131,13 +131,13 @@ HealthTracker enforces strict security and access control policies to protect us
 
 Each module contains its own detailed documentation. Click on the links below to access specific documentation.
 
-#### Core Modules:
+#### Core Modules
 1. Core
 - [Auth](docs/auth.md)
 - [Profile](docs/profile.md)
 - [Dashboard](docs/dashboard.md)
 
-#### Feature Modules:
+#### Feature Modules
 2. [Community & Motivation](docs/community.md)
 3. [Health Tracking](docs/healthtracking.md)
 4. [Diet Journal](docs/dietjournal.md)

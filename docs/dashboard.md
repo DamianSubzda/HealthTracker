@@ -2,7 +2,7 @@
 
 The Dashboard is an admin-only feature. Users without admin privileges who attempt to access it are redirected to an unauthorized page. It is one of the few core elements that integrates more than one module in its implementation.
 
-## API Reference
+## 🌐 API Reference
 
 None yet.
 
