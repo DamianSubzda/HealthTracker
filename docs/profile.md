@@ -4,7 +4,7 @@ The **Profile** element is used to display information about users. Users can vi
 
 ## ✨ Features
 
-### Users's Profiles
+### Users' Profiles
 - **Sending friendship requests**: When visiting a profile that is not your own and no friendship request has been sent before, you will see a button at the top displaying "Send friendship request".
 
 ### Own Profile:
@@ -20,11 +20,15 @@ The **Profile** element is used to display information about users. Users can vi
 - **See user's friends**: View a list of the user's friends.
 - **See user's posts**: View posts created by the user.
 
-## Page view
+## 🖼️ Page view
+Tab friends in own profile:
+![Image of profile 1](images/profile-friends.png)
 
-![Image of profile 1]()
-![Image of profile 2]()
-![Image of profile 3]()
+Tab posts in own profile:
+![Image of profile 2](images/profile-posts.png)
+
+Button to send friendship request on user profile:
+![Image of profile 3](images/profile-goals.png)
 
 ## 🌐 API Reference - ProfileController
 
@@ -47,9 +51,9 @@ GET /api/users/{id}/search?query={query}
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `int` | **Required**. The ID of the user performing the search |
-| `id`      | `string` | **Required**. The search query |
+| `query`      | `string` | **Required**. The search query |
 
-#### Set User photo:
+#### Set user photo:
 
 ```http
 POST /api/users/{id}/photo
