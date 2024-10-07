@@ -70,6 +70,39 @@ The application is composed of three core projects:
 - Diet Journal Module: (*Under development*)
 - Workout Planner Module: (*Under development*)
 - Goals & Progress Module: (*Under development*)
+
+## 🛤️ Application Routes
+
+HealthTracker has the following URL paths, allowing users to navigate different sections of the application. Some paths require user authentication or admin privileges.
+
+### Public Routes:
+- `/` – The home page of the application.
+- `/about` – The "About" page with information about the application.
+- `/login` – The login page, where users can log into their accounts.
+- `/register` – The registration page, where new users can create an account.
+- `/login-success` – Redirect page after successful login.
+- `/login/pass-reset` – The password reset page for users who need to recover their accounts.
+- `/login/new-pass` – The page to set a new password after the reset process.
+- `/logout` – The page through which the user logs out of the application.
+- `/unauthorized` – The page shown when a user without proper permissions attempts to access a restricted page.
+
+### Authenticated Routes:
+- `/community` – The "Community" page, where users can view, like, and comment on posts from friends.
+- `/community/post/create` – The page for creating a new community post.
+- `/diary` – The "Meals" page.
+- `/goals` – The "Goals and Progress" page.
+- `/health` – The "Health Check" page.
+- `/planner` – The "Trainings Planner" page.
+- `/profile` – The profile page, where users can manage their profile information, avatar, posts and friend list.
+- `/profile/{id}` – A user's profile page, where users can view the profile of another user by entering their ID in the URL.
+
+### Admin Routes:
+- `/dashboard` – The admin-only dashboard, which provides management tools for the application and users.
+
+### Other:
+- The 404 page, shown when a user navigates to an invalid URL.
+
+
 ## 🏛️ Project Architecture
 
 The HealthTracker project follows a **layered modular architecture**, with clear separation of concerns and responsibilities across different layers and modules. Each module represents a distinct domain within the system, making the application both easily scalable and maintainable.
@@ -132,17 +165,16 @@ HealthTracker enforces strict security and access control policies to protect us
 Each module contains its own detailed documentation. Click on the links below to access specific documentation.
 
 #### Core Modules
-1. Core
 - [Auth](docs/auth.md)
 - [Profile](docs/profile.md)
 - [Dashboard](docs/dashboard.md)
 
 #### Feature Modules
-2. [Community & Motivation](docs/community.md)
-3. [Health Tracking](docs/healthtracking.md)
-4. [Diet Journal](docs/dietjournal.md)
-5. [Workout Planner](docs/workoutplanner.md)
-6. [Goals & Progress](docs/goals.md)
+- [Community & Motivation](docs/community.md)
+- [Health Tracking](docs/healthtracking.md)
+- [Diet Journal](docs/dietjournal.md)
+- [Workout Planner](docs/workoutplanner.md)
+- [Goals & Progress](docs/goals.md)
 
 
 ## 🗂️ Database Model
