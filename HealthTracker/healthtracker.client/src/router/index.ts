@@ -36,7 +36,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/unauthorized",
     name: "Unauthorized",
     component: UnauthorizedPage,
-    meta: { requiresAuth: true },
   },
 ];
 
