@@ -58,11 +58,11 @@ The application is composed of three core projects:
         - Accept or decline friendship requests
         - Send friendship requests
         - Review posts
-        - Create posts with Markdown preview
         - Review goals
     - Dashboard: (*Admin-only feature, Under development*)
 - Community & Motivation Module
     - View posts from friends and interact with them by liking or commenting
+    - Create posts with Markdown preview
     - Search for users using the search bar
     - Real-time chat with friends
     - View friend list

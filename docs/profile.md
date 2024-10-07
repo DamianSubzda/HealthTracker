@@ -38,27 +38,27 @@ Button to send friendship request on user profile:
 GET /api/users/{id}
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `int` | **Required**. The ID of the user |
+| Parameter | Type     | Location | Description                |
+| :-------- | :------- | :------- | :------------------------- |
+| `id` | `int` | Path |**Required**. The ID of the user |
 
 #### Get a list of users that match the search query:
 
 ```http
-GET /api/users/{id}/search?query={query}
+GET /api/users/{id}/search
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `int` | **Required**. The ID of the user performing the search |
-| `query`      | `string` | **Required**. The search query |
+| Parameter | Type     | Location | Description                       |
+| :-------- | :------- | :------- | :-------------------------------- |
+| `id`      | `int` | Path | **Required**. The ID of the user performing the search |
+| `query`      | `string` | Query | **Required**. The search query |
 
 #### Set user photo:
 
 ```http
 POST /api/users/{id}/photo
 ````
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `int` | **Required**. The ID of the user |
-| `photo`      | `IFormfile` | **Required**. The image file to upload |
+| Parameter | Type     | Location | Description                       |
+| :-------- | :------- | :------- | :-------------------------------- |
+| `id`      | `int` | Path |**Required**. The ID of the user |
+| `photo`      | `IFormfile` | FormData | **Required**. The image file to upload |
