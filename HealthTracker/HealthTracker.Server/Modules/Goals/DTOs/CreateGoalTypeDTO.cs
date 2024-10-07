@@ -3,7 +3,7 @@ using HealthTracker.Server.Modules.PhysicalActivity.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace HealthTracker.Server.Modules.PhysicalActivity.DTOs
+namespace HealthTracker.Server.Modules.Goals.DTOs
 {
     public class CreateGoalTypeDTO
     {

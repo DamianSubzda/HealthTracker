@@ -1,15 +1,15 @@
 ﻿using HealthTracker.Server.Core.DTOs;
 using HealthTracker.Server.Core.Exceptions;
 using HealthTracker.Server.Core.Exceptions.PhysicalActivity;
-using HealthTracker.Server.Modules.PhysicalActivity.DTOs;
+using HealthTracker.Server.Modules.Goals.DTOs;
+using HealthTracker.Server.Modules.Goals.Repository;
 using HealthTracker.Server.Modules.PhysicalActivity.Models;
-using HealthTracker.Server.Modules.PhysicalActivity.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthTracker.Server.Modules.PhysicalActivity.Controllers
+namespace HealthTracker.Server.Modules.Goals.Controllers
 {
     [Route("api")]
     [ApiController]
@@ -23,7 +23,7 @@ namespace HealthTracker.Server.Modules.PhysicalActivity.Controllers
             _goalRepository = goalRepository;
             _logger = logger;
         }
-        
+
         [HttpPost("users/goals")]
         public async Task<ActionResult> CreateGoal([FromBody] CreateGoalDTO createGoalDTO)
         {
@@ -74,7 +74,7 @@ namespace HealthTracker.Server.Modules.PhysicalActivity.Controllers
                 var result = await _goalRepository.GetUsersGoals(userId);
                 return Ok(result);
             }
-            catch(UserNotFoundException ex)
+            catch (UserNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -93,7 +93,7 @@ namespace HealthTracker.Server.Modules.PhysicalActivity.Controllers
                 var result = await _goalRepository.ChangeGoalStatus(changeGoalDTO);
                 return Ok(result);
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Error occurred during the change goal status process for {DTO}.", changeGoalDTO);
                 return BadRequest(ex.InnerException?.Message ?? "Database error.");

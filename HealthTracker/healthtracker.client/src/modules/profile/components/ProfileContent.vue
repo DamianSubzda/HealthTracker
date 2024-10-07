@@ -29,7 +29,7 @@
                 <LoadingScreen :cubSize="25" />
             </div>
             <div v-else>
-                <div v-if="friendsStore.friendRequests.length != 0" class="friends-requests">
+                <div v-if="friendsStore.friendRequests.length != 0 && userStore.userId == profile.id" class="friends-requests">
                     <p>Friend requests...</p>
                     <div v-for="friend in friendsStore.friendRequests" :key="friend.userId">
                         <FriendRequestItem :friend="friend" :onClick="() => redirectToProfile(friend)" />

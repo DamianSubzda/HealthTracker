@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthTracker.Server.Modules.PhysicalActivity.Models
+namespace HealthTracker.Server.Modules.PhysicalActivity.DTOs
 {
     public class ExerciseDTO
     {

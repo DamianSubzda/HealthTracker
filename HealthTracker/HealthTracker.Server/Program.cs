@@ -7,6 +7,8 @@ using HealthTracker.Server.Modules.Community.Helpers;
 using HealthTracker.Server.Modules.Community.Repositories;
 using HealthTracker.Server.Modules.PhysicalActivity.Helpers;
 using HealthTracker.Server.Modules.PhysicalActivity.Repository;
+using HealthTracker.Server.Modules.Goals.Repository;
+using HealthTracker.Server.Modules.Goals.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

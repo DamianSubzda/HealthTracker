@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthTracker.Server.Modules.PhysicalActivity.Models
+namespace HealthTracker.Server.Modules.Goals.Models
 {
     public class Goal
     {

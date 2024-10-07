@@ -1,5 +1,6 @@
 ﻿using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Modules.Community.Models;
+using HealthTracker.Server.Modules.Goals.Models;
 using HealthTracker.Server.Modules.Health.Models;
 using HealthTracker.Server.Modules.Meals.Models;
 using HealthTracker.Server.Modules.PhysicalActivity.Models;

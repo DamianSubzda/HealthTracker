@@ -126,7 +126,7 @@ namespace HealthTracker.Server.Modules.Community.Controllers
             }
         }
 
-        [HttpDelete("users/{usersId}/posts/comments")]
+        [HttpDelete("users/{userId}/posts/comments")]
         public async Task<ActionResult> DeleteUsersComment(int userId)
         {
             try

@@ -5,11 +5,11 @@ using HealthTracker.Server.Core.Exceptions.Community;
 using HealthTracker.Server.Core.Exceptions.PhysicalActivity;
 using HealthTracker.Server.Core.Models;
 using HealthTracker.Server.Infrastructure.Data;
-using HealthTracker.Server.Modules.PhysicalActivity.DTOs;
-using HealthTracker.Server.Modules.PhysicalActivity.Models;
+using HealthTracker.Server.Modules.Goals.DTOs;
+using HealthTracker.Server.Modules.Goals.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthTracker.Server.Modules.PhysicalActivity.Repository
+namespace HealthTracker.Server.Modules.Goals.Repository
 {
     public interface IGoalRepository
     {
@@ -38,7 +38,7 @@ namespace HealthTracker.Server.Modules.PhysicalActivity.Repository
             var user = await _context.User.AnyAsync(line => line.Id == createGoalDTO.UserId);
             var goaltype = await _context.GoalType.AnyAsync(line => line.Id == createGoalDTO.GoalTypeId);
 
-            if(!user)
+            if (!user)
             {
                 throw new UserNotFoundException();
             }
@@ -49,7 +49,7 @@ namespace HealthTracker.Server.Modules.PhysicalActivity.Repository
 
             var result = _mapper.Map<Goal>(createGoalDTO);
             result.IsDone = false;
-            
+
             await _context.Goal.AddAsync(result);
             await _context.SaveChangesAsync();
 
@@ -85,7 +85,7 @@ namespace HealthTracker.Server.Modules.PhysicalActivity.Repository
         public async Task<GoalDTO> ChangeGoalStatus(ChangeGoalDTO changeGoalDTO)
         {
             var goal = await _context.Goal.FindAsync(changeGoalDTO.Id);
-            
+
             if (goal == null)
             {
                 throw new GoalNotFoundException();
@@ -96,7 +96,7 @@ namespace HealthTracker.Server.Modules.PhysicalActivity.Repository
             goal.DateOfEnd = changeGoalDTO.DateOfEnd ?? goal.DateOfEnd;
             goal.IsDone = changeGoalDTO.IsDone ?? goal.IsDone;
 
-            await _context.SaveChangesAsync();        
+            await _context.SaveChangesAsync();
 
             return _mapper.Map<GoalDTO>(goal);
         }
